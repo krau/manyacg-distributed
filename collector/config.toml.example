@@ -1,0 +1,18 @@
+[app]
+debug = true
+[app.log]
+level = "TRACE"
+file_path = "./logs/collector.log"
+backup_num = 7
+
+
+[sources]
+[sources.pixiv]
+enable = true
+url = ''
+interval = 20
+
+[core]
+url = ''
+username = ''
+password = ''

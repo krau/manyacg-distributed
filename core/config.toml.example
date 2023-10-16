@@ -1,0 +1,6 @@
+[database]
+host = ''
+port = 0
+user = ''
+password = ''
+database = 'picture_collector'

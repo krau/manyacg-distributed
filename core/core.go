@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/krau/Picture-collector/cmd"
+	"github.com/krau/Picture-collector/core/cmd"
 )
 
 func main() {
