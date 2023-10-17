@@ -4,13 +4,7 @@ import "gorm.io/gorm"
 
 type Picture struct {
 	gorm.Model
-	DirectURL   string `gorm:"uniqueIndex"`
-	Size        int
-	Width       int
-	Height      int
-	R18         bool
-	Description string
-	Extension   string
+	DirectURL string `gorm:"uniqueIndex"`
 }
 
 type Tag struct {
@@ -21,30 +15,28 @@ type Tag struct {
 
 type Artwork struct {
 	gorm.Model
-	Title     string
-	Author    string
-	Source    SourceName
-	SourceURL string `gorm:"uniqueIndex"`
-	Tags      []*Tag `gorm:"many2many:artwork_tags;"`
-	Pictures  []*Picture
+	Title       string
+	Author      string
+	Description string
+	Source      SourceName
+	SourceURL   string `gorm:"uniqueIndex"`
+	Tags        []*Tag `gorm:"many2many:artwork_tags;"`
+	R18         bool   `gorm:"default:false"`
+	Pictures    []*Picture
 }
 
 // 入库前的结构
 type ArtworkRaw struct {
-	Title     string
-	Author    string
-	Source    SourceName
-	SourceURL string
-	Tags      []string
-	Pictures  []PictureRaw
+	Title       string
+	Author      string
+	Description string
+	Source      SourceName
+	SourceURL   string
+	Tags        []string
+	R18         bool
+	Pictures    []*PictureRaw
 }
 
 type PictureRaw struct {
-	DirectURL   string
-	Size        int
-	Width       int
-	Height      int
-	R18         bool
-	Description string
-	Extension   string
+	DirectURL string
 }

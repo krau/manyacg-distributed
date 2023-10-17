@@ -5,14 +5,15 @@ import (
 )
 
 type tomlConfig struct {
-	App     appConfig    `mapstructure:"app" toml:"app" yaml:"app" json:"app"`
-	Sources sourceConfig `mapstructure:"sources" toml:"sources" yaml:"sources" json:"sources"`
+	App     appConfig     `mapstructure:"app" toml:"app" yaml:"app" json:"app"`
+	Sources sourceConfigs `mapstructure:"sources" toml:"sources" yaml:"sources" json:"sources"`
 	Core    core
 }
 
 type appConfig struct {
-	Log   logConfig `mapstructure:"log" toml:"log" yaml:"log" json:"log"`
-	Debug bool      `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
+	Log   logConfig   `mapstructure:"log" toml:"log" yaml:"log" json:"log"`
+	Debug bool        `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
+	Azure azureConfig `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
 }
 
 type logConfig struct {
@@ -21,11 +22,16 @@ type logConfig struct {
 	BackupNum uint   `mapstructure:"backup_num" toml:"backup_num" yaml:"backup_num" json:"backup_num"`
 }
 
-type sourceConfig struct {
-	Pixiv source `mapstructure:"pixiv" toml:"pixiv" yaml:"pixiv" json:"pixiv"`
+type azureConfig struct {
+	BusConnectionString string `mapstructure:"bus_connection_string" toml:"bus_connection_string" yaml:"bus_connection_string" json:"bus_connection_string"`
+	Queue              string `mapstructure:"queue" toml:"queue" yaml:"queue" json:"queue"`
 }
 
-type source struct {
+type sourceConfigs struct {
+	Pixiv SourceConfig `mapstructure:"pixiv" toml:"pixiv" yaml:"pixiv" json:"pixiv"`
+}
+
+type SourceConfig struct {
 	Enable   bool   `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
 	URL      string `mapstructure:"url" toml:"url" yaml:"url" json:"url"`
 	Interval uint   `mapstructure:"interval" toml:"interval" yaml:"interval" json:"interval"`

@@ -10,8 +10,9 @@ import (
 var L *slog.Logger
 
 func init() {
-	slog.DefaultChannelName = "piccollector-collector"
+	slog.DefaultChannelName = "collector"
 	newLogger := slog.New()
+	defer newLogger.Flush()
 	logLevel := slog.LevelByName(config.Cfg.App.Log.Level)
 	logFilePath := config.Cfg.App.Log.FilePath
 	logBackupNum := config.Cfg.App.Log.BackupNum
