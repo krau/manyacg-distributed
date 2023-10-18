@@ -1,6 +1,16 @@
+[app]
+[app.log]
+level = "TRACE"
+file_path = "./logs/core.log"
+backup_num = 7
+
+[app.azure]
+bus_connection_string=""
+queue = 'picture-collector'
+
 [database]
-host = ''
-port = 0
-user = ''
+host = 'localhost'
+port = 3306
+user = 'root'
 password = ''
 database = 'picture_collector'
