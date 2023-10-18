@@ -7,9 +7,10 @@ import (
 	"github.com/krau/Picture-collector/core/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
-var DB *gorm.DB
+var db *gorm.DB
 
 func init() {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
@@ -19,10 +20,13 @@ func init() {
 		config.Cfg.Database.Port,
 		config.Cfg.Database.Database,
 	)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	theDb, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		TranslateError: true,
+		Logger:         logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
 		panic(err)
 	}
-	DB = db
-	db.AutoMigrate(&models.Picture{}, &models.Tag{}, &models.Artwork{})
+	theDb.AutoMigrate(&models.Artwork{}, &models.Picture{}, &models.Tag{})
+	db = theDb
 }

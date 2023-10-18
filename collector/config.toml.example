@@ -13,8 +13,3 @@ queue = 'picture-collector'
 enable = true
 url = 'https://rsshub.app/pixiv/user/bookmarks/32832322'
 interval = 30
-
-[core]
-url = ''
-username = ''
-password = ''

@@ -76,6 +76,23 @@ func (sp *SourcePixiv) GetNewArtworks(limit int) ([]*coreModels.ArtworkRaw, erro
 				}
 				tags = append(tags, tagName)
 			}
+			isR18 := false
+			for _, tag := range tags {
+				switch tag {
+				case "R-18":
+					isR18 = true
+					break
+				case "R-18G":
+					isR18 = true
+					break
+				case "R18":
+					isR18 = true
+					break
+				case "R18G":
+					isR18 = true
+					break
+				}
+			}
 			artwork := coreModels.ArtworkRaw{
 				Title:       item.Title,
 				Author:      item.Author,
@@ -83,6 +100,7 @@ func (sp *SourcePixiv) GetNewArtworks(limit int) ([]*coreModels.ArtworkRaw, erro
 				Source:      coreModels.SourcePixiv,
 				SourceURL:   item.Link,
 				Tags:        tags,
+				R18:         isR18,
 				Pictures:    pictures,
 			}
 			artworkChan <- &artwork

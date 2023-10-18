@@ -7,7 +7,6 @@ import (
 type tomlConfig struct {
 	App     appConfig     `mapstructure:"app" toml:"app" yaml:"app" json:"app"`
 	Sources sourceConfigs `mapstructure:"sources" toml:"sources" yaml:"sources" json:"sources"`
-	Core    core
 }
 
 type appConfig struct {
@@ -24,7 +23,7 @@ type logConfig struct {
 
 type azureConfig struct {
 	BusConnectionString string `mapstructure:"bus_connection_string" toml:"bus_connection_string" yaml:"bus_connection_string" json:"bus_connection_string"`
-	Queue              string `mapstructure:"queue" toml:"queue" yaml:"queue" json:"queue"`
+	Queue               string `mapstructure:"queue" toml:"queue" yaml:"queue" json:"queue"`
 }
 
 type sourceConfigs struct {
@@ -35,12 +34,6 @@ type SourceConfig struct {
 	Enable   bool   `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
 	URL      string `mapstructure:"url" toml:"url" yaml:"url" json:"url"`
 	Interval uint   `mapstructure:"interval" toml:"interval" yaml:"interval" json:"interval"`
-}
-
-type core struct {
-	URL      string `mapstructure:"url" toml:"url" yaml:"url" json:"url"`
-	Username string `mapstructure:"username" toml:"username" yaml:"username" json:"username"`
-	Password string `mapstructure:"password" toml:"password" yaml:"password" json:"password"`
 }
 
 var Cfg *tomlConfig

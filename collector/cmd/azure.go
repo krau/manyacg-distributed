@@ -42,6 +42,7 @@ func azureSend(artwork *coreModels.ArtworkRaw) error {
 		logger.L.Errorf("Error getting azure sender: %s", err.Error())
 		return err
 	}
+	defer azSender.Close(context.Background())
 	err = azSender.SendMessage(context.TODO(), &azservicebus.Message{
 		Body:      []byte(artworkBytes),
 		MessageID: &artwork.SourceURL,

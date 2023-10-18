@@ -10,9 +10,9 @@ import (
 )
 
 func getArtworkInfo(sourceURL string) (*sourceModels.PixivAjaxResp, error) {
-	logger.L.Debugf("Fetching artwork info: %s", sourceURL)
 	pid := strings.Split(sourceURL, "/")[len(strings.Split(sourceURL, "/"))-1]
 	ajaxURL := "https://www.pixiv.net/ajax/illust/" + pid
+	logger.L.Debugf("Fetching artwork info: %s", ajaxURL)
 	resp, err := common.Cilent.R().Get(ajaxURL)
 	if err != nil {
 		return nil, err
