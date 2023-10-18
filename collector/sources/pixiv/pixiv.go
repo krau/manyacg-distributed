@@ -99,7 +99,6 @@ func (sp *SourcePixiv) GetNewArtworks(limit int) ([]*coreModels.ArtworkRaw, erro
 		artworks = append(artworks, artwork)
 	}
 
-	logger.L.Infof("Got %d artworks", len(artworks))
 	return artworks, nil
 }
 

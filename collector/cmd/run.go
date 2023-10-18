@@ -1,11 +1,8 @@
 package cmd
 
 import (
-	"context"
-	"encoding/json"
 	"time"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus"
 	"github.com/krau/Picture-collector/collector/config"
 	"github.com/krau/Picture-collector/collector/logger"
 	"github.com/krau/Picture-collector/collector/sources"
@@ -25,34 +22,12 @@ func Run() {
 		go getNewArtworks(source, 30, artworkCh, source.Config().Interval)
 	}
 
-	azClient, err := azservicebus.NewClientFromConnectionString(config.Cfg.App.Azure.BusConnectionString, nil)
-	if err != nil {
-		logger.L.Errorf("Error creating azure client: %s", err.Error())
-	}
-	azSender, err := azClient.NewSender(config.Cfg.App.Azure.Queue, nil)
-	if err != nil {
-		logger.L.Errorf("Error creating azure sender: %s", err.Error())
-	}
-
 	for {
 		select {
 		case artworks := <-artworkCh:
+			logger.L.Infof("Got %d artworks, sending to azure", len(artworks))
 			for _, artwork := range artworks {
-				go func(artwork *coreModels.ArtworkRaw) {
-					artworkBytes, err := json.Marshal(artwork)
-					if err != nil {
-						logger.L.Errorf("Error marshalling artwork: %s", err.Error())
-						return
-					}
-					err = azSender.SendMessage(context.TODO(), &azservicebus.Message{
-						Body: []byte(artworkBytes),
-					}, nil)
-					if err != nil {
-						logger.L.Errorf("Error sending message: %s", err.Error())
-						return
-					}
-					logger.L.Infof("Sent artwork: %s", artwork.SourceURL)
-				}(artwork)
+				go azureSend(artwork)
 			}
 		}
 	}
