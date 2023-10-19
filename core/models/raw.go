@@ -25,9 +25,7 @@ func (aR *ArtworkRaw) ToArtwork() *Artwork {
 	}
 	pics := make([]Picture, len(aR.Pictures))
 	for j, pic := range aR.Pictures {
-		pics[j] = Picture{
-			DirectURL: pic.DirectURL,
-		}
+		pics[j] = *pic.ToPicture()
 	}
 	artworkDB := &Artwork{
 		Title:       aR.Title,
@@ -40,4 +38,10 @@ func (aR *ArtworkRaw) ToArtwork() *Artwork {
 		Pictures:    pics,
 	}
 	return artworkDB
+}
+
+func (picR *PictureRaw) ToPicture() *Picture {
+	return &Picture{
+		DirectURL: picR.DirectURL,
+	}
 }

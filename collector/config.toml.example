@@ -6,7 +6,7 @@ file_path = "./logs/collector.log"
 backup_num = 7
 [app.azure]
 bus_connection_string=''
-queue = 'picture-collector'
+topic = 'picture-collector'
 
 [sources]
 [sources.pixiv]

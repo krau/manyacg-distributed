@@ -23,18 +23,18 @@ func getAzureReceiver() (*azservicebus.Receiver, error) {
 	if err != nil {
 		return nil, err
 	}
-	azReceiver, err := azClient.NewReceiverForQueue(config.Cfg.App.Azure.Queue, nil)
+	azReceiver, err := azClient.NewReceiverForSubscription(config.Cfg.App.Azure.Topic, config.Cfg.App.Azure.Subscription, nil)
 	if err != nil {
 		return nil, err
 	}
 	return azReceiver, err
 }
 
-func azureReceive(count int, ch chan []*models.ArtworkRaw) error {
+func azureReceive(count int, ch chan []*models.ArtworkRaw) {
 	azReceiver, err := getAzureReceiver()
 	if err != nil {
 		logger.L.Errorf("Error getting azure receiver: %s", err.Error())
-		return err
+		return
 	}
 	defer azReceiver.Close(context.Background())
 	for {
@@ -42,7 +42,7 @@ func azureReceive(count int, ch chan []*models.ArtworkRaw) error {
 		messages, err := azReceiver.ReceiveMessages(context.Background(), count, nil)
 		if err != nil {
 			logger.L.Errorf("Error receiving messages: %s", err.Error())
-			return err
+			return
 		}
 		logger.L.Debugf("Got %d messages", len(messages))
 		artworks := make([]*models.ArtworkRaw, 0)
@@ -51,7 +51,7 @@ func azureReceive(count int, ch chan []*models.ArtworkRaw) error {
 			err := json.Unmarshal(message.Body, artwork)
 			if err != nil {
 				logger.L.Errorf("Error unmarshalling message: %s", err.Error())
-				return err
+				return
 			}
 			artworks = append(artworks, artwork)
 			azReceiver.CompleteMessage(context.Background(), message, nil)

@@ -23,7 +23,7 @@ func getAzureSender() (*azservicebus.Sender, error) {
 	if err != nil {
 		return nil, err
 	}
-	azSender, err := azClient.NewSender(config.Cfg.App.Azure.Queue, nil)
+	azSender, err := azClient.NewSender(config.Cfg.App.Azure.Topic, nil)
 	if err != nil {
 		return nil, err
 	}

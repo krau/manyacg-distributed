@@ -27,6 +27,7 @@ func Run() {
 		case artworks := <-artworkCh:
 			logger.L.Infof("Got %d artworks, sending to azure", len(artworks))
 			for _, artwork := range artworks {
+				// TODO: 支持更多消息队列
 				go azureSend(artwork)
 			}
 		}

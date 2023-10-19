@@ -23,7 +23,7 @@ type logConfig struct {
 
 type azureConfig struct {
 	BusConnectionString string `mapstructure:"bus_connection_string" toml:"bus_connection_string" yaml:"bus_connection_string" json:"bus_connection_string"`
-	Queue               string `mapstructure:"queue" toml:"queue" yaml:"queue" json:"queue"`
+	Topic               string `mapstructure:"topic" toml:"topic" yaml:"topic" json:"topic"`
 }
 
 type sourceConfigs struct {
