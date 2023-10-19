@@ -5,6 +5,8 @@ import (
 
 	"github.com/krau/Picture-collector/collector/config"
 	"github.com/krau/Picture-collector/collector/logger"
+	"github.com/krau/Picture-collector/collector/sender"
+	azurebus "github.com/krau/Picture-collector/collector/sender/AzureBus"
 	"github.com/krau/Picture-collector/collector/sources"
 	"github.com/krau/Picture-collector/collector/sources/pixiv"
 	coreModels "github.com/krau/Picture-collector/core/models"
@@ -14,22 +16,22 @@ func Run() {
 	logger.L.Info("Start collector")
 	var sources []sources.Source
 	if config.Cfg.Sources.Pixiv.Enable {
-		pixivSource1 := new(pixiv.SourcePixiv)
-		sources = append(sources, pixivSource1)
+		pixivSource := new(pixiv.SourcePixiv)
+		sources = append(sources, pixivSource)
 	}
 	artworkCh := make(chan []*coreModels.ArtworkRaw)
 	for _, source := range sources {
 		go getNewArtworks(source, 30, artworkCh, source.Config().Interval)
 	}
 
+	var sender sender.Sender
+	azureSender := new(azurebus.SenderAzureBus)
+	sender = azureSender
+
 	for {
 		select {
 		case artworks := <-artworkCh:
-			logger.L.Infof("Got %d artworks, sending to azure", len(artworks))
-			for _, artwork := range artworks {
-				// TODO: 支持更多消息队列
-				go azureSend(artwork)
-			}
+			go sender.SendArtworks(artworks)
 		}
 	}
 
