@@ -1,15 +1,19 @@
 [app]
 debug = true
-[app.log]
+
+[log]
 level = "TRACE"
 file_path = "./logs/collector.log"
 backup_num = 7
-[app.azure]
-bus_connection_string=''
-topic = 'picture-collector'
+
+[sender]
+[sender.azure]
+bus_connection_string = ""
+# bus_connection_string = ""
+topic = 'picture-collector-collector'
 
 [sources]
 [sources.pixiv]
 enable = true
-url = 'https://rsshub.app/pixiv/user/bookmarks/32832322'
-interval = 30
+url = 'https://rsshub.app/pixiv/user/bookmarks/114514'
+interval = 20

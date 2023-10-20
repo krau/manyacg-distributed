@@ -7,18 +7,22 @@ import (
 type tomlConfig struct {
 	App     appConfig     `mapstructure:"app" toml:"app" yaml:"app" json:"app"`
 	Sources sourceConfigs `mapstructure:"sources" toml:"sources" yaml:"sources" json:"sources"`
+	Sender  senderConfigs `mapstructure:"sender" toml:"sender" yaml:"sender" json:"sender"`
+	Log     logConfig     `mapstructure:"log" toml:"log" yaml:"log" json:"log"`
 }
 
 type appConfig struct {
-	Log   logConfig   `mapstructure:"log" toml:"log" yaml:"log" json:"log"`
-	Debug bool        `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
-	Azure azureConfig `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
+	Debug bool `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
 }
 
 type logConfig struct {
 	Level     string `mapstructure:"level" toml:"level" yaml:"level" json:"level"`
 	FilePath  string `mapstructure:"file_path" toml:"file_path" yaml:"file_path" json:"file_path"`
 	BackupNum uint   `mapstructure:"backup_num" toml:"backup_num" yaml:"backup_num" json:"backup_num"`
+}
+
+type senderConfigs struct {
+	Azure azureConfig `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
 }
 
 type azureConfig struct {

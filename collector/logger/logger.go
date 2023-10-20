@@ -13,9 +13,9 @@ func init() {
 	slog.DefaultChannelName = "collector"
 	newLogger := slog.New()
 	defer newLogger.Flush()
-	logLevel := slog.LevelByName(config.Cfg.App.Log.Level)
-	logFilePath := config.Cfg.App.Log.FilePath
-	logBackupNum := config.Cfg.App.Log.BackupNum
+	logLevel := slog.LevelByName(config.Cfg.Log.Level)
+	logFilePath := config.Cfg.Log.FilePath
+	logBackupNum := config.Cfg.Log.BackupNum
 	var logLevels []slog.Level
 	for _, level := range slog.AllLevels {
 		if level <= logLevel {

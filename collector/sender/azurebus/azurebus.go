@@ -19,7 +19,7 @@ func (s *SenderAzureBus) SendArtworks(artworks []*coreModels.ArtworkRaw) {
 		logger.L.Errorf("Azure client is nil")
 		return
 	}
-	sender, err := azureClient.NewSender(config.Cfg.App.Azure.Topic, nil)
+	sender, err := azureClient.NewSender(config.Cfg.Sender.Azure.Topic, nil)
 	if err != nil {
 		logger.L.Errorf("Error getting azure sender: %s", err.Error())
 		return
