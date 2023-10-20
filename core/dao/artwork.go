@@ -21,6 +21,7 @@ func GetArtworkBySourceURL(sourceURL string) *models.Artwork {
 	return &artwork
 }
 
+// 不存在则创建，存在则更新
 func AddArtwork(artwork *models.Artwork) {
 	db.Transaction(func(tx *gorm.DB) error {
 		var artworkDB models.Artwork
@@ -73,6 +74,9 @@ func AddArtwork(artwork *models.Artwork) {
 
 func AddArtworks(artworks []*models.Artwork) {
 	for _, artwork := range artworks {
+		if artwork == nil {
+			continue
+		}
 		AddArtwork(artwork)
 	}
 }

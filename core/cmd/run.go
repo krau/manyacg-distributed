@@ -15,15 +15,16 @@ func Run() {
 
 	var messenger messenger.Messenger
 	messenger = &azurebus.MessengerAzureBus{}
-	go messenger.SubscribeArtworks(5, artworkCh)
+	go messenger.SubscribeArtworks(30, artworkCh)
 
 	for {
 		select {
 		case artworks := <-artworkCh:
 			logger.L.Infof("Received %d artworks", len(artworks))
 			processor.ProcessArtworks(artworks)
-			service.AddArtworks(artworks)
-			messenger.SendProcessedArtworks(artworks)
+			if newArtworks := service.AddArtworks(artworks); len(newArtworks) > 0 {
+				messenger.SendProcessedArtworks(newArtworks)
+			}
 		}
 	}
 }
