@@ -1,18 +1,21 @@
 [app]
-[app.log]
+debug = true
+
+[database]
+host = ''
+port = 3306
+user = 'root'
+password = ''
+database = ''
+
+[log]
 level = "TRACE"
 file_path = "./logs/core.log"
 backup_num = 7
 
-[app.azure]
-bus_connection_string=""
-topic = 'picture-collector'
+[messenger]
+[messenger.azure]
+sub_topic = 'picture-collector-collector'
 subscription = 'core'
+pub_topic = "picture-collector-core"
 
-
-[database]
-host = 'localhost'
-port = 3306
-user = 'root'
-password = ''
-database = 'picture_collector'

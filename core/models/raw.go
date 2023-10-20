@@ -2,6 +2,7 @@ package models
 
 // 入库前的结构
 type ArtworkRaw struct {
+	ID          uint
 	Title       string
 	Author      string
 	Description string
@@ -13,7 +14,13 @@ type ArtworkRaw struct {
 }
 
 type PictureRaw struct {
-	DirectURL string
+	DirectURL  string
+	Width      int
+	Height     int
+	Hash       string
+	Binary     []byte
+	BlurScore  float64
+	Downloaded bool
 }
 
 func (aR *ArtworkRaw) ToArtwork() *Artwork {
@@ -42,6 +49,12 @@ func (aR *ArtworkRaw) ToArtwork() *Artwork {
 
 func (picR *PictureRaw) ToPicture() *Picture {
 	return &Picture{
-		DirectURL: picR.DirectURL,
+		DirectURL:  picR.DirectURL,
+		Width:      picR.Width,
+		Height:     picR.Height,
+		Hash:       picR.Hash,
+		Binary:     picR.Binary,
+		BlurScore:  picR.BlurScore,
+		Downloaded: picR.Downloaded,
 	}
 }

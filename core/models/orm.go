@@ -6,8 +6,14 @@ import (
 
 type Picture struct {
 	gorm.Model
-	ArtworkID string
-	DirectURL string `gorm:"unique"`
+	ArtworkID  string
+	DirectURL  string  `gorm:"unique"`
+	Hash       string  `gorm:"default:null"`
+	BlurScore  float64 `gorm:"default:null"`
+	Width      int     `gorm:"default:null"`
+	Height     int     `gorm:"default:null"`
+	Binary     []byte  `gorm:"default:null"`
+	Downloaded bool    `gorm:"default:false"`
 }
 
 type Tag struct {

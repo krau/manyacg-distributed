@@ -5,14 +5,14 @@ import (
 )
 
 type tomlConfig struct {
-	App      appConfig `mapstructure:"app" toml:"app" yaml:"app" json:"app"`
-	Database database  `mapstructure:"database" toml:"database" yaml:"database" json:"database"`
+	App       appConfig       `mapstructure:"app" toml:"app" yaml:"app" json:"app"`
+	Database  database        `mapstructure:"database" toml:"database" yaml:"database" json:"database"`
+	Log       logConfig       `mapstructure:"log" toml:"log" yaml:"log" json:"log"`
+	Messenger messengerConfig `mapstructure:"messenger" toml:"messenger" yaml:"messenger" json:"messenger"`
 }
 
 type appConfig struct {
-	Log   logConfig   `mapstructure:"log" toml:"log" yaml:"log" json:"log"`
-	Debug bool        `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
-	Azure azureConfig `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
+	Debug bool `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
 }
 
 type logConfig struct {
@@ -21,10 +21,15 @@ type logConfig struct {
 	BackupNum uint   `mapstructure:"backup_num" toml:"backup_num" yaml:"backup_num" json:"backup_num"`
 }
 
+type messengerConfig struct {
+	Azure azureConfig `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
+}
+
 type azureConfig struct {
 	BusConnectionString string `mapstructure:"bus_connection_string" toml:"bus_connection_string" yaml:"bus_connection_string" json:"bus_connection_string"`
-	Topic               string `mapstructure:"topic" toml:"topic" yaml:"topic" json:"topic"`
+	SubTopic            string `mapstructure:"sub_topic" toml:"sub_topic" yaml:"sub_topic" json:"sub_topic"`
 	Subscription        string `mapstructure:"subscription" toml:"subscription" yaml:"subscription" json:"subscription"`
+	PubTopic            string `mapstructure:"pub_topic" toml:"pub_topic" yaml:"pub_topic" json:"pub_topic"`
 }
 
 type database struct {

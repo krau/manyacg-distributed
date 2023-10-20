@@ -48,13 +48,13 @@ func AddArtwork(artwork *models.Artwork) {
 				logger.L.Errorf("Failed to update artwork: %s", err)
 				return err
 			}
-			logger.L.Debugf("Artwork <%s> created", artwork.Title)
+			logger.L.Debugf("Artwork created: %s", artwork.Title)
 		} else if err != nil {
 			logger.L.Errorf("Failed to get artwork by source url: %s", err)
 			return err
 		} else {
 			// 存在则更新
-			logger.L.Debugf("Artwork <%s> already exists, update", artwork.Title)
+			logger.L.Debugf("Artwork already exists, update: %s", artwork.Title)
 			if err = addTags(artworkTags, tx); err != nil {
 				return err
 			}

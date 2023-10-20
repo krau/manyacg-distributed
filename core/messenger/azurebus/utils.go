@@ -9,7 +9,7 @@ import (
 var azureClient *azservicebus.Client
 
 func getAzureClient() (*azservicebus.Client, error) {
-	azClient, err := azservicebus.NewClientFromConnectionString(config.Cfg.App.Azure.BusConnectionString, nil)
+	azClient, err := azservicebus.NewClientFromConnectionString(config.Cfg.Messenger.Azure.BusConnectionString, nil)
 	if err != nil {
 		return nil, err
 	}
