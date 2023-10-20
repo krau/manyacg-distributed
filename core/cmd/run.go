@@ -3,13 +3,19 @@ package cmd
 import (
 	"github.com/krau/Picture-collector/core/dao"
 	"github.com/krau/Picture-collector/core/logger"
+	"github.com/krau/Picture-collector/core/messenger"
+	"github.com/krau/Picture-collector/core/messenger/azurebus"
 	"github.com/krau/Picture-collector/core/models"
 )
 
 func Run() {
 	logger.L.Info("Start collector")
 	artworkCh := make(chan []*models.ArtworkRaw)
-	go azureReceive(30, artworkCh)
+
+	var messenger messenger.Messenger
+	messenger = &azurebus.AzureBus{}
+	go messenger.SubscribeArtworks(10, artworkCh)
+
 	for {
 		select {
 		case artworks := <-artworkCh:

@@ -6,7 +6,7 @@ import (
 	"github.com/krau/Picture-collector/collector/config"
 	"github.com/krau/Picture-collector/collector/logger"
 	"github.com/krau/Picture-collector/collector/sender"
-	azurebus "github.com/krau/Picture-collector/collector/sender/AzureBus"
+	"github.com/krau/Picture-collector/collector/sender/azurebus"
 	"github.com/krau/Picture-collector/collector/sources"
 	"github.com/krau/Picture-collector/collector/sources/pixiv"
 	coreModels "github.com/krau/Picture-collector/core/models"
