@@ -37,7 +37,6 @@ func (s *ArtworkServer) GetPictureData(req *proto.GetPictureDataRequest, stream 
 		return errors.New("pictureData is nil")
 	}
 
-	// 通过流式RPC发送数据
 	chunkSize := 1024
 	for i := 0; i < len(pictureData); i += chunkSize {
 		end := i + chunkSize

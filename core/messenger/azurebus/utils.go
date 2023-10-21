@@ -20,6 +20,6 @@ func init() {
 	var err error
 	azureClient, err = getAzureClient()
 	if err != nil {
-		logger.L.Errorf("Error getting azure client: %s", err.Error())
+		logger.L.Fatalf("Error getting azure client: %s", err.Error())
 	}
 }

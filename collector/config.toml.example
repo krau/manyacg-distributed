@@ -9,7 +9,6 @@ backup_num = 7
 [sender]
 [sender.azure]
 bus_connection_string = ""
-# bus_connection_string = ""
 topic = 'picture-collector-collector'
 
 [sources]
