@@ -50,9 +50,9 @@ func init() {
 	viper.SetEnvPrefix("PICCOLLECTOR")
 	viper.AutomaticEnv()
 	viper.SetDefault("app.debug", false)
-	viper.SetDefault("app.log.level", "info")
-	viper.SetDefault("app.log.file_path", "./logs/collector.log")
-	viper.SetDefault("app.log.backup_num", 7)
+	viper.SetDefault("log.level", "info")
+	viper.SetDefault("log.file_path", "./logs/collector.log")
+	viper.SetDefault("log.backup_num", 7)
 	viper.SetDefault("sources.pixiv.enable", false)
 	err := viper.ReadInConfig()
 	if err != nil {

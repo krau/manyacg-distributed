@@ -17,15 +17,15 @@ func (a *MessengerAzureBus) SubscribeArtworks(count int, ch chan []*models.Artwo
 		logger.L.Errorf("Azure client is nil")
 		return
 	}
-	azReceiver, err := azureClient.NewReceiverForSubscription(config.Cfg.Messenger.Azure.SubTopic, config.Cfg.Messenger.Azure.Subscription, nil)
+	azSubscriber, err := azureClient.NewReceiverForSubscription(config.Cfg.Messenger.Azure.SubTopic, config.Cfg.Messenger.Azure.Subscription, nil)
 	if err != nil {
 		logger.L.Errorf("Error getting azure receiver: %s", err.Error())
 		return
 	}
-	defer azReceiver.Close(context.Background())
+	defer azSubscriber.Close(context.Background())
 	for {
 		logger.L.Infof("Receiving messages")
-		messages, err := azReceiver.ReceiveMessages(context.Background(), count, nil)
+		messages, err := azSubscriber.ReceiveMessages(context.Background(), count, nil)
 		if err != nil {
 			logger.L.Errorf("Error receiving messages: %s", err.Error())
 			return
@@ -37,11 +37,11 @@ func (a *MessengerAzureBus) SubscribeArtworks(count int, ch chan []*models.Artwo
 			err := json.Unmarshal(message.Body, artwork)
 			if err != nil {
 				logger.L.Errorf("Error unmarshalling message: %s", err.Error())
-				return
+				continue
 			}
 			artworks = append(artworks, artwork)
 			if config.Cfg.App.Debug != true {
-				azReceiver.CompleteMessage(context.Background(), message, nil)
+				azSubscriber.CompleteMessage(context.Background(), message, nil)
 			}
 		}
 		ch <- artworks

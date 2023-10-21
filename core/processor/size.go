@@ -25,6 +25,6 @@ func getSize(picture *models.PictureRaw) {
 	bounds := img.Bounds()
 	width := bounds.Dx()
 	height := bounds.Dy()
-	picture.Width = width
-	picture.Height = height
+	picture.Width = uint(width)
+	picture.Height = uint(height)
 }

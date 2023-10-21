@@ -28,7 +28,12 @@ func downloadArtwork(artwork *models.ArtworkRaw, wg *sync.WaitGroup) {
 				ch <- true
 				return
 			}
-			pictureDB := dao.GetPictureByDirectURL(picture.DirectURL)
+			pictureDB, err := dao.GetPictureByDirectURL(picture.DirectURL)
+			if err != nil {
+				logger.L.Errorf("Failed to get picture by direct url: %s", err)
+				ch <- false
+				return
+			}
 			if pictureDB != nil {
 				if pictureDB.Binary != nil || pictureDB.Downloaded {
 					logger.L.Debugf("Picture already downloaded in database, pass: %s", picture.DirectURL)

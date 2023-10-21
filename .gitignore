@@ -1,3 +1,5 @@
 *.toml
 go.work*
 logs
+keys
+pictures

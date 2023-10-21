@@ -15,8 +15,8 @@ type ArtworkRaw struct {
 
 type PictureRaw struct {
 	DirectURL  string
-	Width      int
-	Height     int
+	Width      uint
+	Height     uint
 	Hash       string
 	Binary     []byte
 	BlurScore  float64

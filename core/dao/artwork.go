@@ -9,16 +9,26 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetArtworkBySourceURL(sourceURL string) *models.Artwork {
+func GetArtworkByID(id uint) (*models.Artwork, error) {
 	var artwork models.Artwork
-	err := db.Where("source_url = ?", sourceURL).First(&artwork).Error
+	err := db.Preload("Tags").Preload("Pictures").Where("id = ?", id).First(&artwork).Error
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil
+		return nil, nil
 	} else if err != nil {
-		logger.L.Errorf("Failed to get artwork by source url: %s", err)
-		return nil
+		return nil, err
 	}
-	return &artwork
+	return &artwork, nil
+}
+
+func GetArtworkBySourceURL(sourceURL string) (*models.Artwork, error) {
+	var artwork models.Artwork
+	err := db.Preload("Tags").Preload("Pictures").Where("source_url = ?", sourceURL).First(&artwork).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, nil
+	} else if err != nil {
+		return nil, err
+	}
+	return &artwork, nil
 }
 
 // 不存在则创建，存在则更新
@@ -27,7 +37,7 @@ func AddArtwork(artwork *models.Artwork) {
 		var artworkDB models.Artwork
 		artworkTags := artwork.Tags[:]
 		artwork.Tags = nil
-		err := tx.Where("source_url = ?", artwork.SourceURL).First(&artworkDB).Error
+		err := tx.Preload("Tags").Preload("Pictures").Where("source_url = ?", artwork.SourceURL).First(&artworkDB).Error
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			if err = tx.Create(artwork).Error; err != nil {
 				logger.L.Errorf("Failed to create artwork: %s", err)
@@ -79,4 +89,9 @@ func AddArtworks(artworks []*models.Artwork) {
 		}
 		AddArtwork(artwork)
 	}
+}
+
+
+func DeleteArtwork(id uint) error {
+	return db.Delete(&models.Artwork{}, id).Error
 }

@@ -12,7 +12,11 @@ type tomlConfig struct {
 }
 
 type appConfig struct {
-	Debug bool `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
+	Debug   bool   `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
+	Address string `mapstructure:"address" toml:"address" yaml:"address" json:"address"`
+	CertFile string `mapstructure:"cert" toml:"cert" yaml:"cert" json:"cert"`
+	KeyFile string `mapstructure:"key" toml:"key" yaml:"key" json:"key"`
+	CaFile string `mapstructure:"ca" toml:"ca" yaml:"ca" json:"ca"`
 }
 
 type logConfig struct {
@@ -50,9 +54,10 @@ func init() {
 	viper.SetEnvPrefix("PICCOLLECTOR")
 	viper.AutomaticEnv()
 	viper.SetDefault("app.debug", false)
-	viper.SetDefault("app.log.level", "info")
-	viper.SetDefault("app.log.file_path", "./logs/core.log")
-	viper.SetDefault("app.log.backup_num", 7)
+	viper.SetDefault("app.address", "0.0.0.0:39010")
+	viper.SetDefault("log.level", "info")
+	viper.SetDefault("log.file_path", "./logs/storage.log")
+	viper.SetDefault("log.backup_num", 7)
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)
