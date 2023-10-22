@@ -33,8 +33,11 @@ func Run() {
 				logger.L.Infof("No new artworks")
 				continue
 			}
-			messenger.SendProcessedArtworks(newArtworks)
-
+			err = messenger.SendProcessedArtworks(newArtworks)
+			if err != nil {
+				logger.L.Errorf("Error sending artworks: %s", err.Error())
+				continue
+			}
 		}
 	}
 }

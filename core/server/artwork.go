@@ -2,9 +2,13 @@ package server
 
 import (
 	"context"
-	"errors"
+
+	"github.com/krau/manyacg/core/errors"
 
 	"github.com/krau/manyacg/core/logger"
+	"github.com/krau/manyacg/core/messenger"
+	"github.com/krau/manyacg/core/messenger/azurebus"
+	"github.com/krau/manyacg/core/models"
 	"github.com/krau/manyacg/core/proto"
 	"github.com/krau/manyacg/core/service"
 )
@@ -18,7 +22,7 @@ func (s *ArtworkServer) GetArtworkInfo(ctx context.Context, req *proto.GetArtwor
 	}
 	if artwork == nil {
 		logger.L.Warnf("RPC GetArtwork ID: %d, artwork is nil", req.ArtworkID)
-		return &proto.GetArtworkResponse{Artwork: nil}, errors.New("artwork is nil")
+		return &proto.GetArtworkResponse{Artwork: nil}, errors.ErrArtworkNotFound
 	}
 	return &proto.GetArtworkResponse{Artwork: artwork}, nil
 }
@@ -34,7 +38,7 @@ func (s *ArtworkServer) GetPictureData(req *proto.GetPictureDataRequest, stream 
 	}
 	if pictureData == nil {
 		logger.L.Warnf("RPC GetPictureData ID: %d, pictureData is nil", req.PictureID)
-		return errors.New("pictureData is nil")
+		return errors.ErrPictureNotFound
 	}
 
 	chunkSize := 1024
@@ -50,4 +54,47 @@ func (s *ArtworkServer) GetPictureData(req *proto.GetPictureDataRequest, stream 
 		}
 	}
 	return nil
+}
+
+// 用于存储端保存图片失败时，重新发送消息
+func (s *ArtworkServer) SendMessageProcessedArtwork(ctx context.Context, in *proto.SendMessageProcessedArtworkRequest) (*proto.SendMessageProcessedArtworkResponse, error) {
+	logger.L.Infof("RPC SendMessageProcessedArtwork ID: %d", in.ArtworkID)
+	artworkDB, err := service.GetArtwork(uint(in.ArtworkID))
+	if err != nil {
+		logger.L.Errorf("RPC SendMessageProcessedArtwork ID: %d, err: %s", in.ArtworkID, err)
+		return &proto.SendMessageProcessedArtworkResponse{Success: false}, err
+	}
+	if artworkDB == nil {
+		logger.L.Warnf("RPC SendMessageProcessedArtwork ID: %d, artwork is nil", in.ArtworkID)
+		return &proto.SendMessageProcessedArtworkResponse{Success: false}, errors.ErrArtworkNotFound
+	}
+	tags := make([]string, len(artworkDB.Tags))
+	for i, tag := range artworkDB.Tags {
+		tags[i] = tag.Name
+	}
+	pictures := make([]*models.PictureRaw, len(artworkDB.Pictures))
+	for i, picture := range artworkDB.Pictures {
+		pictures[i] = &models.PictureRaw{
+			DirectURL: picture.DirectURL,
+		}
+	}
+	artwork := &models.ArtworkRaw{
+		ID:          artworkDB.ID,
+		Title:       artworkDB.Title,
+		Author:      artworkDB.Author,
+		Description: artworkDB.Description,
+		Source:      artworkDB.Source,
+		SourceURL:   artworkDB.SourceURL,
+		R18:         artworkDB.R18,
+		Tags:        tags,
+		Pictures:    pictures,
+	}
+	var messenger messenger.Messenger
+	messenger = &azurebus.MessengerAzureBus{}
+	err = messenger.SendProcessedArtworks([]*models.ArtworkRaw{artwork})
+	if err != nil {
+		logger.L.Errorf("RPC SendMessageProcessedArtwork ID: %d, err: %s", in.ArtworkID, err)
+		return &proto.SendMessageProcessedArtworkResponse{Success: false}, err
+	}
+	return &proto.SendMessageProcessedArtworkResponse{Success: true}, nil
 }

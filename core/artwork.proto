@@ -45,8 +45,19 @@ message GetPictureDataResponse {
     bytes binary = 1;
 }
 
+
+message SendMessageProcessedArtworkRequest {
+    uint64 artworkID = 1;
+}
+
+message SendMessageProcessedArtworkResponse {
+    bool success = 1;
+}
+
+
 service ArtworkService {
     rpc GetArtworkInfo(GetArtworkRequest) returns (GetArtworkResponse);
     rpc GetPictureData(GetPictureDataRequest) returns (stream GetPictureDataResponse);
+    rpc SendMessageProcessedArtwork(SendMessageProcessedArtworkRequest) returns (SendMessageProcessedArtworkResponse);
 }
 

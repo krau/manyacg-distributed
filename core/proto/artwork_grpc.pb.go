@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ArtworkService_GetArtworkInfo_FullMethodName = "/artwork.ArtworkService/GetArtworkInfo"
-	ArtworkService_GetPictureData_FullMethodName = "/artwork.ArtworkService/GetPictureData"
+	ArtworkService_GetArtworkInfo_FullMethodName              = "/artwork.ArtworkService/GetArtworkInfo"
+	ArtworkService_GetPictureData_FullMethodName              = "/artwork.ArtworkService/GetPictureData"
+	ArtworkService_SendMessageProcessedArtwork_FullMethodName = "/artwork.ArtworkService/SendMessageProcessedArtwork"
 )
 
 // ArtworkServiceClient is the client API for ArtworkService service.
@@ -29,6 +30,7 @@ const (
 type ArtworkServiceClient interface {
 	GetArtworkInfo(ctx context.Context, in *GetArtworkRequest, opts ...grpc.CallOption) (*GetArtworkResponse, error)
 	GetPictureData(ctx context.Context, in *GetPictureDataRequest, opts ...grpc.CallOption) (ArtworkService_GetPictureDataClient, error)
+	SendMessageProcessedArtwork(ctx context.Context, in *SendMessageProcessedArtworkRequest, opts ...grpc.CallOption) (*SendMessageProcessedArtworkResponse, error)
 }
 
 type artworkServiceClient struct {
@@ -80,12 +82,22 @@ func (x *artworkServiceGetPictureDataClient) Recv() (*GetPictureDataResponse, er
 	return m, nil
 }
 
+func (c *artworkServiceClient) SendMessageProcessedArtwork(ctx context.Context, in *SendMessageProcessedArtworkRequest, opts ...grpc.CallOption) (*SendMessageProcessedArtworkResponse, error) {
+	out := new(SendMessageProcessedArtworkResponse)
+	err := c.cc.Invoke(ctx, ArtworkService_SendMessageProcessedArtwork_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ArtworkServiceServer is the server API for ArtworkService service.
 // All implementations must embed UnimplementedArtworkServiceServer
 // for forward compatibility
 type ArtworkServiceServer interface {
 	GetArtworkInfo(context.Context, *GetArtworkRequest) (*GetArtworkResponse, error)
 	GetPictureData(*GetPictureDataRequest, ArtworkService_GetPictureDataServer) error
+	SendMessageProcessedArtwork(context.Context, *SendMessageProcessedArtworkRequest) (*SendMessageProcessedArtworkResponse, error)
 	mustEmbedUnimplementedArtworkServiceServer()
 }
 
@@ -98,6 +110,9 @@ func (UnimplementedArtworkServiceServer) GetArtworkInfo(context.Context, *GetArt
 }
 func (UnimplementedArtworkServiceServer) GetPictureData(*GetPictureDataRequest, ArtworkService_GetPictureDataServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetPictureData not implemented")
+}
+func (UnimplementedArtworkServiceServer) SendMessageProcessedArtwork(context.Context, *SendMessageProcessedArtworkRequest) (*SendMessageProcessedArtworkResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendMessageProcessedArtwork not implemented")
 }
 func (UnimplementedArtworkServiceServer) mustEmbedUnimplementedArtworkServiceServer() {}
 
@@ -151,6 +166,24 @@ func (x *artworkServiceGetPictureDataServer) Send(m *GetPictureDataResponse) err
 	return x.ServerStream.SendMsg(m)
 }
 
+func _ArtworkService_SendMessageProcessedArtwork_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendMessageProcessedArtworkRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArtworkServiceServer).SendMessageProcessedArtwork(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArtworkService_SendMessageProcessedArtwork_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArtworkServiceServer).SendMessageProcessedArtwork(ctx, req.(*SendMessageProcessedArtworkRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ArtworkService_ServiceDesc is the grpc.ServiceDesc for ArtworkService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -161,6 +194,10 @@ var ArtworkService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetArtworkInfo",
 			Handler:    _ArtworkService_GetArtworkInfo_Handler,
+		},
+		{
+			MethodName: "SendMessageProcessedArtwork",
+			Handler:    _ArtworkService_SendMessageProcessedArtwork_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

@@ -3,6 +3,7 @@ package azurebus
 import (
 	"context"
 	"encoding/json"
+	"errors"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus"
 	"github.com/krau/manyacg/core/config"
@@ -17,15 +18,9 @@ func (a *MessengerAzureBus) SubscribeArtworks(count int, ch chan []*models.Artwo
 		logger.L.Errorf("Azure client is nil")
 		return
 	}
-	azSubscriber, err := azureClient.NewReceiverForSubscription(config.Cfg.Messenger.Azure.SubTopic, config.Cfg.Messenger.Azure.Subscription, nil)
-	if err != nil {
-		logger.L.Errorf("Error getting azure receiver: %s", err.Error())
-		return
-	}
-	defer azSubscriber.Close(context.Background())
 	for {
 		logger.L.Infof("Receiving messages")
-		messages, err := azSubscriber.ReceiveMessages(context.Background(), count, nil)
+		messages, err := azureSubscriber.ReceiveMessages(context.Background(), count, nil)
 		if err != nil {
 			logger.L.Errorf("Error receiving messages: %s", err.Error())
 			return
@@ -41,28 +36,20 @@ func (a *MessengerAzureBus) SubscribeArtworks(count int, ch chan []*models.Artwo
 			}
 			artworks = append(artworks, artwork)
 			if config.Cfg.App.Debug != true {
-				azSubscriber.CompleteMessage(context.Background(), message, nil)
+				azureSubscriber.CompleteMessage(context.Background(), message, nil)
 			}
 		}
 		ch <- artworks
 	}
 }
 
-func (a *MessengerAzureBus) SendProcessedArtworks(artworks []*models.ArtworkRaw) {
-	if azureClient == nil {
-		logger.L.Errorf("Azure client is nil")
-		return
+func (a *MessengerAzureBus) SendProcessedArtworks(artworks []*models.ArtworkRaw) error {
+	if azureSender == nil {
+		return errors.New("Azure sender is nil")
 	}
-	azSender, err := azureClient.NewSender(config.Cfg.Messenger.Azure.PubTopic, nil)
+	batch, err := azureSender.NewMessageBatch(context.Background(), nil)
 	if err != nil {
-		logger.L.Errorf("Error getting azure sender: %s", err.Error())
-		return
-	}
-	defer azSender.Close(context.Background())
-	batch, err := azSender.NewMessageBatch(context.Background(), nil)
-	if err != nil {
-		logger.L.Errorf("Error getting azure batch: %s", err.Error())
-		return
+		return err
 	}
 	succeeded := 0
 	for _, artwork := range artworks {
@@ -101,9 +88,9 @@ func (a *MessengerAzureBus) SendProcessedArtworks(artworks []*models.ArtworkRaw)
 		}
 		succeeded++
 	}
-	if err := azSender.SendMessageBatch(context.Background(), batch, nil); err != nil {
-		logger.L.Errorf("Error sending message: %s", err.Error())
-		return
+	if err := azureSender.SendMessageBatch(context.Background(), batch, nil); err != nil {
+		return err
 	}
 	logger.L.Infof("Sent %d processed artwork", succeeded)
+	return nil
 }

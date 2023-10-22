@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"time"
 
 	"github.com/krau/manyacg/core/models"
 	"github.com/krau/manyacg/core/proto"
@@ -34,7 +35,7 @@ func Run() {
 	for {
 		select {
 		case artworks := <-artworksCh:
-			logger.L.Infof("Received %d artworks", len(artworks))
+			logger.L.Infof("Got %d artworks", len(artworks))
 			artworkInfos := make([]*proto.ProcessedArtworkInfo, 0, len(artworks))
 			for _, artwork := range artworks {
 				resp, err := client.ArtworkClient.GetArtworkInfo(context.Background(), &proto.GetArtworkRequest{ArtworkID: uint64(artwork.ArtworkID)})
@@ -50,6 +51,8 @@ func Run() {
 			for _, storage := range storages {
 				go storage.SaveArtworks(artworkInfos)
 			}
+			logger.L.Infof("Sleep %d minutes...", config.Cfg.App.Sleep)
+			time.Sleep(time.Duration(config.Cfg.App.Sleep) * time.Minute)
 		}
 	}
 

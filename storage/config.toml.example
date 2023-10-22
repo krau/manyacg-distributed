@@ -5,6 +5,7 @@ server_name = "localhost"
 cert = "./keys/client.crt"
 key = "./keys/client.key"
 ca = "./keys/ca.crt"
+sleep = 2
 
 [log]
 level = "TRACE"

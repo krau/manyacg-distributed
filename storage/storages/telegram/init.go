@@ -7,6 +7,8 @@ import (
 	tu "github.com/mymmrac/telego/telegoutil"
 )
 
+type StorageTelegram struct{}
+
 var bot *telego.Bot
 var chatID telego.ChatID
 

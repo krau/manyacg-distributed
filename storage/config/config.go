@@ -11,6 +11,7 @@ type tomlConfig struct {
 
 type appConfig struct {
 	Debug      bool   `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
+	Sleep      uint   `mapstructure:"sleep" toml:"sleep" yaml:"sleep" json:"sleep"`
 	GrpcAddr   string `mapstructure:"grpc_addr" toml:"grpc_addr" yaml:"grpc_addr" json:"grpc_addr"`
 	ServerName string `mapstructure:"server_name" toml:"server_name" yaml:"server_name" json:"server_name"`
 	CertFile   string `mapstructure:"cert" toml:"cert" yaml:"cert" json:"cert"`
@@ -61,6 +62,7 @@ func init() {
 	viper.SetEnvPrefix("PICCOLLECTOR")
 	viper.AutomaticEnv()
 	viper.SetDefault("app.debug", false)
+	viper.SetDefault("app.sleep", 5)
 	viper.SetDefault("log.level", "info")
 	viper.SetDefault("log.file_path", "./logs/storage.log")
 	viper.SetDefault("log.backup_num", 7)
