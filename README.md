@@ -1,4 +1,4 @@
-# Picture collector
+# ManyACG
 
 从各处保存喜欢的图片, 并上传到各种存储空间.
 
