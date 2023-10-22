@@ -2,8 +2,8 @@ package azurebus
 
 import (
 	"github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus"
-	"github.com/krau/Picture-collector/storage/config"
-	"github.com/krau/Picture-collector/storage/logger"
+	"github.com/krau/manyacg/storage/config"
+	"github.com/krau/manyacg/storage/logger"
 )
 
 var azureClient *azservicebus.Client

@@ -1,7 +1,7 @@
 package sender
 
 import (
-	coreModels "github.com/krau/Picture-collector/core/models"
+	coreModels "github.com/krau/manyacg/core/models"
 )
 
 type Sender interface {

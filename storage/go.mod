@@ -1,4 +1,4 @@
-module github.com/krau/Picture-collector/storage
+module github.com/krau/manyacg/storage
 
 go 1.21.3
 

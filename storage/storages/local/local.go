@@ -6,10 +6,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/krau/Picture-collector/core/proto"
-	"github.com/krau/Picture-collector/storage/client"
-	"github.com/krau/Picture-collector/storage/config"
-	"github.com/krau/Picture-collector/storage/logger"
+	"github.com/krau/manyacg/core/proto"
+	"github.com/krau/manyacg/storage/client"
+	"github.com/krau/manyacg/storage/config"
+	"github.com/krau/manyacg/storage/logger"
 )
 
 type StorageLocal struct{}

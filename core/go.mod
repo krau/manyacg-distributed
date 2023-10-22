@@ -1,4 +1,4 @@
-module github.com/krau/Picture-collector/core
+module github.com/krau/manyacg/core
 
 go 1.21.3
 

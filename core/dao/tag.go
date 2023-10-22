@@ -3,8 +3,8 @@ package dao
 import (
 	"errors"
 
-	"github.com/krau/Picture-collector/core/logger"
-	"github.com/krau/Picture-collector/core/models"
+	"github.com/krau/manyacg/core/logger"
+	"github.com/krau/manyacg/core/models"
 	"gorm.io/gorm"
 )
 

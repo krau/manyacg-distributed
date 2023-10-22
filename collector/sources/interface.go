@@ -1,8 +1,8 @@
 package sources
 
 import (
-	"github.com/krau/Picture-collector/collector/config"
-	"github.com/krau/Picture-collector/core/models"
+	"github.com/krau/manyacg/collector/config"
+	"github.com/krau/manyacg/core/models"
 )
 
 type Source interface {

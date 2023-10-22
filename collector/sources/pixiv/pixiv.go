@@ -6,11 +6,11 @@ import (
 
 	"encoding/xml"
 
-	"github.com/krau/Picture-collector/collector/common"
-	"github.com/krau/Picture-collector/collector/config"
-	"github.com/krau/Picture-collector/collector/logger"
-	sourceModels "github.com/krau/Picture-collector/collector/sources/models"
-	coreModels "github.com/krau/Picture-collector/core/models"
+	"github.com/krau/manyacg/collector/common"
+	"github.com/krau/manyacg/collector/config"
+	"github.com/krau/manyacg/collector/logger"
+	sourceModels "github.com/krau/manyacg/collector/sources/models"
+	coreModels "github.com/krau/manyacg/core/models"
 )
 
 type SourcePixiv struct{}

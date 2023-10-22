@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 
-	"github.com/krau/Picture-collector/core/logger"
-	"github.com/krau/Picture-collector/core/proto"
-	"github.com/krau/Picture-collector/core/service"
+	"github.com/krau/manyacg/core/logger"
+	"github.com/krau/manyacg/core/proto"
+	"github.com/krau/manyacg/core/service"
 )
 
 func (s *ArtworkServer) GetArtworkInfo(ctx context.Context, req *proto.GetArtworkRequest) (*proto.GetArtworkResponse, error) {

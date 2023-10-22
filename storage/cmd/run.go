@@ -3,15 +3,15 @@ package cmd
 import (
 	"context"
 
-	"github.com/krau/Picture-collector/core/models"
-	"github.com/krau/Picture-collector/core/proto"
-	"github.com/krau/Picture-collector/storage/client"
-	"github.com/krau/Picture-collector/storage/config"
-	"github.com/krau/Picture-collector/storage/logger"
-	"github.com/krau/Picture-collector/storage/storages"
-	"github.com/krau/Picture-collector/storage/storages/local"
-	"github.com/krau/Picture-collector/storage/subscriber"
-	"github.com/krau/Picture-collector/storage/subscriber/azurebus"
+	"github.com/krau/manyacg/core/models"
+	"github.com/krau/manyacg/core/proto"
+	"github.com/krau/manyacg/storage/client"
+	"github.com/krau/manyacg/storage/config"
+	"github.com/krau/manyacg/storage/logger"
+	"github.com/krau/manyacg/storage/storages"
+	"github.com/krau/manyacg/storage/storages/local"
+	"github.com/krau/manyacg/storage/subscriber"
+	"github.com/krau/manyacg/storage/subscriber/azurebus"
 )
 
 func Run() {

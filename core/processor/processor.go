@@ -8,7 +8,7 @@ package processor
 import (
 	"sync"
 
-	"github.com/krau/Picture-collector/core/models"
+	"github.com/krau/manyacg/core/models"
 )
 
 func ProcessArtworks(artworks []*models.ArtworkRaw) {

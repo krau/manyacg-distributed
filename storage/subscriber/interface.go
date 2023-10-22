@@ -1,7 +1,7 @@
 package subscriber
 
 import (
-	"github.com/krau/Picture-collector/core/models"
+	"github.com/krau/manyacg/core/models"
 )
 
 type Subscriber interface {

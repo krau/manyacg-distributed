@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus"
-	"github.com/krau/Picture-collector/collector/config"
-	"github.com/krau/Picture-collector/collector/logger"
-	coreModels "github.com/krau/Picture-collector/core/models"
+	"github.com/krau/manyacg/collector/config"
+	"github.com/krau/manyacg/collector/logger"
+	coreModels "github.com/krau/manyacg/core/models"
 )
 
 type SenderAzureBus struct {

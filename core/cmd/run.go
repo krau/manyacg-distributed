@@ -1,13 +1,13 @@
 package cmd
 
 import (
-	"github.com/krau/Picture-collector/core/logger"
-	"github.com/krau/Picture-collector/core/messenger"
-	"github.com/krau/Picture-collector/core/messenger/azurebus"
-	"github.com/krau/Picture-collector/core/models"
-	"github.com/krau/Picture-collector/core/processor"
-	"github.com/krau/Picture-collector/core/server"
-	"github.com/krau/Picture-collector/core/service"
+	"github.com/krau/manyacg/core/logger"
+	"github.com/krau/manyacg/core/messenger"
+	"github.com/krau/manyacg/core/messenger/azurebus"
+	"github.com/krau/manyacg/core/models"
+	"github.com/krau/manyacg/core/processor"
+	"github.com/krau/manyacg/core/server"
+	"github.com/krau/manyacg/core/service"
 )
 
 func Run() {

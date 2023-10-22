@@ -4,7 +4,7 @@ import (
 	"github.com/gookit/slog"
 	"github.com/gookit/slog/handler"
 	"github.com/gookit/slog/rotatefile"
-	"github.com/krau/Picture-collector/core/config"
+	"github.com/krau/manyacg/core/config"
 )
 
 var L *slog.Logger

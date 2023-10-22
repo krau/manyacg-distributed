@@ -3,13 +3,13 @@ package cmd
 import (
 	"time"
 
-	"github.com/krau/Picture-collector/collector/config"
-	"github.com/krau/Picture-collector/collector/logger"
-	"github.com/krau/Picture-collector/collector/sender"
-	"github.com/krau/Picture-collector/collector/sender/azurebus"
-	"github.com/krau/Picture-collector/collector/sources"
-	"github.com/krau/Picture-collector/collector/sources/pixiv"
-	coreModels "github.com/krau/Picture-collector/core/models"
+	"github.com/krau/manyacg/collector/config"
+	"github.com/krau/manyacg/collector/logger"
+	"github.com/krau/manyacg/collector/sender"
+	"github.com/krau/manyacg/collector/sender/azurebus"
+	"github.com/krau/manyacg/collector/sources"
+	"github.com/krau/manyacg/collector/sources/pixiv"
+	coreModels "github.com/krau/manyacg/core/models"
 )
 
 func Run() {

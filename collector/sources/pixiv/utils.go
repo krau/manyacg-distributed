@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/krau/Picture-collector/collector/common"
-	"github.com/krau/Picture-collector/collector/logger"
-	sourceModels "github.com/krau/Picture-collector/collector/sources/models"
+	"github.com/krau/manyacg/collector/common"
+	"github.com/krau/manyacg/collector/logger"
+	sourceModels "github.com/krau/manyacg/collector/sources/models"
 )
 
 func getArtworkInfo(sourceURL string) (*sourceModels.PixivAjaxResp, error) {

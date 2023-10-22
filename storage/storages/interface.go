@@ -1,7 +1,7 @@
 package storages
 
 import (
-	"github.com/krau/Picture-collector/core/proto"
+	"github.com/krau/manyacg/core/proto"
 )
 
 type Storage interface {

@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/krau/Picture-collector/core/models"
-	"github.com/krau/Picture-collector/storage/config"
-	"github.com/krau/Picture-collector/storage/logger"
+	"github.com/krau/manyacg/core/models"
+	"github.com/krau/manyacg/storage/config"
+	"github.com/krau/manyacg/storage/logger"
 )
 
 type SubscriberAzureBus struct{}

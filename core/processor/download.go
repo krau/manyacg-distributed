@@ -3,10 +3,10 @@ package processor
 import (
 	"sync"
 
-	"github.com/krau/Picture-collector/core/common"
-	"github.com/krau/Picture-collector/core/dao"
-	"github.com/krau/Picture-collector/core/logger"
-	"github.com/krau/Picture-collector/core/models"
+	"github.com/krau/manyacg/core/common"
+	"github.com/krau/manyacg/core/dao"
+	"github.com/krau/manyacg/core/logger"
+	"github.com/krau/manyacg/core/models"
 )
 
 func downloadArtworks(artworks []*models.ArtworkRaw) {

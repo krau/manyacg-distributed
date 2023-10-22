@@ -6,9 +6,9 @@ import (
 	"net"
 	"os"
 
-	"github.com/krau/Picture-collector/core/config"
-	"github.com/krau/Picture-collector/core/logger"
-	"github.com/krau/Picture-collector/core/proto"
+	"github.com/krau/manyacg/core/config"
+	"github.com/krau/manyacg/core/logger"
+	"github.com/krau/manyacg/core/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )

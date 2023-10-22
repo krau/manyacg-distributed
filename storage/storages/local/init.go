@@ -3,8 +3,8 @@ package local
 import (
 	"os"
 
-	"github.com/krau/Picture-collector/storage/config"
-	"github.com/krau/Picture-collector/storage/logger"
+	"github.com/krau/manyacg/storage/config"
+	"github.com/krau/manyacg/storage/logger"
 )
 
 func init() {

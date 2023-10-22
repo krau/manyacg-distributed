@@ -1,6 +1,6 @@
 package telegram
 
-import "github.com/krau/Picture-collector/core/proto"
+import "github.com/krau/manyacg/core/proto"
 
 type StorageTelegram struct{}
 

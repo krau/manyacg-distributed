@@ -3,8 +3,8 @@ package dao
 import (
 	"fmt"
 
-	"github.com/krau/Picture-collector/core/config"
-	"github.com/krau/Picture-collector/core/models"
+	"github.com/krau/manyacg/core/config"
+	"github.com/krau/manyacg/core/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

@@ -9,7 +9,7 @@ backup_num = 7
 [sender]
 [sender.azure]
 bus_connection_string = ""
-topic = 'picture-collector-collector'
+topic = 'manyacg-collector'
 
 [sources]
 [sources.pixiv]

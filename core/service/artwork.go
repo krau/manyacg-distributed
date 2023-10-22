@@ -1,9 +1,9 @@
 package service
 
 import (
-	"github.com/krau/Picture-collector/core/dao"
-	"github.com/krau/Picture-collector/core/models"
-	"github.com/krau/Picture-collector/core/proto"
+	"github.com/krau/manyacg/core/dao"
+	"github.com/krau/manyacg/core/models"
+	"github.com/krau/manyacg/core/proto"
 )
 
 /*

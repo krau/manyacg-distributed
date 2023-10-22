@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/krau/Picture-collector/core/dao"
+	"github.com/krau/manyacg/core/dao"
 )
 
 func GetPictureData(id uint) ([]byte, error) {

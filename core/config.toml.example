@@ -15,7 +15,7 @@ backup_num = 7
 
 [messenger]
 [messenger.azure]
-sub_topic = 'picture-collector-collector'
+sub_topic = 'manyacg-collector'
 subscription = 'core'
-pub_topic = "picture-collector-core"
+pub_topic = "manyacg-core"
 

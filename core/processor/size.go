@@ -7,8 +7,8 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 
-	"github.com/krau/Picture-collector/core/logger"
-	"github.com/krau/Picture-collector/core/models"
+	"github.com/krau/manyacg/core/logger"
+	"github.com/krau/manyacg/core/models"
 )
 
 func getSize(picture *models.PictureRaw) {
