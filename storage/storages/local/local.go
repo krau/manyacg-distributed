@@ -16,15 +16,22 @@ type StorageLocal struct{}
 
 var dir string = config.Cfg.Storages.Local.Dir
 
-func (s *StorageLocal) SaveArtwork(artwork *proto.ProcessedArtworkInfo) error {
+func (s *StorageLocal) SaveArtworks(artworks []*proto.ProcessedArtworkInfo) {
+	for _, artwork := range artworks {
+		go s.saveArtwork(artwork)
+	}
+}
+
+func (s *StorageLocal) saveArtwork(artwork *proto.ProcessedArtworkInfo) {
 	ctx := context.Background()
 	pictures := artwork.Pictures
-	// 以标题为文件夹名
-	artworkDir := dir + "/" + strings.ReplaceAll(artwork.Title, "/", "_")
+	// 以来源名/作者名/标题为目录名
+	artworkDir := dir + "/" + strings.ReplaceAll(artwork.Source.String(), "/", "_") + "/" + strings.ReplaceAll(artwork.Author, "/", "_") + "/" + strings.ReplaceAll(artwork.Title, "/", "_")
 	if _, err := os.Stat(artworkDir); os.IsNotExist(err) {
 		err := os.MkdirAll(artworkDir, os.ModePerm)
 		if err != nil {
-			return err
+			logger.L.Errorf("Error creating dir: %v", err)
+			return
 		}
 	}
 	for _, picture := range pictures {
@@ -34,7 +41,7 @@ func (s *StorageLocal) SaveArtwork(artwork *proto.ProcessedArtworkInfo) error {
 		stream, err := client.ArtworkClient.GetPictureData(ctx, &proto.GetPictureDataRequest{PictureID: picture.PictureID})
 		if err != nil {
 			logger.L.Errorf("Error getting picture data: %v", err)
-			return err
+			return
 		}
 
 		var file *os.File
@@ -46,13 +53,18 @@ func (s *StorageLocal) SaveArtwork(artwork *proto.ProcessedArtworkInfo) error {
 			}
 			if err != nil {
 				logger.L.Errorf("Error getting picture data: %v", err)
-				return err
+				// 删除文件
+				err := os.Remove(fileName)
+				if err != nil {
+					logger.L.Errorf("Error removing file: %v", err)
+				}
+				return
 			}
 			if file == nil {
 				file, err = os.Create(fileName)
 				if err != nil {
 					logger.L.Errorf("Error creating file: %v", err)
-					return err
+					return
 				}
 			}
 			_, err = file.Write(resp.Binary)
@@ -63,15 +75,14 @@ func (s *StorageLocal) SaveArtwork(artwork *proto.ProcessedArtworkInfo) error {
 	dirFiles, err := os.ReadDir(artworkDir)
 	if err != nil {
 		logger.L.Errorf("Error reading dir: %v", err)
-		return err
+		return
 	}
 	if len(dirFiles) == 0 {
 		logger.L.Infof("Removing empty dir %s", artworkDir)
 		err := os.Remove(artworkDir)
 		if err != nil {
 			logger.L.Errorf("Error removing empty dir: %v", err)
-			return err
+			return
 		}
 	}
-	return nil
 }

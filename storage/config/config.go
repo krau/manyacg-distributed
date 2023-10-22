@@ -35,9 +35,10 @@ type storageLocalConfig struct {
 }
 
 type storageTelegramConfig struct {
-	Enable bool   `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
-	Token  string `mapstructure:"token" toml:"token" yaml:"token" json:"token"`
-	ChatId int64  `mapstructure:"chat_id" toml:"chat_id" yaml:"chat_id" json:"chat_id"`
+	Enable   bool   `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
+	Token    string `mapstructure:"token" toml:"token" yaml:"token" json:"token"`
+	ChatId   int64  `mapstructure:"chat_id" toml:"chat_id" yaml:"chat_id" json:"chat_id"`
+	Username string `mapstructure:"username" toml:"username" yaml:"username" json:"username"`
 }
 
 type subscriberConfig struct {

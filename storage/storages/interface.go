@@ -5,5 +5,5 @@ import (
 )
 
 type Storage interface {
-	SaveArtwork(artwork *proto.ProcessedArtworkInfo) error
+	SaveArtworks(artworks []*proto.ProcessedArtworkInfo)
 }

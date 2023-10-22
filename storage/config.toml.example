@@ -1,0 +1,29 @@
+[app]
+debug = true
+grpc_addr = "127.0.0.1:39010"
+server_name = "localhost"
+cert = "./keys/client.crt"
+key = "./keys/client.key"
+ca = "./keys/ca.crt"
+
+[log]
+level = "TRACE"
+file_path = "./logs/storage.log"
+backup_num = 7
+
+[storages]
+[storages.local]
+enable = true
+dir = "./pictures"
+
+[storages.telegram]
+enable = true
+token = ""
+chat_id = ""
+username = "@manyacg"
+
+[subscriber]
+[subscriber.azure]
+bus_connection_string = ""
+sub_topic = "manyacg-core"
+subscription = 'storage'

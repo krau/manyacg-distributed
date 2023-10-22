@@ -11,17 +11,11 @@ import (
 
 type SubscriberAzureBus struct{}
 
-func (s *SubscriberAzureBus) SubscribeProcessedArtworks(count int, artworkCh chan []*models.MessageProcessedArtwork) {
-	if azureClient == nil {
-		logger.L.Errorf("Azure client is nil")
+func (s *SubscriberAzureBus) SubscribeProcessedArtworks(count int, artworksCh chan []*models.MessageProcessedArtwork) {
+	if azSubscriber == nil {
+		logger.L.Fatalf("Azure client is not initialized")
 		return
 	}
-	azSubscriber, err := azureClient.NewReceiverForSubscription(config.Cfg.Subscriber.Azure.SubTopic, config.Cfg.Subscriber.Azure.Subscription, nil)
-	if err != nil {
-		logger.L.Errorf("Error getting azure receiver: %s", err.Error())
-		return
-	}
-	defer azSubscriber.Close(context.Background())
 	for {
 		logger.L.Infof("Receiving messages")
 		messages, err := azSubscriber.ReceiveMessages(context.Background(), count, nil)
@@ -39,10 +33,18 @@ func (s *SubscriberAzureBus) SubscribeProcessedArtworks(count int, artworkCh cha
 				continue
 			}
 			artworks = append(artworks, artwork)
-			if config.Cfg.App.Debug != true {
-				azSubscriber.CompleteMessage(context.Background(), message, nil)
+			if !config.Cfg.App.Debug {
+				// 重试三次完成消息
+				for i := 0; i < 3; i++ {
+					err = azSubscriber.CompleteMessage(context.Background(), message, nil)
+					if err != nil {
+						logger.L.Errorf("Error completing message: %s, retrying", err.Error())
+						continue
+					}
+					break
+				}
 			}
 		}
-		artworkCh <- artworks
+		artworksCh <- artworks
 	}
 }
