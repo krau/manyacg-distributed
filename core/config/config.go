@@ -12,11 +12,12 @@ type tomlConfig struct {
 }
 
 type appConfig struct {
-	Debug   bool   `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
-	Address string `mapstructure:"address" toml:"address" yaml:"address" json:"address"`
-	CertFile string `mapstructure:"cert" toml:"cert" yaml:"cert" json:"cert"`
-	KeyFile string `mapstructure:"key" toml:"key" yaml:"key" json:"key"`
-	CaFile string `mapstructure:"ca" toml:"ca" yaml:"ca" json:"ca"`
+	Debug      bool   `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
+	ExtProcess bool   `mapstructure:"ext_process" toml:"ext_process" yaml:"ext_process" json:"ext_process"`
+	Address    string `mapstructure:"address" toml:"address" yaml:"address" json:"address"`
+	CertFile   string `mapstructure:"cert" toml:"cert" yaml:"cert" json:"cert"`
+	KeyFile    string `mapstructure:"key" toml:"key" yaml:"key" json:"key"`
+	CaFile     string `mapstructure:"ca" toml:"ca" yaml:"ca" json:"ca"`
 }
 
 type logConfig struct {
@@ -51,9 +52,10 @@ func init() {
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("..")
 	viper.SetConfigType("toml")
-	viper.SetEnvPrefix("PICCOLLECTOR")
+	viper.SetEnvPrefix("MANYACG")
 	viper.AutomaticEnv()
 	viper.SetDefault("app.debug", false)
+	viper.SetDefault("app.ext_process", false)
 	viper.SetDefault("app.address", "0.0.0.0:39010")
 	viper.SetDefault("log.level", "info")
 	viper.SetDefault("log.file_path", "./logs/storage.log")

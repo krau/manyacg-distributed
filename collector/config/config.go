@@ -47,7 +47,7 @@ func init() {
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("..")
 	viper.SetConfigType("toml")
-	viper.SetEnvPrefix("PICCOLLECTOR")
+	viper.SetEnvPrefix("MANYACG")
 	viper.AutomaticEnv()
 	viper.SetDefault("app.debug", false)
 	viper.SetDefault("log.level", "info")
