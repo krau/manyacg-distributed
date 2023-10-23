@@ -1,7 +1,6 @@
 package telegram
 
 import (
-	"strings"
 	"time"
 
 	"github.com/krau/manyacg/core/proto"
@@ -17,26 +16,21 @@ func (s *StorageTelegram) SaveArtworks(artworks []*proto.ProcessedArtworkInfo) {
 	}
 	succeeded := 0
 	for _, artwork := range artworks {
-
+		if artwork == nil {
+			logger.L.Fatalf("Artwork is nil")
+			continue
+		}
 		_, err := bot.SendMediaGroup(tu.MediaGroup(
 			chatID,
 			inputMediaPhotosFromURL(artwork)...,
 		))
 		if err != nil {
-			logger.L.Errorf("Error sending media group: %s, error: %v", artwork.Title, err)
-			if strings.Contains(err.Error(), "Wrong type of the web page content") {
-				err = sendMediaGroupFromLocal(artwork)
-				if err != nil {
-					logger.L.Errorf("Error sending media group from local: %s, error: %v", artwork.Title, err)
-					continue
-				}
-				succeeded++
-			}
-			if !strings.Contains(err.Error(), "Too Many Requests") && !strings.Contains(err.Error(), "Wrong type of the web page content") {
+			err2 := trySendMediaGroup(err, artwork)
+			if err2 != nil {
+				logger.L.Errorf("Error sending media group: %v", err2)
 				go common.ResendMessageProcessedArtwork(artwork.ArtworkID)
 				continue
 			}
-			continue
 		}
 		succeeded++
 		logger.L.Infof("Sent %d/%d artworks, sleep 5s...", succeeded, len(artworks))

@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus"
 	"github.com/krau/manyacg/core/models"
 	"github.com/krau/manyacg/storage/config"
 	"github.com/krau/manyacg/storage/logger"
@@ -19,19 +18,13 @@ func (s *SubscriberAzureBus) SubscribeProcessedArtworks(count int, artworksCh ch
 	}
 	for {
 		logger.L.Infof("Receiving messages")
-		var messages []*azservicebus.ReceivedMessage
-		for {
-			msgs, err := azSubscriber.ReceiveMessages(context.Background(), count, nil)
-			if err != nil {
-				logger.L.Errorf("Error receiving messages: %s", err.Error())
-				continue
-			}
-			logger.L.Infof("Received %d messages", len(msgs))
-			messages = append(messages, msgs...)
-			if len(messages) >= count {
-				break
-			}
+		messages, err := azSubscriber.ReceiveMessages(context.Background(), count, nil)
+		if err != nil {
+			logger.L.Errorf("Error receiving messages: %s", err.Error())
+			continue
 		}
+		logger.L.Infof("Received %d messages", len(messages))
+
 		artworks := make([]*models.MessageProcessedArtwork, 0)
 		for _, message := range messages {
 			artwork := &models.MessageProcessedArtwork{}

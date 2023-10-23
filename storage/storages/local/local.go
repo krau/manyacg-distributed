@@ -21,6 +21,10 @@ var dir string = config.Cfg.Storages.Local.Dir
 
 func (s *StorageLocal) SaveArtworks(artworks []*proto.ProcessedArtworkInfo) {
 	for _, artwork := range artworks {
+		if artwork == nil {
+			logger.L.Fatalf("Artwork is nil")
+			continue
+		}
 		go s.saveArtwork(artwork)
 	}
 }
