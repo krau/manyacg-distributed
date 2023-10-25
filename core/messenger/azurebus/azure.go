@@ -3,10 +3,10 @@ package azurebus
 import (
 	"context"
 	"encoding/json"
-	"errors"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus"
 	"github.com/krau/manyacg/core/config"
+	"github.com/krau/manyacg/core/errors"
 	"github.com/krau/manyacg/core/logger"
 	"github.com/krau/manyacg/core/models"
 )
@@ -14,8 +14,8 @@ import (
 type MessengerAzureBus struct{}
 
 func (a *MessengerAzureBus) SubscribeArtworks(count int, ch chan []*models.ArtworkRaw) {
-	if azureClient == nil {
-		logger.L.Errorf("Azure client is nil")
+	if azureSubscriber == nil {
+		logger.L.Errorf("Azure subscriber is nil")
 		return
 	}
 	for {
@@ -35,7 +35,7 @@ func (a *MessengerAzureBus) SubscribeArtworks(count int, ch chan []*models.Artwo
 				continue
 			}
 			artworks = append(artworks, artwork)
-			if config.Cfg.App.Debug != true {
+			if !config.Cfg.App.Debug {
 				azureSubscriber.CompleteMessage(context.Background(), message, nil)
 			}
 		}
@@ -45,7 +45,7 @@ func (a *MessengerAzureBus) SubscribeArtworks(count int, ch chan []*models.Artwo
 
 func (a *MessengerAzureBus) SendProcessedArtworks(artworks []*models.ArtworkRaw) error {
 	if azureSender == nil {
-		return errors.New("Azure sender is nil")
+		return errors.ErrMessengerAzureNotInitialized
 	}
 	batch, err := azureSender.NewMessageBatch(context.Background(), nil)
 	if err != nil {

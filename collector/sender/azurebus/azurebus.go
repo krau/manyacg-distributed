@@ -14,6 +14,10 @@ type SenderAzureBus struct {
 }
 
 func (s *SenderAzureBus) SendArtworks(artworks []*coreModels.ArtworkRaw) {
+	if azureSender == nil {
+		logger.L.Errorf("Azure sender is nil")
+		return
+	}
 	logger.L.Infof("Got %d artworks, sending to azure bus", len(artworks))
 	if azureClient == nil {
 		logger.L.Errorf("Azure client is nil")
