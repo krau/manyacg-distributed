@@ -1,12 +1,17 @@
 [app]
 debug = true
+address = "127.0.0.1:39020"
+cert = "./keys/server.crt"
+key = "./keys/server.key"
+ca = "./keys/ca.crt"
+ext_process = false
 
 [database]
-host = ''
+host = '127.0.0.1'
 port = 3306
 user = 'root'
 password = ''
-database = ''
+database = 'manyacg'
 
 [log]
 level = "TRACE"
@@ -14,8 +19,20 @@ file_path = "./logs/core.log"
 backup_num = 7
 
 [messenger]
+type = "rabbitmq"
+
 [messenger.azure]
+bus_connection_string = ""
 sub_topic = 'manyacg-collector'
 subscription = 'core'
-pub_topic = "manyacg-core"
+pub_topic = 'manyacg-core'
 
+[messenger.rabbitmq]
+host = "127.0.0.1"
+port = 5672
+user = "test"
+password = "test"
+vhost = "test"
+sub_queue = "manyacg-core-sub-queue"
+sub_exchange = "manyacg-collector"
+pub_exchange = "manyacg-core"

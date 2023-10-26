@@ -22,12 +22,23 @@ type logConfig struct {
 }
 
 type senderConfigs struct {
-	Azure azureConfig `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
+	Type     string         `mapstructure:"type" toml:"type" yaml:"type" json:"type"`
+	Azure    azureConfig    `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
+	RabbitMQ rabbitMQConfig `mapstructure:"rabbitmq" toml:"rabbitmq" yaml:"rabbitmq" json:"rabbitmq"`
 }
 
 type azureConfig struct {
 	BusConnectionString string `mapstructure:"bus_connection_string" toml:"bus_connection_string" yaml:"bus_connection_string" json:"bus_connection_string"`
 	Topic               string `mapstructure:"topic" toml:"topic" yaml:"topic" json:"topic"`
+}
+
+type rabbitMQConfig struct {
+	Host     string `mapstructure:"host" toml:"host" yaml:"host" json:"host"`
+	Port     uint   `mapstructure:"port" toml:"port" yaml:"port" json:"port"`
+	User     string `mapstructure:"user" toml:"user" yaml:"user" json:"user"`
+	Password string `mapstructure:"password" toml:"password" yaml:"password" json:"password"`
+	Vhost    string `mapstructure:"vhost" toml:"vhost" yaml:"vhost" json:"vhost"`
+	Exchange string `mapstructure:"exchange" toml:"exchange" yaml:"exchange" json:"exchange"`
 }
 
 type sourceConfigs struct {
@@ -54,6 +65,7 @@ func init() {
 	viper.SetDefault("log.file_path", "./logs/collector.log")
 	viper.SetDefault("log.backup_num", 7)
 	viper.SetDefault("sources.pixiv.enable", false)
+	viper.SetDefault("sender.type", "rabbitmq")
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)

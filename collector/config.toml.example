@@ -7,12 +7,22 @@ file_path = "./logs/collector.log"
 backup_num = 7
 
 [sender]
+type = "rabbitmq"
+
 [sender.azure]
 bus_connection_string = ""
 topic = 'manyacg-collector'
+
+[sender.rabbitmq]
+host = "127.0.0.1"
+port = 5672
+user = "test"
+password = "test"
+exchange = "manyacg-collector"
+vhost = "test"
 
 [sources]
 [sources.pixiv]
 enable = true
 url = 'https://rsshub.app/pixiv/user/bookmarks/114514'
-interval = 20
+interval = 60

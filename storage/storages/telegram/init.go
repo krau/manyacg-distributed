@@ -12,7 +12,7 @@ type StorageTelegram struct{}
 var bot *telego.Bot
 var chatID telego.ChatID
 
-func init() {
+func InitTelegram() {
 	b, err := telego.NewBot(config.Cfg.Storages.Telegram.Token, telego.WithDefaultLogger(false, true))
 	if err != nil {
 		logger.L.Fatalf("Error creating bot: %v", err)

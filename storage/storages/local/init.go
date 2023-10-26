@@ -7,7 +7,9 @@ import (
 	"github.com/krau/manyacg/storage/logger"
 )
 
-func init() {
+type StorageLocal struct{}
+
+func InitLocal() {
 	if _, err := os.Stat(config.Cfg.Storages.Local.Dir); os.IsNotExist(err) {
 		err := os.MkdirAll(config.Cfg.Storages.Local.Dir, os.ModePerm)
 		if err != nil {

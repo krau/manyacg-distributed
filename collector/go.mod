@@ -6,6 +6,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus v1.5.0
 	github.com/gookit/slog v0.5.4
 	github.com/imroc/req/v3 v3.42.1
+	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/spf13/viper v1.17.0
 )
 

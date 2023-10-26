@@ -47,6 +47,30 @@ func (aR *ArtworkRaw) ToArtwork() *Artwork {
 	return artworkDB
 }
 
+func (aR *ArtworkRaw) ToMessageProcessedArtwork() *MessageProcessedArtwork {
+	message := &MessageProcessedArtwork{
+		ArtworkID:   aR.ID,
+		Title:       aR.Title,
+		Author:      aR.Author,
+		Description: aR.Description,
+		SourceURL:   aR.SourceURL,
+		Source:      string(aR.Source),
+		Tags:        aR.Tags,
+		R18:         aR.R18,
+		Pictures: make([]*struct {
+			DirectURL string `json:"direct_url"`
+		}, len(aR.Pictures)),
+	}
+	for i, pic := range aR.Pictures {
+		message.Pictures[i] = &struct {
+			DirectURL string `json:"direct_url"`
+		}{
+			DirectURL: pic.DirectURL,
+		}
+	}
+	return message
+}
+
 func (picR *PictureRaw) ToPicture() *Picture {
 	return &Picture{
 		DirectURL:  picR.DirectURL,

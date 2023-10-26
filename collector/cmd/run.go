@@ -6,7 +6,6 @@ import (
 	"github.com/krau/manyacg/collector/config"
 	"github.com/krau/manyacg/collector/logger"
 	"github.com/krau/manyacg/collector/sender"
-	"github.com/krau/manyacg/collector/sender/azurebus"
 	"github.com/krau/manyacg/collector/sources"
 	"github.com/krau/manyacg/collector/sources/pixiv"
 	coreModels "github.com/krau/manyacg/core/models"
@@ -24,15 +23,14 @@ func Run() {
 		go getNewArtworks(source, 30, artworkCh, source.Config().Interval)
 	}
 
-	var sender sender.Sender
-	azureSender := new(azurebus.SenderAzureBus)
-	sender = azureSender
+	sender := sender.NewSender()
+	if sender == nil {
+		logger.L.Fatal("Sender is nil, please check config")
+		return
+	}
 
-	for {
-		select {
-		case artworks := <-artworkCh:
-			go sender.SendArtworks(artworks)
-		}
+	for artworks := range artworkCh {
+		go sender.SendArtworks(artworks)
 	}
 
 }

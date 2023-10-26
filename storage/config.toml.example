@@ -1,11 +1,11 @@
 [app]
 debug = true
-grpc_addr = "127.0.0.1:39010"
+grpc_addr = "127.0.0.1:39020"
 server_name = "localhost"
 cert = "./keys/client.crt"
 key = "./keys/client.key"
 ca = "./keys/ca.crt"
-sleep = 20
+sleep = 30
 
 [log]
 level = "TRACE"
@@ -18,13 +18,24 @@ enable = true
 dir = "./pictures"
 
 [storages.telegram]
-enable = true
+enable = false
 token = ""
 chat_id = ""
 username = "@manyacg"
 
 [subscriber]
+type = "rabbitmq"
+
 [subscriber.azure]
 bus_connection_string = ""
-sub_topic = "manyacg-core"
+sub_topic = 'manyacg-core'
 subscription = 'storage'
+
+[subscriber.rabbitmq]
+host = "127.0.0.1"
+port = 5672
+user = "test"
+password = "test"
+vhost = "test"
+sub_queue = "manyacg-storage-sub-queue"
+sub_exchange = "manyacg-core"

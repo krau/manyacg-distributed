@@ -9,7 +9,11 @@ import (
 var azureClient *azservicebus.Client
 var azureSender *azservicebus.Sender
 
-func init() {
+func InitAzureBus() {
+	if azureClient != nil && azureSender != nil {
+		logger.L.Debug("Azure bus already initialized")
+		return
+	}
 	var err error
 	azureClient, err = azservicebus.NewClientFromConnectionString(config.Cfg.Sender.Azure.BusConnectionString, nil)
 	if err != nil {
@@ -21,4 +25,5 @@ func init() {
 		logger.L.Fatalf("Error getting azure sender: %s", err.Error())
 		return
 	}
+	logger.L.Info("Azure bus initialized")
 }

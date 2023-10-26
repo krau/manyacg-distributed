@@ -15,8 +15,6 @@ import (
 	"github.com/krau/manyacg/storage/logger"
 )
 
-type StorageLocal struct{}
-
 var dir string = config.Cfg.Storages.Local.Dir
 
 func (s *StorageLocal) SaveArtworks(artworks []*proto.ProcessedArtworkInfo) {
@@ -81,6 +79,11 @@ func (s *StorageLocal) saveArtwork(artwork *proto.ProcessedArtworkInfo) {
 				}
 			}
 			_, err = file.Write(resp.Binary)
+			if err != nil {
+				logger.L.Errorf("Error writing file: %v", err)
+				go common.ResendMessageProcessedArtwork(artwork.ArtworkID)
+				return
+			}
 		}
 		file.Close()
 		logger.L.Infof("Saved picture %s", fileName)

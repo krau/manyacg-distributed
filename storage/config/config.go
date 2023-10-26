@@ -43,13 +43,25 @@ type storageTelegramConfig struct {
 }
 
 type subscriberConfig struct {
+	Type  string       `mapstructure:"type" toml:"type" yaml:"type" json:"type"`
 	Azure azureConfig `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
+	RabbitMQ rabbitMQConfig `mapstructure:"rabbitmq" toml:"rabbitmq" yaml:"rabbitmq" json:"rabbitmq"`
 }
 
 type azureConfig struct {
 	BusConnectionString string `mapstructure:"bus_connection_string" toml:"bus_connection_string" yaml:"bus_connection_string" json:"bus_connection_string"`
 	SubTopic            string `mapstructure:"sub_topic" toml:"sub_topic" yaml:"sub_topic" json:"sub_topic"`
 	Subscription        string `mapstructure:"subscription" toml:"subscription" yaml:"subscription" json:"subscription"`
+}
+
+type rabbitMQConfig struct {
+	Host string `mapstructure:"host" toml:"host" yaml:"host" json:"host"`
+	Port int `mapstructure:"port" toml:"port" yaml:"port" json:"port"`
+	User string `mapstructure:"user" toml:"user" yaml:"user" json:"user"`
+	Password string `mapstructure:"password" toml:"password" yaml:"password" json:"password"`
+	Vhost string `mapstructure:"vhost" toml:"vhost" yaml:"vhost" json:"vhost"`
+	SubExchange string `mapstructure:"sub_exchange" toml:"sub_exchange" yaml:"sub_exchange" json:"sub_exchange"`
+	SubQueue    string `mapstructure:"sub_queue" toml:"sub_queue" yaml:"sub_queue" json:"sub_queue"`
 }
 
 var Cfg *tomlConfig

@@ -53,27 +53,7 @@ func (a *MessengerAzureBus) SendProcessedArtworks(artworks []*models.ArtworkRaw)
 	}
 	succeeded := 0
 	for _, artwork := range artworks {
-		message := &models.MessageProcessedArtwork{
-			ArtworkID:   artwork.ID,
-			Title:       artwork.Title,
-			Author:      artwork.Author,
-			Description: artwork.Description,
-			SourceURL:   artwork.SourceURL,
-			Source:      string(artwork.Source),
-			Tags:        artwork.Tags,
-			R18:         artwork.R18,
-			Pictures: make([]*struct {
-				DirectURL string `json:"direct_url"`
-			}, len(artwork.Pictures)),
-		}
-		for i, pic := range artwork.Pictures {
-			message.Pictures[i] = &struct {
-				DirectURL string `json:"direct_url"`
-			}{
-				DirectURL: pic.DirectURL,
-			}
-		}
-		messageBytes, err := json.Marshal(message)
+		messageBytes, err := json.Marshal(artwork.ToMessageProcessedArtwork())
 		if err != nil {
 			logger.L.Errorf("Error marshalling message: %s", err.Error())
 			continue
