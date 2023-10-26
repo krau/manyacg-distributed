@@ -3,23 +3,20 @@ package cmd
 import (
 	"time"
 
-	"github.com/krau/manyacg/collector/config"
 	"github.com/krau/manyacg/collector/logger"
 	"github.com/krau/manyacg/collector/sender"
 	"github.com/krau/manyacg/collector/sources"
-	"github.com/krau/manyacg/collector/sources/pixiv"
 	coreModels "github.com/krau/manyacg/core/models"
 )
 
 func Run() {
 	logger.L.Info("Start collector")
-	var sources []sources.Source
-	if config.Cfg.Sources.Pixiv.Enable {
-		pixivSource := new(pixiv.SourcePixiv)
-		sources = append(sources, pixivSource)
-	}
+
+	sources.InitSources()
+
 	artworkCh := make(chan []*coreModels.ArtworkRaw)
-	for _, source := range sources {
+	for name, source := range sources.Sources {
+		logger.L.Infof("Starting source %s", name)
 		go getNewArtworks(source, 30, artworkCh, source.Config().Interval)
 	}
 
