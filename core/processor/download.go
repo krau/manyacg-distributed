@@ -35,7 +35,7 @@ func downloadArtwork(artwork *models.ArtworkRaw, wg *sync.WaitGroup) {
 				return
 			}
 			if pictureDB != nil {
-				if pictureDB.Binary != nil || pictureDB.Downloaded {
+				if pictureDB.FilePath != "" || pictureDB.Downloaded {
 					logger.L.Debugf("Picture already downloaded in database, pass: %s", picture.DirectURL)
 					ch <- true
 					return
@@ -44,7 +44,7 @@ func downloadArtwork(artwork *models.ArtworkRaw, wg *sync.WaitGroup) {
 			logger.L.Debugf("Downloading picture from %s", picture.DirectURL)
 			resp, err := common.Cilent.R().Get(picture.DirectURL)
 			if err != nil {
-				logger.L.Errorf("Download failed: %s", picture.DirectURL)
+				logger.L.Errorf("Download failed: %s, error: %s", picture.DirectURL, err)
 				ch <- false
 				return
 			}

@@ -1,6 +1,8 @@
 package service
 
 import (
+	"os"
+
 	"github.com/krau/manyacg/core/dao"
 )
 
@@ -12,5 +14,24 @@ func GetPictureData(id uint) ([]byte, error) {
 	if pictureDB == nil {
 		return nil, nil
 	}
-	return pictureDB.Binary, nil	
+	if pictureDB.FilePath == "" {
+		return nil, nil
+	}
+	filePath := "./" + pictureDB.FilePath
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	fileInfo, err := file.Stat()
+	if err != nil {
+		return nil, err
+	}
+	fileSize := fileInfo.Size()
+	buffer := make([]byte, fileSize)
+	_, err = file.Read(buffer)
+	if err != nil {
+		return nil, err
+	}
+	return buffer, nil
 }

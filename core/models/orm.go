@@ -12,7 +12,7 @@ type Picture struct {
 	BlurScore  float64 `gorm:"default:null"`
 	Width      uint    `gorm:"default:null"`
 	Height     uint    `gorm:"default:null"`
-	Binary     []byte  `gorm:"default:null"`
+	FilePath   string  `gorm:"default:null"`
 	Downloaded bool    `gorm:"default:false"`
 }
 

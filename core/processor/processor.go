@@ -1,10 +1,5 @@
 package processor
 
-/* TODO
-* 1. 计算图片的16位 phash
-* 2. 计算图片模糊度
-* */
-
 import (
 	"sync"
 

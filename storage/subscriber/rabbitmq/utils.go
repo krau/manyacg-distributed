@@ -36,6 +36,11 @@ func InitRabbitMQ() {
 		logger.L.Fatalf("Error getting rabbitmq channel: %s", err.Error())
 		return
 	}
+	rabbitmqChannel.Qos(
+		30,
+		0,
+		false,
+	)
 	err = rabbitmqChannel.ExchangeDeclare(
 		config.Cfg.Subscriber.RabbitMQ.SubExchange,
 		"fanout",

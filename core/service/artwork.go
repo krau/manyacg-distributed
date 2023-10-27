@@ -24,7 +24,11 @@ func AddArtworks(artworks []*models.ArtworkRaw) ([]*models.ArtworkRaw, error) {
 	}
 	artworkModels := make([]*models.Artwork, len(newArtworks))
 	for _, artwork := range artworks {
-		artworkModels = append(artworkModels, artwork.ToArtwork())
+		artworkModel, err := artwork.ToArtwork()
+		if err != nil {
+			return nil, err
+		}
+		artworkModels = append(artworkModels, artworkModel)
 	}
 	dao.AddArtworks(artworkModels)
 

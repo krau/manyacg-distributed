@@ -3,4 +3,5 @@ go.work*
 logs
 keys
 pictures
+images
 dist
