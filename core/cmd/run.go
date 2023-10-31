@@ -11,7 +11,7 @@ import (
 
 func Run() {
 	logger.L.Info("Start core")
-	artworkCh := make(chan []*models.ArtworkRaw)
+	artworkCh := make(chan []*models.ArtworkRaw, 30)
 
 	messenger := messenger.NewMessenger()
 	if messenger == nil {

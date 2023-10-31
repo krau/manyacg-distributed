@@ -14,7 +14,7 @@ func Run() {
 
 	sources.InitSources()
 
-	artworkCh := make(chan []*coreModels.ArtworkRaw)
+	artworkCh := make(chan []*coreModels.ArtworkRaw, 30)
 	for name, source := range sources.Sources {
 		logger.L.Infof("Starting source %s", name)
 		go getNewArtworks(source, 30, artworkCh, source.Config().Interval)

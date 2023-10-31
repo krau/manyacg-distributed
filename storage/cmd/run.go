@@ -15,7 +15,7 @@ import (
 
 func Run() {
 	logger.L.Info("Start storage")
-	artworksCh := make(chan []*models.MessageProcessedArtwork)
+	artworksCh := make(chan []*models.MessageProcessedArtwork, 30)
 
 	subscriber := subscriber.NewSubscriber()
 	if subscriber == nil {
