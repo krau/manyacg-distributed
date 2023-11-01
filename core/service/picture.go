@@ -3,6 +3,7 @@ package service
 import (
 	"os"
 
+	"github.com/krau/manyacg/core/config"
 	"github.com/krau/manyacg/core/dao"
 )
 
@@ -17,7 +18,7 @@ func GetPictureData(id uint) ([]byte, error) {
 	if pictureDB.FilePath == "" {
 		return nil, nil
 	}
-	filePath := "./" + pictureDB.FilePath
+	filePath := config.Cfg.App.ImagePrefix + pictureDB.FilePath
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, err

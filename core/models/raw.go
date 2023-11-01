@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/krau/manyacg/core/config"
 )
 
 // 入库前的结构
@@ -105,8 +107,8 @@ func (picR *PictureRaw) ToPicture() (*Picture, error) {
 
 func savePicture(binary []byte, format string) (string, error) {
 	fileName := strconv.Itoa(int(time.Now().UnixMilli())) + "." + format
-	// 创建 images/年/月/日/文件名, 如果已经存在则不创建
-	dir := "./images/" + time.Now().Format("2006/01/02")
+	prefix := config.Cfg.App.ImagePrefix
+	dir := prefix + "images/" + time.Now().Format("2006/01/02")
 	err := os.MkdirAll(dir, os.ModePerm)
 	if err != nil {
 		return "", err
@@ -121,6 +123,10 @@ func savePicture(binary []byte, format string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strings.TrimPrefix(filePath, "./"), nil
 
+	// if strings.HasPrefix(prefix, "http") {
+	// 	TODO: upload to OSS
+	// }
+
+	return strings.TrimPrefix(filePath, prefix), nil
 }
