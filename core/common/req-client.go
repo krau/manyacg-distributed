@@ -6,12 +6,12 @@ import (
 	"github.com/imroc/req/v3"
 )
 
-var Cilent *req.Client
+var ReqCilent *req.Client
 
 func init() {
 	c := req.C().ImpersonateChrome()
 	c.SetCommonRetryCount(2)
-	c.TLSHandshakeTimeout = time.Second * 3
-	c.SetTimeout(time.Second * 5)
-	Cilent = c
+	c.TLSHandshakeTimeout = time.Second * 10
+	c.SetTimeout(time.Second * 30)
+	ReqCilent = c
 }

@@ -20,7 +20,7 @@ func downloadArtworks(artworks []*models.ArtworkRaw) {
 
 func downloadArtwork(artwork *models.ArtworkRaw, wg *sync.WaitGroup) {
 	defer wg.Done()
-	ch := make(chan bool)
+	ch := make(chan bool, len(artwork.Pictures))
 	for _, picture := range artwork.Pictures {
 		go func(picture *models.PictureRaw) {
 			if picture.Binary != nil || picture.Downloaded {
@@ -37,12 +37,13 @@ func downloadArtwork(artwork *models.ArtworkRaw, wg *sync.WaitGroup) {
 			if pictureDB != nil {
 				if pictureDB.FilePath != "" || pictureDB.Downloaded {
 					logger.L.Debugf("Picture already downloaded in database, pass: %s", picture.DirectURL)
+					picture.Downloaded = true
 					ch <- true
 					return
 				}
 			}
 			logger.L.Debugf("Downloading picture from %s", picture.DirectURL)
-			resp, err := common.Cilent.R().Get(picture.DirectURL)
+			resp, err := common.ReqCilent.R().Get(picture.DirectURL)
 			if err != nil {
 				logger.L.Errorf("Download failed: %s, error: %s", picture.DirectURL, err)
 				ch <- false

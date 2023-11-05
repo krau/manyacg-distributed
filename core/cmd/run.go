@@ -26,16 +26,13 @@ func Run() {
 	for artworks := range artworkCh {
 		logger.L.Infof("Received %d artworks", len(artworks))
 		processor.ProcessArtworks(artworks)
-		newArtworks, err := service.AddArtworks(artworks)
-		if err != nil {
-			logger.L.Errorf("Error adding artworks: %s", err.Error())
-			continue
-		}
+		newArtworks := service.AddArtworks(artworks)
+
 		if len(newArtworks) == 0 {
 			logger.L.Infof("No new artworks")
 			continue
 		}
-		err = messenger.SendProcessedArtworks(newArtworks)
+		err := messenger.SendProcessedArtworks(newArtworks)
 		if err != nil {
 			logger.L.Errorf("Error sending artworks: %s", err.Error())
 			continue

@@ -11,7 +11,7 @@ func NewSubscriber() Subscriber {
 	case "rabbitmq":
 		rabbitmq.InitRabbitMQ()
 		return new(rabbitmq.SubscriberRabbitMQ)
-	case "azurebus":
+	case "azure":
 		azurebus.InitAzureBus()
 		return new(azurebus.SubscriberAzureBus)
 	}

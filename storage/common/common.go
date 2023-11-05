@@ -8,6 +8,9 @@ import (
 	"github.com/krau/manyacg/storage/logger"
 )
 
+/* 重发消息. 当处理失败且需要重试时调用 (如 Telegram 网络错误)
+artworkID 作品ID
+*/
 func ResendMessageProcessedArtwork(artworkID uint64) {
 	logger.L.Debugf("Resending message: %v", artworkID)
 	ctx := context.Background()

@@ -28,6 +28,7 @@ type logConfig struct {
 type storageConfigs struct {
 	Local    storageLocalConfig    `mapstructure:"local" toml:"local" yaml:"local" json:"local"`
 	Telegram storageTelegramConfig `mapstructure:"telegram" toml:"telegram" yaml:"telegram" json:"telegram"`
+	LskyPro  storageLskyProConfig  `mapstructure:"lsky_pro" toml:"lsky_pro" yaml:"lsky_pro" json:"lsky_pro"`
 }
 
 type storageLocalConfig struct {
@@ -40,6 +41,14 @@ type storageTelegramConfig struct {
 	Token    string `mapstructure:"token" toml:"token" yaml:"token" json:"token"`
 	ChatId   int64  `mapstructure:"chat_id" toml:"chat_id" yaml:"chat_id" json:"chat_id"`
 	Username string `mapstructure:"username" toml:"username" yaml:"username" json:"username"`
+}
+
+type storageLskyProConfig struct {
+	Enable bool `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
+	URL string `mapstructure:"url" toml:"url" yaml:"url" json:"url"`
+	Token string `mapstructure:"token" toml:"token" yaml:"token" json:"token"`
+	Email string `mapstructure:"email" toml:"email" yaml:"email" json:"email"`
+	Password string `mapstructure:"password" toml:"password" yaml:"password" json:"password"`
 }
 
 type subscriberConfig struct {
@@ -81,6 +90,7 @@ func init() {
 	viper.SetDefault("storages.local.enable", false)
 	viper.SetDefault("storages.local.dir", "./pictures")
 	viper.SetDefault("storages.telegram.enable", false)
+	viper.SetDefault("storages.lsky_pro.enable", false)
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)

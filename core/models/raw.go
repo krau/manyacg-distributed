@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/krau/manyacg/core/errors"
+
 	"github.com/krau/manyacg/core/config"
 )
 
@@ -86,6 +88,9 @@ func (aR *ArtworkRaw) ToMessageProcessedArtwork() *MessageProcessedArtwork {
 }
 
 func (picR *PictureRaw) ToPicture() (*Picture, error) {
+	if picR.Binary == nil && !picR.Downloaded {
+		return nil, errors.ErrPictureDownloadFailed
+	}
 	pictureDB := &Picture{
 		DirectURL:  picR.DirectURL,
 		Width:      picR.Width,

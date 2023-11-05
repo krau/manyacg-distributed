@@ -10,7 +10,6 @@ import (
 	coreErrors "github.com/krau/manyacg/core/errors"
 	"github.com/krau/manyacg/core/proto"
 	"github.com/krau/manyacg/storage/client"
-	"github.com/krau/manyacg/storage/common"
 	"github.com/krau/manyacg/storage/config"
 	"github.com/krau/manyacg/storage/logger"
 )
@@ -49,7 +48,6 @@ func (s *StorageLocal) saveArtwork(artwork *proto.ProcessedArtworkInfo) {
 			if errors.Is(err, coreErrors.ErrPictureNotFound) {
 				return
 			}
-			go common.ResendMessageProcessedArtwork(artwork.ArtworkID)
 			return
 		}
 
@@ -67,21 +65,18 @@ func (s *StorageLocal) saveArtwork(artwork *proto.ProcessedArtworkInfo) {
 				if err != nil {
 					logger.L.Errorf("Error removing file: %v", err)
 				}
-				go common.ResendMessageProcessedArtwork(artwork.ArtworkID)
 				return
 			}
 			if file == nil {
 				file, err = os.Create(fileName)
 				if err != nil {
 					logger.L.Errorf("Error creating file: %v", err)
-					go common.ResendMessageProcessedArtwork(artwork.ArtworkID)
 					return
 				}
 			}
 			_, err = file.Write(resp.Binary)
 			if err != nil {
 				logger.L.Errorf("Error writing file: %v", err)
-				go common.ResendMessageProcessedArtwork(artwork.ArtworkID)
 				return
 			}
 		}

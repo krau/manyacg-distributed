@@ -9,4 +9,5 @@ var (
 	ErrPictureNotFound = errors.New("picture not found")
 	ErrMessengerAzureNotInitialized = errors.New("messenger azure not initialized")
 	ErrMessengerRabbitMQNotInitialized = errors.New("messenger rabbitmq not initialized")
+	ErrPictureDownloadFailed = errors.New("picture download failed")
 )
