@@ -6,9 +6,10 @@ import (
 
 type tomlConfig struct {
 	App       appConfig       `mapstructure:"app" toml:"app" yaml:"app" json:"app"`
-	Database  database        `mapstructure:"database" toml:"database" yaml:"database" json:"database"`
+	Database  databaseConfig  `mapstructure:"database" toml:"database" yaml:"database" json:"database"`
 	Log       logConfig       `mapstructure:"log" toml:"log" yaml:"log" json:"log"`
 	Messenger messengerConfig `mapstructure:"messenger" toml:"messenger" yaml:"messenger" json:"messenger"`
+	API       apiConfig       `mapstructure:"api" toml:"api" yaml:"api" json:"api"`
 }
 
 type appConfig struct {
@@ -51,12 +52,17 @@ type rabbitMQConfig struct {
 	PubExchange string `mapstructure:"pub_exchange" toml:"pub_exchange" yaml:"pub_exchange" json:"pub_exchange"`
 }
 
-type database struct {
+type databaseConfig struct {
 	Host     string `mapstructure:"host" toml:"host" yaml:"host" json:"host"`
 	Port     int    `mapstructure:"port" toml:"port" yaml:"port" json:"port"`
 	User     string `mapstructure:"user" toml:"user" yaml:"user" json:"user"`
 	Password string `mapstructure:"password" toml:"password" yaml:"password" json:"password"`
 	Database string `mapstructure:"database" toml:"database" yaml:"database" json:"database"`
+}
+
+type apiConfig struct {
+	Enable bool   `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
+	Address string `mapstructure:"address" toml:"address" yaml:"address" json:"address"`
 }
 
 var Cfg *tomlConfig

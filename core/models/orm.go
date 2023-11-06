@@ -37,3 +37,44 @@ type Artwork struct {
 func (t *Tag) String() string {
 	return t.Name
 }
+
+func (p *Picture) ToResp() *RespPicture {
+	return &RespPicture{
+		Status:    0,
+		Message:   "success",
+		CreatedAt: p.CreatedAt.Format("2006-01-02 15:04:05"),
+		UpdatedAt: p.UpdatedAt.Format("2006-01-02 15:04:05"),
+		DirectURL: p.DirectURL,
+		Width:     p.Width,
+		Height:    p.Height,
+		BlurScore: p.BlurScore,
+		Hash:      p.Hash,
+	}
+}
+
+func (a *Artwork) ToResp() *RespArtwork {
+	tags := make([]string, len(a.Tags))
+	for i, tag := range a.Tags {
+		tags[i] = tag.String()
+	}
+
+	pictures := make([]RespPicture, len(a.Pictures))
+	for i, picture := range a.Pictures {
+		pictures[i] = *picture.ToResp()
+	}
+
+	return &RespArtwork{
+		Status:      0,
+		Message:     "success",
+		CreatedAt:   a.CreatedAt.Format("2006-01-02 15:04:05"),
+		UpdatedAt:   a.UpdatedAt.Format("2006-01-02 15:04:05"),
+		Title:       a.Title,
+		Author:      a.Author,
+		Description: a.Description,
+		Source:      a.Source.String(),
+		SourceURL:   a.SourceURL,
+		Tags:        tags,
+		R18:         a.R18,
+		Pictures:    pictures,
+	}
+}

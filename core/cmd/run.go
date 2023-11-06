@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/krau/manyacg/core/api"
 	"github.com/krau/manyacg/core/logger"
 	"github.com/krau/manyacg/core/messenger"
 	"github.com/krau/manyacg/core/models"
@@ -22,6 +23,9 @@ func Run() {
 	go messenger.SubscribeArtworks(30, artworkCh)
 
 	go server.StartGrpcServer()
+
+	go api.StartApiServer()
+
 
 	for artworks := range artworkCh {
 		logger.L.Infof("Received %d artworks", len(artworks))

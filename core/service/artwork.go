@@ -93,3 +93,11 @@ func GetProcessedArtwork(id uint) (*proto.ProcessedArtworkInfo, error) {
 	}
 	return processArtwork, nil
 }
+
+func GetRandomArtwork() (*models.Artwork, error) {
+	artwork, err := dao.GetRandomArtwork()
+	if err != nil {
+		return nil, err
+	}
+	return artwork, nil
+}

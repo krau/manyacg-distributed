@@ -91,7 +91,15 @@ func AddArtworks(artworks []*models.Artwork) {
 	}
 }
 
-
 func DeleteArtwork(id uint) error {
 	return db.Delete(&models.Artwork{}, id).Error
+}
+
+func GetRandomArtwork() (*models.Artwork, error) {
+	var artwork models.Artwork
+	err := db.Preload("Tags").Preload("Pictures").Order("RAND()").First(&artwork).Error
+	if err != nil {
+		return nil, err
+	}
+	return &artwork, nil
 }

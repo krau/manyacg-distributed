@@ -34,10 +34,8 @@ func GetPictureByDirectURL(directURL string) (*models.Picture, error) {
 
 func GetRandomPicture() (*models.Picture, error) {
 	var picture models.Picture
-	err := db.Take(&picture).Error
-	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, nil
-	} else if err != nil {
+	err := db.Order("RAND()").First(&picture).Error
+	if err != nil {
 		logger.L.Errorf("Failed to get random picture: %s", err)
 		return nil, err
 	}
