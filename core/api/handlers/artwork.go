@@ -1,14 +1,17 @@
 package handlers
 
 import (
-	"github.com/gin-gonic/gin"
+	"context"
+
+	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/cloudwego/hertz/pkg/common/utils"
 	"github.com/krau/manyacg/core/service"
 )
 
-func GetRandomArtwork(c *gin.Context) {
+func GetRandomArtwork(ctx context.Context, c *app.RequestContext) {
 	artwork, err := service.GetRandomArtwork()
 	if err != nil {
-		c.JSON(500, gin.H{
+		c.JSON(500, utils.H{
 			"error": err.Error(),
 		})
 		return

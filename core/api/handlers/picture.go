@@ -1,28 +1,32 @@
 package handlers
 
 import (
-	"github.com/gin-gonic/gin"
+	"context"
+
+	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/cloudwego/hertz/pkg/common/utils"
+	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/krau/manyacg/core/models"
 	"github.com/krau/manyacg/core/service"
 )
 
-func GetRandomPictureData(c *gin.Context) {
+func GetRandomPictureData(ctx context.Context, c *app.RequestContext) {
 	isJson := c.DefaultQuery("json", "false")
 	if isJson == "true" {
-		GetRandomPicture(c)
+		GetRandomPicture(ctx, c)
 		return
 	}
 	data, err := service.GetRandomPictureData()
 	if err != nil {
-		c.JSON(500, gin.H{
+		c.JSON(500, utils.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	c.Data(200, "image/jpeg", data)
+	c.Data(200, consts.MIMEImageJPEG, data)
 }
 
-func GetRandomPicture(c *gin.Context) {
+func GetRandomPicture(ctx context.Context, c *app.RequestContext) {
 	picture, err := service.GetRandomPicture()
 	if err != nil {
 		resp := &models.RespPicture{
