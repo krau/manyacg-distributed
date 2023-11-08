@@ -5,6 +5,7 @@ go 1.21.3
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus v1.5.0
 	github.com/gookit/slog v0.5.4
+	github.com/hertz-contrib/logger/accesslog v0.0.0-20231023044348-d2083b79d6d8
 	github.com/imroc/req/v3 v3.42.1
 	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/spf13/viper v1.17.0

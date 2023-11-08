@@ -2,8 +2,10 @@ package api
 
 import (
 	"github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/hertz-contrib/logger/accesslog"
 	"github.com/krau/manyacg/core/api/handlers"
 	"github.com/krau/manyacg/core/config"
+
 	"github.com/krau/manyacg/core/logger"
 )
 
@@ -13,6 +15,7 @@ func StartApiServer() {
 	}
 
 	h := server.Default(server.WithHostPorts(config.Cfg.API.Address))
+	h.Use(accesslog.New(accesslog.WithFormat("[${time}] ${status} ${host} - ${latency} ${method} ${path} ${queryParams}")))
 
 	v1 := h.Group("/v1")
 	{
