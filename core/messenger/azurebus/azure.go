@@ -53,7 +53,7 @@ func (a *MessengerAzureBus) SendProcessedArtworks(artworks []*models.ArtworkRaw)
 	}
 	succeeded := 0
 	for _, artwork := range artworks {
-		messageBytes, err := json.Marshal(artwork.ToMessageProcessedArtwork())
+		messageBytes, err := json.Marshal(artwork.ToProcessedArtwork())
 		if err != nil {
 			logger.L.Errorf("Error marshalling message: %s", err.Error())
 			continue

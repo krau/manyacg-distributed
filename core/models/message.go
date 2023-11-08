@@ -1,6 +1,6 @@
 package models
 
-type MessageProcessedArtwork struct {
+type ProcessedArtwork struct {
 	ArtworkID   uint     `json:"artwork_id"`
 	Title       string   `json:"title"`
 	Author      string   `json:"author"`

@@ -30,7 +30,7 @@ func AddTags(tags []*models.Tag) {
 	}
 }
 
-// 批量添加标签, 存在则忽略, 返回错误
+// 批量添加标签, 存在则忽略. 如有错误将返回
 func addTags(tags []*models.Tag, tx *gorm.DB) error {
 	if tx == nil {
 		tx = db

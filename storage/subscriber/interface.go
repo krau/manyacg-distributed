@@ -5,5 +5,5 @@ import (
 )
 
 type Subscriber interface {
-	SubscribeProcessedArtworks(count int, artworkCh chan []*models.MessageProcessedArtwork)
+	SubscribeProcessedArtworks(count int, artworkCh chan []*models.ProcessedArtwork)
 }

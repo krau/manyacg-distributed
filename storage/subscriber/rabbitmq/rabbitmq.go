@@ -9,13 +9,13 @@ import (
 
 type SubscriberRabbitMQ struct{}
 
-func (s *SubscriberRabbitMQ) SubscribeProcessedArtworks(count int, artworksCh chan []*models.MessageProcessedArtwork) {
+func (s *SubscriberRabbitMQ) SubscribeProcessedArtworks(count int, artworksCh chan []*models.ProcessedArtwork) {
 	if rabbitmqDeliveries == nil {
 		return
 	}
-	artworks := make([]*models.MessageProcessedArtwork, 0)
+	artworks := make([]*models.ProcessedArtwork, 0)
 	for delivery := range rabbitmqDeliveries {
-		artwork := &models.MessageProcessedArtwork{}
+		artwork := &models.ProcessedArtwork{}
 		err := json.Unmarshal(delivery.Body, artwork)
 		if err != nil {
 			logger.L.Errorf("Error unmarshalling message: %s", err.Error())
@@ -24,7 +24,7 @@ func (s *SubscriberRabbitMQ) SubscribeProcessedArtworks(count int, artworksCh ch
 		artworks = append(artworks, artwork)
 		if len(artworks) >= count {
 			artworksCh <- artworks
-			artworks = make([]*models.MessageProcessedArtwork, 0)
+			artworks = make([]*models.ProcessedArtwork, 0)
 		}
 	}
 }

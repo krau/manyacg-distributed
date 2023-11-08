@@ -63,35 +63,7 @@ func GetProcessedArtwork(id uint) (*proto.ProcessedArtworkInfo, error) {
 	if artwork == nil {
 		return nil, nil
 	}
-	sourceName := proto.ProcessedArtworkInfo_SourceName(proto.ProcessedArtworkInfo_SourceName_value[string(artwork.Source)])
-
-	tags := make([]string, len(artwork.Tags))
-	for i, tag := range artwork.Tags {
-		tags[i] = tag.String()
-	}
-
-	pictures := make([]*proto.ProcessedArtworkInfo_PictureInfo, len(artwork.Pictures))
-	for i, picture := range artwork.Pictures {
-		pictures[i] = &proto.ProcessedArtworkInfo_PictureInfo{
-			PictureID: uint64(picture.ID),
-			DirectURL: picture.DirectURL,
-			Width:     uint64(picture.Width),
-			Height:    uint64(picture.Height),
-			BlurScore: picture.BlurScore,
-		}
-	}
-	processArtwork := &proto.ProcessedArtworkInfo{
-		ArtworkID:   uint64(artwork.ID),
-		Title:       artwork.Title,
-		Author:      artwork.Author,
-		Description: artwork.Description,
-		Source:      sourceName,
-		SourceURL:   artwork.SourceURL,
-		Tags:        tags,
-		R18:         artwork.R18,
-		Pictures:    pictures,
-	}
-	return processArtwork, nil
+	return artwork.ToProcessedArtworkInfo(), nil
 }
 
 func GetRandomArtwork() (*models.Artwork, error) {

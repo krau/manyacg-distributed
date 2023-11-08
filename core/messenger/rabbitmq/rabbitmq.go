@@ -44,7 +44,7 @@ func (a *MessengerRabbitMQ) SendProcessedArtworks(artworks []*models.ArtworkRaw)
 
 	succeeded := 0
 	for _, artwork := range artworks {
-		artworkBytes, err := json.Marshal(artwork.ToMessageProcessedArtwork())
+		artworkBytes, err := json.Marshal(artwork.ToProcessedArtwork())
 		if err != nil {
 			logger.L.Errorf("Error marshalling artwork: %s", err.Error())
 			continue

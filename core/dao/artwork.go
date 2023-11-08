@@ -43,14 +43,16 @@ func AddArtwork(artwork *models.Artwork) {
 				logger.L.Errorf("Failed to create artwork: %s", err)
 				return err
 			}
-			if err = tx.Where("source_url = ?", artwork.SourceURL).First(&artworkDB).Error; err != nil {
-				logger.L.Errorf("Failed to get artwork by source url: %s", err)
-				return err
-			}
 			// 添加标签
 			if err = addTags(artworkTags, tx); err != nil {
 				return err
 			}
+
+			if err = tx.Where("source_url = ?", artwork.SourceURL).First(&artworkDB).Error; err != nil {
+				logger.L.Errorf("Failed to get artwork by source url: %s", err)
+				return err
+			}
+
 			artwork.Tags = artworkTags
 			artwork.ID = artworkDB.ID
 			artwork.CreatedAt = artworkDB.CreatedAt
