@@ -1,8 +1,11 @@
 package models
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"strings"
 
-
+	coreModels "github.com/krau/manyacg/core/models"
+)
 
 type PixivRss struct {
 	XMLName xml.Name `xml:"rss"`
@@ -24,7 +27,6 @@ type Item struct {
 	Author      string   `xml:"author"`
 }
 
-
 type PixivAjaxResp struct {
 	Err     bool               `json:"error"`
 	Message string             `json:"message"`
@@ -32,10 +34,10 @@ type PixivAjaxResp struct {
 }
 
 type PixivAjaxRespBody struct {
-	IllustId   string                `json:"illustId"`
-	IllustType int                   `json:"illustType"`
-	Tags       PixivAjaxRespBodyTags `json:"tags"`
-	UserId     string                `json:"userId"`
+	IllustId   string                     `json:"illustId"`
+	IllustType int                        `json:"illustType"`
+	Tags       PixivAjaxRespBodyTags      `json:"tags"`
+	UserId     string                     `json:"userId"`
 	ExtraData  PixivAjaxRespBodyExtraData `json:"extraData"`
 }
 
@@ -54,11 +56,62 @@ type PixivAjaxRespBodyTagTranslation struct {
 	En string `json:"en"`
 }
 
-
 type PixivAjaxRespBodyExtraData struct {
 	Meta PixivAjaxRespBodyExtraDataMeta `json:"meta"`
 }
 
 type PixivAjaxRespBodyExtraDataMeta struct {
 	Description string `json:"description"`
+}
+
+var (
+	tagsSet = map[string]bool{"R-18": true, "R-18G": true, "R18": true, "R18G": true}
+)
+
+func (item *Item) ToArtworkRaw(artworkInfo *PixivAjaxResp) *coreModels.ArtworkRaw {
+	imgs := strings.Split(item.Description, "<img src=\"")
+	srcs := make([]string, 0)
+	for _, img := range imgs {
+		if strings.HasPrefix(img, "http") {
+			src := strings.Split(img, "\"")[0]
+			srcs = append(srcs, src)
+		}
+	}
+	pictures := make([]*coreModels.PictureRaw, 0)
+	for _, src := range srcs {
+		picture := coreModels.PictureRaw{
+			DirectURL: src,
+		}
+		pictures = append(pictures, &picture)
+	}
+
+	tags := make([]string, 0)
+	for _, tag := range artworkInfo.Body.Tags.Tags {
+		var tagName string
+		if tag.Translation != nil {
+			tagName = tag.Translation.En
+		} else {
+			tagName = tag.Tag
+		}
+		tags = append(tags, tagName)
+	}
+	isR18 := false
+
+	for _, tag := range tags {
+		if _, ok := tagsSet[tag]; ok {
+			isR18 = true
+			break
+		}
+	}
+	artwork := coreModels.ArtworkRaw{
+		Title:       item.Title,
+		Author:      item.Author,
+		Description: artworkInfo.Body.ExtraData.Meta.Description,
+		Source:      coreModels.SourcePixiv,
+		SourceURL:   item.Link,
+		Tags:        tags,
+		R18:         isR18,
+		Pictures:    pictures,
+	}
+	return &artwork
 }

@@ -46,9 +46,9 @@ type sourceConfigs struct {
 }
 
 type SourceConfig struct {
-	Enable   bool   `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
-	URL      string `mapstructure:"url" toml:"url" yaml:"url" json:"url"`
-	Interval uint   `mapstructure:"interval" toml:"interval" yaml:"interval" json:"interval"`
+	Enable   bool     `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
+	URLs     []string `mapstructure:"urls" toml:"urls" yaml:"urls" json:"urls"`
+	Interval uint     `mapstructure:"interval" toml:"interval" yaml:"interval" json:"interval"`
 }
 
 var Cfg *tomlConfig
