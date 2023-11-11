@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/krau/manyacg/core/dao"
+	"github.com/krau/manyacg/core/errors"
 	"github.com/krau/manyacg/core/logger"
 	"github.com/krau/manyacg/core/models"
 	"github.com/krau/manyacg/core/proto"
@@ -61,7 +62,7 @@ func GetProcessedArtwork(id uint) (*proto.ProcessedArtworkInfo, error) {
 		return nil, err
 	}
 	if artwork == nil {
-		return nil, nil
+		return nil, errors.ErrArtworkNotFound
 	}
 	return artwork.ToProcessedArtworkInfo(), nil
 }

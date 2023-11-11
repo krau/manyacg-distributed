@@ -8,6 +8,13 @@ import (
 	"github.com/krau/manyacg/core/service"
 )
 
+// @Summary Get a random artwork
+// @Description Get a random artwork
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /v1/artwork/random [get]
+// GetRandomArtwork Get a random artwork
 func GetRandomArtwork(ctx context.Context, c *app.RequestContext) {
 	artwork, err := service.GetRandomArtwork()
 	if err != nil {

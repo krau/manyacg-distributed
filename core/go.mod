@@ -4,15 +4,34 @@ go 1.21.3
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus v1.5.0
+	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gookit/slog v0.5.4
+	github.com/hertz-contrib/cache v0.0.0-20230920125113-6964da83d528
 	github.com/hertz-contrib/logger/accesslog v0.0.0-20231023044348-d2083b79d6d8
+	github.com/hertz-contrib/swagger v0.1.0
 	github.com/imroc/req/v3 v3.42.1
 	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/spf13/viper v1.17.0
+	github.com/swaggo/files v1.0.1
+	github.com/swaggo/swag v1.16.1
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
 	gorm.io/driver/mysql v1.5.2
 	gorm.io/gorm v1.25.5
+)
+
+require (
+	github.com/KyleBanks/depth v1.2.1 // indirect
+	github.com/cespare/xxhash/v2 v2.2.0 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/go-openapi/jsonpointer v0.20.0 // indirect
+	github.com/go-openapi/jsonreference v0.20.2 // indirect
+	github.com/go-openapi/spec v0.20.9 // indirect
+	github.com/go-openapi/swag v0.22.4 // indirect
+	github.com/jellydator/ttlcache/v2 v2.11.1 // indirect
+	github.com/josharian/intern v1.0.0 // indirect
+	github.com/mailru/easyjson v0.7.7 // indirect
+	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8 // indirect
 )
 
 require (
@@ -51,7 +70,6 @@ require (
 	golang.org/x/mod v0.13.0 // indirect
 	golang.org/x/tools v0.14.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231016165738-49dd2c1f3d0b // indirect
-	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
 
 require (
@@ -61,6 +79,7 @@ require (
 	github.com/Azure/go-amqp v1.0.2 // indirect
 	github.com/cloudwego/hertz v0.7.1
 	github.com/corona10/goimagehash v1.1.0
+	github.com/disintegration/imaging v1.6.2
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/gookit/color v1.5.4 // indirect

@@ -10,7 +10,6 @@ import (
 	"github.com/krau/manyacg/core/errors"
 )
 
-
 func (picR *PictureRaw) ToPicture() (*Picture, error) {
 	if picR.Binary == nil && !picR.Downloaded {
 		return nil, errors.ErrPictureDownloadFailed
@@ -60,17 +59,24 @@ func savePicture(binary []byte, format string) (string, error) {
 	return strings.TrimPrefix(filePath, prefix), nil
 }
 
-
-func (p *Picture) ToResp() *RespPicture {
-	return &RespPicture{
-		Status:    0,
-		Message:   "success",
+func (p *Picture) ToRespData() *RespPictureData {
+	return &RespPictureData{
 		CreatedAt: p.CreatedAt.Format("2006-01-02 15:04:05"),
 		UpdatedAt: p.UpdatedAt.Format("2006-01-02 15:04:05"),
 		DirectURL: p.DirectURL,
+		ID:        p.ID,
 		Width:     p.Width,
 		Height:    p.Height,
 		BlurScore: p.BlurScore,
 		Hash:      p.Hash,
+		ArtworkID: p.ArtworkID,
+	}
+}
+
+func (p *Picture) ToResp() *Resp {
+	return &Resp{
+		Status:  0,
+		Message: "success",
+		Data:    p.ToRespData(),
 	}
 }

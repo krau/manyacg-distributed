@@ -1,0 +1,60 @@
+info:
+  contact: {}
+  description: This is the API for ManyACG
+  title: ManyACG API
+  version: "1"
+paths:
+  /v1/artwork/random:
+    get:
+      consumes:
+      - application/json
+      description: Get a random artwork
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a random artwork
+  /v1/picture/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a picture by id
+      parameters:
+      - description: Picture ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a picture by id
+  /v1/picture/random:
+    get:
+      consumes:
+      - application/json
+      description: Get a random picture
+      parameters:
+      - description: Return json instead of image
+        in: query
+        name: json
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a random picture
+swagger: "2.0"

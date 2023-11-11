@@ -4,20 +4,18 @@ import (
 	"github.com/krau/manyacg/core/proto"
 )
 
-func (a *Artwork) ToResp() *RespArtwork {
+func (a *Artwork) ToRespData() *RespArtworkData {
 	tags := make([]string, len(a.Tags))
 	for i, tag := range a.Tags {
 		tags[i] = tag.String()
 	}
 
-	pictures := make([]RespPicture, len(a.Pictures))
+	pictures := make([]RespPictureData, len(a.Pictures))
 	for i, picture := range a.Pictures {
-		pictures[i] = *picture.ToResp()
+		pictures[i] = *picture.ToRespData()
 	}
 
-	return &RespArtwork{
-		Status:      0,
-		Message:     "success",
+	return &RespArtworkData{
 		CreatedAt:   a.CreatedAt.Format("2006-01-02 15:04:05"),
 		UpdatedAt:   a.UpdatedAt.Format("2006-01-02 15:04:05"),
 		Title:       a.Title,
@@ -28,6 +26,14 @@ func (a *Artwork) ToResp() *RespArtwork {
 		Tags:        tags,
 		R18:         a.R18,
 		Pictures:    pictures,
+	}
+}
+
+func (a *Artwork) ToResp() *Resp {
+	return &Resp{
+		Status:  0,
+		Message: "success",
+		Data:    a.ToRespData(),
 	}
 }
 
@@ -62,7 +68,6 @@ func (a *Artwork) ToProcessedArtworkInfo() *proto.ProcessedArtworkInfo {
 	}
 	return processedArtwork
 }
-
 
 func (aR *ArtworkRaw) ToArtwork() (*Artwork, error) {
 	tags := make([]*Tag, len(aR.Tags))
