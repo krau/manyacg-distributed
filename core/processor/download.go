@@ -36,6 +36,7 @@ func downloadPicture(picture *models.PictureRaw, ch chan *models.PictureRaw, wg 
 	if pictureDB != nil {
 		if pictureDB.FilePath != "" || pictureDB.Downloaded {
 			logger.L.Debugf("Picture already downloaded in database, pass: %s", picture.DirectURL)
+			picture.FilePath = pictureDB.FilePath
 			picture.Downloaded = true
 			return
 		}
