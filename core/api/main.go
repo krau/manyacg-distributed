@@ -40,8 +40,12 @@ func StartApiServer() {
 		Addr:    "127.0.0.1:6379",
 	}))
 
-	redisCacheMiddleware := cache.NewCacheByRequestPath(redisStore, 30*time.Second, cache.WithPrefixKey("manyacg-"), cache.WithoutHeader(false))
-
+	redisCacheMiddleware := cache.NewCacheByRequestURI(
+		redisStore,
+		30*time.Second,
+		cache.WithPrefixKey("manyacg-"),
+		cache.WithoutHeader(false),
+	)
 	v1 := h.Group("/v1")
 	{
 		v1.GET("/docs/*any", swagger.WrapHandler(swaggerFiles.Handler))

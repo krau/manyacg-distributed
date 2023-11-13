@@ -29,20 +29,20 @@ func GetPictureDataByID(id uint, width, height int) ([]byte, error) {
 }
 
 // 若传递的 width 和 height 都为 0，则返回原图
-func GetRandomPictureData(width, height int) ([]byte, error) {
+func GetRandomPictureData(width, height int) (int, []byte, error) {
 	pictureDB, err := dao.GetRandomPicture()
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
 	data, err := getPictureData(pictureDB)
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
 	data, err = resizePicture(data, width, height)
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
-	return data, nil
+	return int(pictureDB.ID), data, nil
 }
 
 func GetRandomPicture() (*models.Picture, error) {

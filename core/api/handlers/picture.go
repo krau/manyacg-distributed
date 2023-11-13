@@ -36,7 +36,7 @@ func getRandomPictureData(ctx context.Context, c *app.RequestContext) {
 	width := myUtils.DefaultQueryInt(c, "width", 0)
 	height := myUtils.DefaultQueryInt(c, "height", 0)
 
-	data, err := service.GetRandomPictureData(width, height)
+	_, data, err := service.GetRandomPictureData(width, height)
 	if err != nil {
 		common.Error(c, 500, err)
 		return
