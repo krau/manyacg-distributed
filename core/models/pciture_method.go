@@ -8,6 +8,9 @@ func (picR *PictureRaw) ToPicture() (*Picture, error) {
 	if picR.Binary == nil && !picR.Downloaded {
 		return nil, errors.ErrPictureDownloadFailed
 	}
+	if picR.FilePath == "" {
+		return nil, errors.ErrPictureSaveFailed
+	}
 	pictureDB := &Picture{
 		DirectURL:  picR.DirectURL,
 		Width:      picR.Width,

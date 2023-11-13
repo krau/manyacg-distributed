@@ -10,5 +10,6 @@ var (
 	ErrMessengerAzureNotInitialized    = errors.New("messenger azure not initialized")
 	ErrMessengerRabbitMQNotInitialized = errors.New("messenger rabbitmq not initialized")
 	ErrPictureDownloadFailed           = errors.New("picture download failed")
+	ErrPictureSaveFailed               = errors.New("picture save failed")
 	ErrUnknownSaveType                 = errors.New("unknown save type")
 )

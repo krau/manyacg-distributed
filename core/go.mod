@@ -12,6 +12,7 @@ require (
 	github.com/imroc/req/v3 v3.42.1
 	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/spf13/viper v1.17.0
+	github.com/studio-b12/gowebdav v0.9.0
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/swag v1.16.1
 	google.golang.org/grpc v1.59.0

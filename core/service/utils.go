@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/disintegration/imaging"
+	"github.com/krau/manyacg/core/common"
 	"github.com/krau/manyacg/core/config"
 	"github.com/krau/manyacg/core/errors"
 	"github.com/krau/manyacg/core/logger"
@@ -30,8 +31,8 @@ func getLocalPictureData(pictureDB *models.Picture) ([]byte, error) {
 }
 
 func getWebdavPictureData(pictureDB *models.Picture) ([]byte, error) {
-	// TODO
-	return nil, nil
+	filePath := config.Cfg.Processor.Save.Webdav.Path + pictureDB.FilePath
+	return common.WebdavClient.Read(filePath)
 }
 
 func resizePicture(imgByte []byte, width, height int) ([]byte, error) {
