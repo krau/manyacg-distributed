@@ -121,3 +121,28 @@ func (aR *ArtworkRaw) ToProcessedArtwork() *ProcessedArtwork {
 	}
 	return message
 }
+
+func (a *Artwork) ToArtworkRaw() *ArtworkRaw {
+	tags := make([]string, len(a.Tags))
+	for i, tag := range a.Tags {
+		tags[i] = tag.String()
+	}
+
+	pictures := make([]*PictureRaw, len(a.Pictures))
+	for i, picture := range a.Pictures {
+		pictures[i] = picture.ToPictureRaw()
+	}
+
+	return &ArtworkRaw{
+		ID:          a.ID,
+		Title:       a.Title,
+		Author:      a.Author,
+		Description: a.Description,
+		Source:      a.Source,
+		SourceURL:   a.SourceURL,
+		Tags:        tags,
+		R18:         a.R18,
+		Pictures:    pictures,
+	}
+
+}

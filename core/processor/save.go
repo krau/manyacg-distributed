@@ -66,7 +66,6 @@ func savePictureWebdav(picture *models.PictureRaw) {
 	err := common.WebdavClient.MkdirAll(dir, os.ModePerm)
 	if err != nil {
 		logger.L.Errorf("Failed to create dir: %s", err)
-		return
 	}
 	filePath := dir + "/" + fileName
 	err = common.WebdavClient.Write(filePath, picture.Binary, os.ModePerm)

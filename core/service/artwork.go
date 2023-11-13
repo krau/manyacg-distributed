@@ -13,18 +13,6 @@ import (
 返回新添加的 artworks, 同时更新传入的 artworks 的 ID
 */
 func AddArtworks(artworks []*models.ArtworkRaw) []*models.ArtworkRaw {
-	newArtworks := make([]*models.ArtworkRaw, 0)
-	// 查询数据库中已存在的 artworks
-	for _, artwork := range artworks {
-		artworkDB, err := dao.GetArtworkBySourceURL(artwork.SourceURL)
-		if err != nil {
-			logger.L.Errorf("Failed to get artwork by source url: %s", err)
-			continue
-		}
-		if artworkDB == nil {
-			newArtworks = append(newArtworks, artwork)
-		}
-	}
 	artworkModels := make([]*models.Artwork, 0, len(artworks))
 	for _, artwork := range artworks {
 		artworkModel, err := artwork.ToArtwork()
@@ -34,17 +22,41 @@ func AddArtworks(artworks []*models.ArtworkRaw) []*models.ArtworkRaw {
 		}
 		artworkModels = append(artworkModels, artworkModel)
 	}
-	dao.AddArtworks(artworkModels)
 
-	for _, newArtwork := range newArtworks {
-		newArtworkDB, err := dao.GetArtworkBySourceURL(newArtwork.SourceURL)
+	newArtworkURLs := make([]string, 0)
+	// 查询数据库中已存在的 artworks
+	for _, artwork := range artworkModels {
+		artworkDB, err := dao.GetArtworkBySourceURL(artwork.SourceURL)
 		if err != nil {
 			logger.L.Errorf("Failed to get artwork by source url: %s", err)
 			continue
 		}
-		newArtwork.ID = newArtworkDB.ID
+		if artworkDB == nil {
+			newArtworkURLs = append(newArtworkURLs, artwork.SourceURL)
+		}
 	}
 
+	dao.AddArtworks(artworkModels)
+
+	newArtworks := make([]*models.ArtworkRaw, 0)
+
+	for _, url := range newArtworkURLs {
+		newArtworkDB, err := dao.GetArtworkBySourceURL(url)
+		if err != nil {
+			logger.L.Errorf("Failed to get artwork by source url: %s", err)
+			continue
+		}
+		if newArtworkDB == nil {
+			logger.L.Warnf("Artwork not saved: %s", url)
+			continue
+		}
+		for _, artwork := range artworks {
+			if artwork.SourceURL == url {
+				artwork.ID = newArtworkDB.ID
+				newArtworks = append(newArtworks, artwork)
+			}
+		}
+	}
 	return newArtworks
 }
 

@@ -53,3 +53,15 @@ func (p *Picture) RedisDataKey() string {
 func (picR *PictureRaw) RedisDataKey() string {
 	return common.RedisPictureDataKeyPrefix + picR.FilePath
 }
+
+func (p *Picture) ToPictureRaw() *PictureRaw {
+	return &PictureRaw{
+		DirectURL:  p.DirectURL,
+		Width:      p.Width,
+		Height:     p.Height,
+		BlurScore:  p.BlurScore,
+		Hash:       p.Hash,
+		FilePath:   p.FilePath,
+		Downloaded: p.Downloaded,
+	}
+}
