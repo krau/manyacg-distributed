@@ -13,9 +13,9 @@ import (
 
 // @Summary Get a random picture
 // @Description Get a random picture
-// @Accept json
-// @Produce json
-// @Param json query boolean false "Return json instead of image"
+// @Param data query bool false "Return picture data"
+// @Param width query int false "Resize width"
+// @Param height query int false "Resize height"
 // @Success 200 {object} map[string]interface{}
 // @Router /v1/picture/random [get]
 // GetRandomPicture Get a random picture
@@ -46,9 +46,10 @@ func getRandomPictureData(ctx context.Context, c *app.RequestContext) {
 
 // @Summary Get a picture by id
 // @Description Get a picture by id
-// @Accept json
-// @Produce json
 // @Param id path int true "Picture ID"
+// @Param data query bool false "Return picture data"
+// @Param width query int false "Resize width"
+// @Param height query int false "Resize height"
 // @Success 200 {object} map[string]interface{}
 // @Router /v1/picture/{id} [get]
 // GetPicture Get a picture by id

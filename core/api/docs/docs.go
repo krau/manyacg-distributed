@@ -18,9 +18,6 @@ const docTemplate = `{
         "/v1/artwork/random": {
             "get": {
                 "description": "Get a random artwork",
-                "consumes": [
-                    "application/json"
-                ],
                 "produces": [
                     "application/json"
                 ],
@@ -39,18 +36,24 @@ const docTemplate = `{
         "/v1/picture/random": {
             "get": {
                 "description": "Get a random picture",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "summary": "Get a random picture",
                 "parameters": [
                     {
                         "type": "boolean",
-                        "description": "Return json instead of image",
-                        "name": "json",
+                        "description": "Return picture data",
+                        "name": "data",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Resize width",
+                        "name": "width",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Resize height",
+                        "name": "height",
                         "in": "query"
                     }
                 ],
@@ -68,12 +71,6 @@ const docTemplate = `{
         "/v1/picture/{id}": {
             "get": {
                 "description": "Get a picture by id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "summary": "Get a picture by id",
                 "parameters": [
                     {
@@ -82,6 +79,24 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Return picture data",
+                        "name": "data",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Resize width",
+                        "name": "width",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Resize height",
+                        "name": "height",
+                        "in": "query"
                     }
                 ],
                 "responses": {

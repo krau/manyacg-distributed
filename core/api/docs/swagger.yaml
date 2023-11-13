@@ -6,8 +6,6 @@ info:
 paths:
   /v1/artwork/random:
     get:
-      consumes:
-      - application/json
       description: Get a random artwork
       produces:
       - application/json
@@ -20,8 +18,6 @@ paths:
       summary: Get a random artwork
   /v1/picture/{id}:
     get:
-      consumes:
-      - application/json
       description: Get a picture by id
       parameters:
       - description: Picture ID
@@ -29,8 +25,18 @@ paths:
         name: id
         required: true
         type: integer
-      produces:
-      - application/json
+      - description: Return picture data
+        in: query
+        name: data
+        type: boolean
+      - description: Resize width
+        in: query
+        name: width
+        type: integer
+      - description: Resize height
+        in: query
+        name: height
+        type: integer
       responses:
         "200":
           description: OK
@@ -40,16 +46,20 @@ paths:
       summary: Get a picture by id
   /v1/picture/random:
     get:
-      consumes:
-      - application/json
       description: Get a random picture
       parameters:
-      - description: Return json instead of image
+      - description: Return picture data
         in: query
-        name: json
+        name: data
         type: boolean
-      produces:
-      - application/json
+      - description: Resize width
+        in: query
+        name: width
+        type: integer
+      - description: Resize height
+        in: query
+        name: height
+        type: integer
       responses:
         "200":
           description: OK

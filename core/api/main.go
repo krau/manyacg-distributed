@@ -40,7 +40,7 @@ func StartApiServer() {
 		Addr:    "127.0.0.1:6379",
 	}))
 
-	h.Use(cache.NewCacheByRequestPath(redisStore, 2*time.Second, cache.WithPrefixKey("manyacg-")))
+	redisCacheMiddleware := cache.NewCacheByRequestPath(redisStore, 30*time.Second, cache.WithPrefixKey("manyacg-"), cache.WithoutHeader(false))
 
 	v1 := h.Group("/v1")
 	{
@@ -49,7 +49,7 @@ func StartApiServer() {
 	v1Picture := v1.Group("/picture")
 	{
 		v1Picture.GET("/random", handlers.GetRandomPicture)
-		v1Picture.GET("/:id", handlers.GetPicture)
+		v1Picture.GET("/:id", handlers.GetPicture, redisCacheMiddleware)
 	}
 	v1Artwork := v1.Group("/artwork")
 	{

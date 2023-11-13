@@ -10,7 +10,6 @@ import (
 
 // @Summary Get a random artwork
 // @Description Get a random artwork
-// @Accept json
 // @Produce json
 // @Success 200 {object} map[string]interface{}
 // @Router /v1/artwork/random [get]
