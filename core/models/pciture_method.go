@@ -1,12 +1,6 @@
 package models
 
 import (
-	"os"
-	"strconv"
-	"strings"
-	"time"
-
-	"github.com/krau/manyacg/core/config"
 	"github.com/krau/manyacg/core/errors"
 )
 
@@ -20,43 +14,10 @@ func (picR *PictureRaw) ToPicture() (*Picture, error) {
 		Height:     picR.Height,
 		Hash:       picR.Hash,
 		BlurScore:  picR.BlurScore,
+		FilePath:   picR.FilePath,
 		Downloaded: picR.Downloaded,
 	}
-	format := strings.Split(picR.DirectURL, ".")[len(strings.Split(picR.DirectURL, "."))-1]
-	if picR.Binary != nil {
-		filePath, err := savePicture(picR.Binary, format)
-		if err != nil {
-			return nil, err
-		}
-		pictureDB.FilePath = filePath
-	}
 	return pictureDB, nil
-}
-
-func savePicture(binary []byte, format string) (string, error) {
-	fileName := strconv.Itoa(int(time.Now().UnixMilli())) + "." + format
-	prefix := config.Cfg.App.ImagePrefix
-	dir := prefix + "images/" + time.Now().Format("2006/01/02")
-	err := os.MkdirAll(dir, os.ModePerm)
-	if err != nil {
-		return "", err
-	}
-	filePath := dir + "/" + fileName
-	file, err := os.Create(filePath)
-	if err != nil {
-		return "", err
-	}
-	defer file.Close()
-	_, err = file.Write(binary)
-	if err != nil {
-		return "", err
-	}
-
-	// if strings.HasPrefix(prefix, "http") {
-	// 	TODO: upload to OSS
-	// }
-
-	return strings.TrimPrefix(filePath, prefix), nil
 }
 
 func (p *Picture) ToRespData() *RespPictureData {

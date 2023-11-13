@@ -28,8 +28,8 @@ type Artwork struct {
 	Author      string
 	Description string
 	Source      SourceName
-	SourceURL   string    `gorm:"unique"`
-	Tags        []*Tag    `gorm:"many2many:artwork_tags;"`
-	R18         bool      `gorm:"default:false"`
+	SourceURL   string     `gorm:"unique"`
+	Tags        []*Tag     `gorm:"many2many:artwork_tags;"`
+	R18         bool       `gorm:"default:false"`
 	Pictures    []*Picture `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }

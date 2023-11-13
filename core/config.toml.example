@@ -1,16 +1,18 @@
 [app]
-debug = true
+debug = false
+ext_process = false
+image_prefix = "./"
+
+[grpc]
 address = "127.0.0.1:39020"
 cert = "./keys/server.crt"
 key = "./keys/server.key"
 ca = "./keys/ca.crt"
-ext_process = false
-image_prefix = "./"
 
 [database]
 host = '127.0.0.1'
 port = 3306
-user = 'root'
+user = 'manyacg'
 password = ''
 database = 'manyacg'
 

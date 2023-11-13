@@ -22,7 +22,7 @@ func GetPictureDataByID(id uint, width, height int) ([]byte, error) {
 	if pictureDB.FilePath == "" {
 		return nil, errors.ErrPictureNotFound
 	}
-	filePath := config.Cfg.App.ImagePrefix + pictureDB.FilePath
+	filePath := config.Cfg.Processor.Save.Local.Path + pictureDB.FilePath
 
 	data, err := os.ReadFile(filePath)
 	if err != nil {
@@ -52,7 +52,7 @@ func GetRandomPictureData(width, height int) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	filePath := config.Cfg.App.ImagePrefix + pictureDB.FilePath
+	filePath := config.Cfg.Processor.Save.Local.Path + pictureDB.FilePath
 	data, err := os.ReadFile(filePath)
 	if err != nil {
 		return nil, err

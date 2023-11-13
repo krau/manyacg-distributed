@@ -18,7 +18,9 @@ type PictureRaw struct {
 	Width      uint
 	Height     uint
 	Hash       string
+	Format     string
 	Binary     []byte
 	BlurScore  float64
+	FilePath   string
 	Downloaded bool
 }

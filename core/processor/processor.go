@@ -8,11 +8,18 @@ import (
 )
 
 func ProcessArtworks(artworks []*models.ArtworkRaw) {
-	downloadArtworks(artworks)
-	if !config.Cfg.App.ExtProcess {
+
+	ch := make(chan *models.PictureRaw)
+
+	go download(artworks, ch)
+	var wg sync.WaitGroup
+	save(ch, &wg)
+
+	wg.Wait()
+
+	if !config.Cfg.Processor.EnableExt {
 		return
 	}
-	var wg sync.WaitGroup
 	for _, artwork := range artworks {
 		for _, picture := range artwork.Pictures {
 			wg.Add(1)

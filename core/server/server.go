@@ -20,19 +20,19 @@ type ArtworkServer struct {
 var server = &ArtworkServer{}
 
 func StartGrpcServer() {
-	lis, err := net.Listen("tcp", config.Cfg.App.Address)
+	lis, err := net.Listen("tcp", config.Cfg.GRPC.Address)
 	if err != nil {
 		logger.L.Fatalf("Failed to listen: %s", err)
 		return
 	}
-	pair, err := tls.LoadX509KeyPair(config.Cfg.App.CertFile, config.Cfg.App.KeyFile)
+	pair, err := tls.LoadX509KeyPair(config.Cfg.GRPC.CertFile, config.Cfg.GRPC.KeyFile)
 	if err != nil {
 		logger.L.Fatalf("Failed to load certificates: %s", err)
 		return
 	}
 
 	certPool := x509.NewCertPool()
-	ca, err := os.ReadFile(config.Cfg.App.CaFile)
+	ca, err := os.ReadFile(config.Cfg.GRPC.CaFile)
 	if err != nil {
 		logger.L.Fatalf("Failed to load certificates: %s", err)
 		return

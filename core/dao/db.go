@@ -23,6 +23,7 @@ func init() {
 	theDb, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		TranslateError: true,
 		Logger:         logger.Default.LogMode(logger.Silent),
+		
 	})
 	if err != nil {
 		panic(err)
