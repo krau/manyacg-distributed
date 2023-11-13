@@ -2,7 +2,10 @@ package service
 
 import (
 	"bytes"
+	"context"
 	"os"
+	"strconv"
+	"time"
 
 	"github.com/disintegration/imaging"
 	"github.com/krau/manyacg/core/common"
@@ -10,6 +13,7 @@ import (
 	"github.com/krau/manyacg/core/errors"
 	"github.com/krau/manyacg/core/logger"
 	"github.com/krau/manyacg/core/models"
+	"github.com/redis/go-redis/v9"
 )
 
 func getPictureData(pictureDB *models.Picture) ([]byte, error) {
@@ -31,8 +35,22 @@ func getLocalPictureData(pictureDB *models.Picture) ([]byte, error) {
 }
 
 func getWebdavPictureData(pictureDB *models.Picture) ([]byte, error) {
+	ctx := context.TODO()
+	cache, err := common.RedisClient.Get(ctx, "manyacg-picture-data-"+strconv.Itoa(int(pictureDB.ID))).Bytes()
+	if err == nil {
+		return cache, nil
+	}
 	filePath := config.Cfg.Processor.Save.Webdav.Path + pictureDB.FilePath
-	return common.WebdavClient.Read(filePath)
+	data, err2 := common.WebdavClient.Read(filePath)
+	if err2 != nil {
+		return nil, err2
+	}
+	if err == redis.Nil {
+		if common.RedisClient.Set(ctx, "manyacg-picture-data-"+strconv.Itoa(int(pictureDB.ID)), data, 1*time.Hour).Err() != nil {
+			logger.L.Errorf("Failed to cache picture data: %s", err.Error())
+		}
+	}
+	return data, nil
 }
 
 func resizePicture(imgByte []byte, width, height int) ([]byte, error) {

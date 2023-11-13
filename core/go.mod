@@ -32,6 +32,7 @@ require (
 	github.com/jellydator/ttlcache/v2 v2.11.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/redis/go-redis/v9 v9.3.0 // indirect
 	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8 // indirect
 )
 
