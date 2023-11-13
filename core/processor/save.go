@@ -1,6 +1,7 @@
 package processor
 
 import (
+	"context"
 	"os"
 	"strconv"
 	"sync"
@@ -18,7 +19,6 @@ func save(ch chan *models.PictureRaw, wg *sync.WaitGroup) {
 		go savePicture(picture, wg)
 	}
 }
-
 
 func savePicture(picture *models.PictureRaw, wg *sync.WaitGroup) {
 	defer wg.Done()
@@ -75,5 +75,6 @@ func savePictureWebdav(picture *models.PictureRaw) {
 		return
 	}
 	picture.FilePath = filePath[len(prefix):]
+	common.RedisClient.Set(context.TODO(), picture.RedisDataKey(), picture.Binary, 30*time.Minute)
 	logger.L.Debugf("Picture saved to webdav: %s", picture.FilePath)
 }

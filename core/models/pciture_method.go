@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/krau/manyacg/core/common"
 	"github.com/krau/manyacg/core/errors"
 )
 
@@ -43,4 +44,12 @@ func (p *Picture) ToResp() *Resp {
 		Message: "success",
 		Data:    p.ToRespData(),
 	}
+}
+
+func (p *Picture) RedisDataKey() string {
+	return common.RedisPictureDataKeyPrefix + p.FilePath
+}
+
+func (picR *PictureRaw) RedisDataKey() string {
+	return common.RedisPictureDataKeyPrefix + picR.FilePath
 }

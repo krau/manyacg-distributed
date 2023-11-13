@@ -11,6 +11,7 @@ require (
 	github.com/hertz-contrib/swagger v0.1.0
 	github.com/imroc/req/v3 v3.42.1
 	github.com/rabbitmq/amqp091-go v1.9.0
+	github.com/redis/go-redis/v9 v9.3.0
 	github.com/spf13/viper v1.17.0
 	github.com/studio-b12/gowebdav v0.9.0
 	github.com/swaggo/files v1.0.1
@@ -32,7 +33,6 @@ require (
 	github.com/jellydator/ttlcache/v2 v2.11.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
-	github.com/redis/go-redis/v9 v9.3.0 // indirect
 	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8 // indirect
 )
 

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/disintegration/imaging"
@@ -26,7 +25,6 @@ func getPictureData(pictureDB *models.Picture) ([]byte, error) {
 		logger.L.Errorf("Unknown save type: %s", config.Cfg.Processor.Save.Type)
 		return nil, errors.ErrUnknownSaveType
 	}
-
 }
 
 func getLocalPictureData(pictureDB *models.Picture) ([]byte, error) {
@@ -36,7 +34,7 @@ func getLocalPictureData(pictureDB *models.Picture) ([]byte, error) {
 
 func getWebdavPictureData(pictureDB *models.Picture) ([]byte, error) {
 	ctx := context.TODO()
-	cache, err := common.RedisClient.Get(ctx, "manyacg-picture-data-"+strconv.Itoa(int(pictureDB.ID))).Bytes()
+	cache, err := common.RedisClient.Get(ctx, pictureDB.RedisDataKey()).Bytes()
 	if err == nil {
 		return cache, nil
 	}
@@ -46,7 +44,7 @@ func getWebdavPictureData(pictureDB *models.Picture) ([]byte, error) {
 		return nil, err2
 	}
 	if err == redis.Nil {
-		if common.RedisClient.Set(ctx, "manyacg-picture-data-"+strconv.Itoa(int(pictureDB.ID)), data, 1*time.Hour).Err() != nil {
+		if common.RedisClient.Set(ctx, pictureDB.RedisDataKey(), data, 1*time.Hour).Err() != nil {
 			logger.L.Errorf("Failed to cache picture data: %s", err.Error())
 		}
 	}
