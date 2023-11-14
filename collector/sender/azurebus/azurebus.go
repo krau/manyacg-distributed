@@ -6,13 +6,13 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus"
 	"github.com/krau/manyacg/collector/logger"
-	coreModels "github.com/krau/manyacg/core/models"
+	coreModel "github.com/krau/manyacg/core/pkg/model"
 )
 
 type SenderAzureBus struct {
 }
 
-func (s *SenderAzureBus) SendArtworks(artworks []*coreModels.ArtworkRaw) {
+func (s *SenderAzureBus) SendArtworks(artworks []*coreModel.ArtworkRaw) {
 	if azureSender == nil {
 		logger.L.Errorf("Azure sender is nil")
 		return

@@ -5,7 +5,7 @@ import (
 	"crypto/x509"
 	"os"
 
-	"github.com/krau/manyacg/core/proto"
+	"github.com/krau/manyacg/core/api/rpc/proto"
 	"github.com/krau/manyacg/storage/config"
 	"github.com/krau/manyacg/storage/logger"
 	"google.golang.org/grpc"

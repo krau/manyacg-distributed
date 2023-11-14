@@ -7,7 +7,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/krau/manyacg/core/proto"
+	"github.com/krau/manyacg/core/api/rpc/proto"
 	"github.com/krau/manyacg/storage/client"
 	"github.com/krau/manyacg/storage/logger"
 )

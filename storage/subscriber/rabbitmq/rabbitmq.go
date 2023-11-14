@@ -3,19 +3,19 @@ package rabbitmq
 import (
 	"encoding/json"
 
-	"github.com/krau/manyacg/core/models"
+	coreModel "github.com/krau/manyacg/core/pkg/model"
 	"github.com/krau/manyacg/storage/logger"
 )
 
 type SubscriberRabbitMQ struct{}
 
-func (s *SubscriberRabbitMQ) SubscribeProcessedArtworks(count int, artworksCh chan []*models.ProcessedArtwork) {
+func (s *SubscriberRabbitMQ) SubscribeProcessedArtworks(count int, artworksCh chan []*coreModel.ProcessedArtwork) {
 	if rabbitmqDeliveries == nil {
 		return
 	}
-	artworks := make([]*models.ProcessedArtwork, 0)
+	artworks := make([]*coreModel.ProcessedArtwork, 0)
 	for delivery := range rabbitmqDeliveries {
-		artwork := &models.ProcessedArtwork{}
+		artwork := &coreModel.ProcessedArtwork{}
 		err := json.Unmarshal(delivery.Body, artwork)
 		if err != nil {
 			logger.L.Errorf("Error unmarshalling message: %s", err.Error())
@@ -24,7 +24,7 @@ func (s *SubscriberRabbitMQ) SubscribeProcessedArtworks(count int, artworksCh ch
 		artworks = append(artworks, artwork)
 		if len(artworks) >= count {
 			artworksCh <- artworks
-			artworks = make([]*models.ProcessedArtwork, 0)
+			artworks = make([]*coreModel.ProcessedArtwork, 0)
 		}
 	}
 }

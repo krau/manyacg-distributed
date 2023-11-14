@@ -4,14 +4,14 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/krau/manyacg/core/models"
+	coreModel "github.com/krau/manyacg/core/pkg/model"
 	"github.com/krau/manyacg/storage/config"
 	"github.com/krau/manyacg/storage/logger"
 )
 
 type SubscriberAzureBus struct{}
 
-func (s *SubscriberAzureBus) SubscribeProcessedArtworks(count int, artworksCh chan []*models.ProcessedArtwork) {
+func (s *SubscriberAzureBus) SubscribeProcessedArtworks(count int, artworksCh chan []*coreModel.ProcessedArtwork) {
 	if azSubscriber == nil {
 		logger.L.Fatalf("Azure client is not initialized")
 		return
@@ -25,9 +25,9 @@ func (s *SubscriberAzureBus) SubscribeProcessedArtworks(count int, artworksCh ch
 		}
 		logger.L.Infof("Received %d messages", len(messages))
 
-		artworks := make([]*models.ProcessedArtwork, 0)
+		artworks := make([]*coreModel.ProcessedArtwork, 0)
 		for _, message := range messages {
-			artwork := &models.ProcessedArtwork{}
+			artwork := &coreModel.ProcessedArtwork{}
 			err := json.Unmarshal(message.Body, artwork)
 			if err != nil {
 				logger.L.Errorf("Error unmarshalling message: %s", err.Error())

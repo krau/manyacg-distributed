@@ -7,13 +7,13 @@ import (
 
 	"github.com/krau/manyacg/collector/config"
 	"github.com/krau/manyacg/collector/logger"
-	coreModels "github.com/krau/manyacg/core/models"
+	coreModel "github.com/krau/manyacg/core/pkg/model"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type SenderRabbitMQ struct{}
 
-func (s *SenderRabbitMQ) SendArtworks(artwork []*coreModels.ArtworkRaw) {
+func (s *SenderRabbitMQ) SendArtworks(artwork []*coreModel.ArtworkRaw) {
 	if rabbitmqChannel == nil {
 		return
 	}

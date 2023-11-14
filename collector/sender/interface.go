@@ -1,9 +1,9 @@
 package sender
 
 import (
-	coreModels "github.com/krau/manyacg/core/models"
+	coreModel "github.com/krau/manyacg/core/pkg/model"
 )
 
 type Sender interface {
-	SendArtworks(artwork []*coreModels.ArtworkRaw)
+	SendArtworks(artwork []*coreModel.ArtworkRaw)
 }

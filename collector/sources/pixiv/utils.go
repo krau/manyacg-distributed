@@ -8,11 +8,10 @@ import (
 
 	"github.com/krau/manyacg/collector/common"
 	"github.com/krau/manyacg/collector/logger"
-	sourceModels "github.com/krau/manyacg/collector/sources/models"
-	coreModels "github.com/krau/manyacg/core/models"
+	coreModel "github.com/krau/manyacg/core/pkg/model"
 )
 
-func getArtworkInfo(sourceURL string) (*sourceModels.PixivAjaxResp, error) {
+func getArtworkInfo(sourceURL string) (*PixivAjaxResp, error) {
 	pid := strings.Split(sourceURL, "/")[len(strings.Split(sourceURL, "/"))-1]
 	ajaxURL := "https://www.pixiv.net/ajax/illust/" + pid
 	logger.L.Debugf("Fetching artwork info: %s", ajaxURL)
@@ -20,7 +19,7 @@ func getArtworkInfo(sourceURL string) (*sourceModels.PixivAjaxResp, error) {
 	if err != nil {
 		return nil, err
 	}
-	var pixivAjaxResp sourceModels.PixivAjaxResp
+	var pixivAjaxResp PixivAjaxResp
 	err = json.Unmarshal([]byte(resp.String()), &pixivAjaxResp)
 	if err != nil {
 		return nil, err
@@ -28,7 +27,7 @@ func getArtworkInfo(sourceURL string) (*sourceModels.PixivAjaxResp, error) {
 	return &pixivAjaxResp, nil
 }
 
-func getNewArtworksForURL(url string, limit int, wg *sync.WaitGroup, artworkChan chan *coreModels.ArtworkRaw) {
+func getNewArtworksForURL(url string, limit int, wg *sync.WaitGroup, artworkChan chan *coreModel.ArtworkRaw) {
 	defer wg.Done()
 	logger.L.Infof("Fetching %s", url)
 	resp, err := common.Cilent.R().Get(url)
@@ -38,7 +37,7 @@ func getNewArtworksForURL(url string, limit int, wg *sync.WaitGroup, artworkChan
 		return
 	}
 
-	var pixivRss *sourceModels.PixivRss
+	var pixivRss *PixivRss
 	err = xml.NewDecoder(strings.NewReader(resp.String())).Decode(&pixivRss)
 
 	if err != nil {
@@ -53,7 +52,7 @@ func getNewArtworksForURL(url string, limit int, wg *sync.WaitGroup, artworkChan
 			break
 		}
 		wg.Add(1)
-		go func(item sourceModels.Item) {
+		go func(item Item) {
 			defer wg.Done()
 			artworkInfo, err := getArtworkInfo(item.Link)
 			if err != nil {

@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/krau/manyacg/core/models"
-	"github.com/krau/manyacg/core/proto"
+	"github.com/krau/manyacg/core/api/rpc/proto"
+	coreModel "github.com/krau/manyacg/core/pkg/model"
 	"github.com/krau/manyacg/storage/client"
 	"github.com/krau/manyacg/storage/config"
 	"github.com/krau/manyacg/storage/logger"
@@ -15,7 +15,7 @@ import (
 
 func Run() {
 	logger.L.Info("Start storage")
-	artworksCh := make(chan []*models.ProcessedArtwork, 30)
+	artworksCh := make(chan []*coreModel.ProcessedArtwork, 30)
 
 	subscriber := subscriber.NewSubscriber()
 	if subscriber == nil {

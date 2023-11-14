@@ -1,7 +1,7 @@
 package storages
 
 import (
-	"github.com/krau/manyacg/core/proto"
+	"github.com/krau/manyacg/core/api/rpc/proto"
 )
 
 type Storage interface {

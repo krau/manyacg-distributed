@@ -6,7 +6,7 @@ import (
 	"github.com/krau/manyacg/collector/logger"
 	"github.com/krau/manyacg/collector/sender"
 	"github.com/krau/manyacg/collector/sources"
-	coreModels "github.com/krau/manyacg/core/models"
+	"github.com/krau/manyacg/core/pkg/model"
 )
 
 func Run() {
@@ -14,7 +14,7 @@ func Run() {
 
 	sources.InitSources()
 
-	artworkCh := make(chan []*coreModels.ArtworkRaw, 30)
+	artworkCh := make(chan []*model.ArtworkRaw, 30)
 	for name, source := range sources.Sources {
 		logger.L.Infof("Starting source %s", name)
 		go getNewArtworks(source, 30, artworkCh, source.Config().Interval)
@@ -32,7 +32,7 @@ func Run() {
 
 }
 
-func getNewArtworks(source sources.Source, limit int, ch chan []*coreModels.ArtworkRaw, interval uint) {
+func getNewArtworks(source sources.Source, limit int, ch chan []*model.ArtworkRaw, interval uint) {
 	for {
 		artworks, err := source.GetNewArtworks(limit)
 		if err != nil {

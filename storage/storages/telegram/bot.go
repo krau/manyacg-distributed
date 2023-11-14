@@ -3,7 +3,7 @@ package telegram
 import (
 	"time"
 
-	"github.com/krau/manyacg/core/proto"
+	"github.com/krau/manyacg/core/api/rpc/proto"
 	"github.com/krau/manyacg/storage/common"
 	"github.com/krau/manyacg/storage/logger"
 	tu "github.com/mymmrac/telego/telegoutil"

@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
-	coreErrors "github.com/krau/manyacg/core/errors"
-	"github.com/krau/manyacg/core/proto"
+	"github.com/krau/manyacg/core/api/rpc/proto"
+	coreErrors "github.com/krau/manyacg/core/pkg/common/errors"
 	"github.com/krau/manyacg/storage/client"
 	"github.com/krau/manyacg/storage/config"
 	"github.com/krau/manyacg/storage/logger"

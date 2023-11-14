@@ -4,18 +4,19 @@ import (
 	"sync"
 
 	"github.com/krau/manyacg/collector/config"
-	coreModels "github.com/krau/manyacg/core/models"
+	"github.com/krau/manyacg/core/pkg/common/enum/source"
+	coreModel "github.com/krau/manyacg/core/pkg/model"
 )
 
 type SourcePixiv struct{}
 
-func (sp *SourcePixiv) GetNewArtworks(limit int) ([]*coreModels.ArtworkRaw, error) {
+func (sp *SourcePixiv) GetNewArtworks(limit int) ([]*coreModel.ArtworkRaw, error) {
 
-	artworks := make([]*coreModels.ArtworkRaw, 0)
+	artworks := make([]*coreModel.ArtworkRaw, 0)
 
 	var wg sync.WaitGroup
 
-	artworkChan := make(chan *coreModels.ArtworkRaw, len(config.Cfg.Sources.Pixiv.URLs)*limit)
+	artworkChan := make(chan *coreModel.ArtworkRaw, len(config.Cfg.Sources.Pixiv.URLs)*limit)
 
 	for _, url := range config.Cfg.Sources.Pixiv.URLs {
 		wg.Add(1)
@@ -33,8 +34,8 @@ func (sp *SourcePixiv) GetNewArtworks(limit int) ([]*coreModels.ArtworkRaw, erro
 	return artworks, nil
 }
 
-func (sp *SourcePixiv) SourceName() coreModels.SourceName {
-	return coreModels.SourcePixiv
+func (sp *SourcePixiv) SourceName() source.SourceName {
+	return source.SourcePixiv
 }
 
 func (sp *SourcePixiv) Config() *config.SourceConfig {
