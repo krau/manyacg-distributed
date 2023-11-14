@@ -12,7 +12,8 @@ type tomlConfig struct {
 }
 
 type appConfig struct {
-	Debug bool `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
+	Debug         bool `mapstructure:"debug" toml:"debug" yaml:"debug" json:"debug"`
+	MaxConcurrent int  `mapstructure:"max_concurrent" toml:"max_concurrent" yaml:"max_concurrent" json:"max_concurrent"`
 }
 
 type logConfig struct {
