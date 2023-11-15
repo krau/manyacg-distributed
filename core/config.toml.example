@@ -1,41 +1,74 @@
 [app]
 debug = false
-ext_process = false
-image_prefix = "./"
-
-[grpc]
-address = "127.0.0.1:39020"
-cert = "./keys/server.crt"
-key = "./keys/server.key"
-ca = "./keys/ca.crt"
+cache_dir = "./cache/"
 
 [database]
-host = '127.0.0.1'
+host = "localhost"
 port = 3306
-user = 'manyacg'
-password = ''
-database = 'manyacg'
+user = "manyacg"
+password = ""
+database = "manyacg"
+
 
 [log]
 level = "TRACE"
 file_path = "./logs/core.log"
-backup_num = 7
+backup_num = 5
 
-[messenger]
+[middleware]
+[middleware.messenger]
 type = "rabbitmq"
 
-[messenger.azure]
+[middleware.messenger.azure]
 bus_connection_string = ""
-sub_topic = 'manyacg-collector'
-subscription = 'core'
-pub_topic = 'manyacg-core'
+sub_topic = "manyacg-collector"
+subscription = "core"
+pub_topic = "manyacg-core"
 
-[messenger.rabbitmq]
-host = "127.0.0.1"
+[middleware.messenger.rabbitmq]
+host = "192.168.1.175"
 port = 5672
-user = "test"
-password = "test"
-vhost = "test"
-sub_queue = "manyacg-core-sub-queue"
+user = "admin"
+password = ""
+vhost = "manyacg"
 sub_exchange = "manyacg-collector"
+sub_queue = "manyacg-core-sub-queue"
 pub_exchange = "manyacg-core"
+
+
+[middleware.redis]
+addr = "localhost:6379"
+password = ""
+db = 0
+cache_ttl = 30
+
+
+[processor]
+enable_ext = false
+max_concurrent = 10
+
+[processor.donwload]
+
+[processor.save]
+type = "webdav"
+
+[processor.save.local]
+path = "./"
+
+[processor.save.webdav]
+url = ""
+username = ""
+password = ""
+path = "./"
+cache_ttl = 30
+
+
+[grpc]
+address = "0.0.0.0:39110"
+cert = "./keys/server.crt"
+key = "./keys/server.key"
+ca = "./keys/ca.crt"
+
+[api]
+enable = true
+address = "0.0.0.0:39120"

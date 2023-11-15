@@ -17,7 +17,7 @@ type saveConfig struct {
 }
 
 type localConfig struct {
-	Path string `mapstructure:"dir" toml:"dir" yaml:"dir" json:"dir"`
+	Path string `mapstructure:"path" toml:"path" yaml:"path" json:"path"`
 }
 
 type webdavConfig struct {
