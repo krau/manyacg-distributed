@@ -21,7 +21,7 @@ func init() {
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("..")
 	viper.SetConfigType("toml")
-	viper.SetEnvPrefix("MANYACG")
+	viper.SetEnvPrefix("MANYACG_CORE")
 	viper.AutomaticEnv()
 	viper.SetDefault("app.debug", false)
 	viper.SetDefault("app.ext_process", false)

@@ -43,7 +43,7 @@ func StartApiServer() {
 
 	redisCacheMiddleware := cache.NewCacheByRequestURI(
 		redisStore,
-		30*time.Second,
+		time.Duration(config.Cfg.Middleware.Redis.CacheTTL)*time.Second,
 		cache.WithPrefixKey("manyacg-api_"),
 		cache.WithoutHeader(false),
 	)

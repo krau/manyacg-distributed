@@ -2,6 +2,7 @@ package entity
 
 import (
 	apiModel "github.com/krau/manyacg/core/api/restful/model"
+	"github.com/krau/manyacg/core/internal/common/config"
 	"github.com/krau/manyacg/core/pkg/common/consts"
 	"github.com/krau/manyacg/core/pkg/common/enum/savetype"
 	"gorm.io/gorm"
@@ -47,5 +48,5 @@ func (p *Picture) RedisDataKey() string {
 }
 
 func (p *Picture) CachePath() string {
-	return "./cache/" + p.FilePath
+	return config.Cfg.App.CacheDir + p.FilePath
 }
