@@ -2,6 +2,8 @@ package errors
 
 import (
 	"errors"
+
+	"github.com/redis/go-redis/v9"
 )
 
 var (
@@ -12,4 +14,5 @@ var (
 	ErrPictureDownloadFailed           = errors.New("picture download failed")
 	ErrPictureSaveFailed               = errors.New("picture save failed")
 	ErrUnknownSaveType                 = errors.New("unknown save type")
+	ErrRedisKeyNotFound                = redis.Nil
 )

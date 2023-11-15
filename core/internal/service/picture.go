@@ -3,7 +3,9 @@ package service
 import (
 	"github.com/krau/manyacg/core/internal/dao"
 	entityModel "github.com/krau/manyacg/core/internal/model/entity"
+	su "github.com/krau/manyacg/core/internal/service/utils"
 	"github.com/krau/manyacg/core/pkg/common/errors"
+	cu "github.com/krau/manyacg/core/pkg/common/utils"
 )
 
 func GetPictureDataByID(id uint, width, height int) ([]byte, error) {
@@ -17,11 +19,11 @@ func GetPictureDataByID(id uint, width, height int) ([]byte, error) {
 	if pictureDB.FilePath == "" {
 		return nil, errors.ErrPictureNotFound
 	}
-	data, err := getPictureData(pictureDB)
+	data, err := su.GetPictureData(pictureDB)
 	if err != nil {
 		return nil, err
 	}
-	data, err = resizePicture(data, width, height)
+	data, err = cu.ResizePicture(data, width, height)
 	if err != nil {
 		return nil, err
 	}
@@ -34,11 +36,11 @@ func GetRandomPictureData(width, height int) (int, []byte, error) {
 	if err != nil {
 		return 0, nil, err
 	}
-	data, err := getPictureData(pictureDB)
+	data, err := su.GetPictureData(pictureDB)
 	if err != nil {
 		return 0, nil, err
 	}
-	data, err = resizePicture(data, width, height)
+	data, err = cu.ResizePicture(data, width, height)
 	if err != nil {
 		return 0, nil, err
 	}

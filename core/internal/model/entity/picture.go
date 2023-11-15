@@ -45,3 +45,7 @@ func (p *Picture) ToResp() *apiModel.Resp {
 func (p *Picture) RedisDataKey() string {
 	return consts.RedisPictureDataKeyPrefix + p.FilePath
 }
+
+func (p *Picture) CachePath() string {
+	return "./cache/" + p.FilePath
+}

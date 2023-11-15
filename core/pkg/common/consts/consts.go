@@ -1,5 +1,5 @@
 package consts
 
 const (
-	RedisPictureDataKeyPrefix = "manyacg-picture-data-"
+	RedisPictureDataKeyPrefix = "manyacg-picture-data_"
 )
