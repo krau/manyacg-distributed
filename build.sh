@@ -1,3 +1,3 @@
-go build -v -x -o dist/collector collector/collector.go
-go build -v -x -o dist/core core/core.go
-go build -v -x -o dist/storage storage/storage.go
+go build -v -x -o dist/collector collector/main.go
+go build -v -x -o dist/core core/main.go
+go build -v -x -o dist/storage storage/main.go
