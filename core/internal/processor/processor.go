@@ -5,31 +5,32 @@ import (
 
 	"github.com/krau/manyacg/core/internal/common/config"
 	dtoModel "github.com/krau/manyacg/core/internal/model/dto"
+	"github.com/krau/manyacg/core/internal/processor/saver"
 )
 
 func ProcessArtworks(artworks []*dtoModel.ArtworkRaw) {
 
-	ch := make(chan *dtoModel.PictureRaw)
+	inCh := make(chan *dtoModel.PictureRaw)
 
-	go download(artworks, ch)
+	go download(artworks, inCh)
+
+	outCh := make(chan *dtoModel.PictureRaw)
+
+	go saver.Saver.SavePictures(inCh, outCh)
+
 	var wg sync.WaitGroup
-	save(ch, &wg)
-
-	wg.Wait()
-
-	if !config.Cfg.Processor.EnableExt {
-		return
-	}
-	for _, artwork := range artworks {
-		for _, picture := range artwork.Pictures {
-			wg.Add(1)
-			go func(picture *dtoModel.PictureRaw) {
-				defer wg.Done()
-				getBlurScore(picture)
-				getHash(picture)
-				getSize(picture)
-			}(picture)
-		}
+	for picture := range outCh {
+		wg.Add(1)
+		pic := picture
+		go func() {
+			defer wg.Done()
+			getSize(pic)
+			if !config.Cfg.Processor.EnableExt {
+				return
+			}
+			getBlurScore(pic)
+			getHash(pic)
+		}()
 	}
 	wg.Wait()
 }

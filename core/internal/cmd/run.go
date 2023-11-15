@@ -26,7 +26,6 @@ func Run() {
 
 	go restful.StartApiServer()
 
-
 	for artworks := range artworkCh {
 		logger.L.Infof("Received %d artworks", len(artworks))
 		processor.ProcessArtworks(artworks)

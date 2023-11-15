@@ -5,13 +5,13 @@ import (
 )
 
 type tomlConfig struct {
-	App       appConfig       `mapstructure:"app" toml:"app" yaml:"app" json:"app"`
-	Database  databaseConfig  `mapstructure:"database" toml:"database" yaml:"database" json:"database"`
-	Log       logConfig       `mapstructure:"log" toml:"log" yaml:"log" json:"log"`
-	Processor processorConfig `mapstructure:"processor" toml:"processor" yaml:"processor" json:"processor"`
-	Messenger messengerConfig `mapstructure:"messenger" toml:"messenger" yaml:"messenger" json:"messenger"`
-	GRPC      grpcConfig      `mapstructure:"grpc" toml:"grpc" yaml:"grpc" json:"grpc"`
-	API       apiConfig       `mapstructure:"api" toml:"api" yaml:"api" json:"api"`
+	App        appConfig        `mapstructure:"app" toml:"app" yaml:"app" json:"app"`
+	Database   databaseConfig   `mapstructure:"database" toml:"database" yaml:"database" json:"database"`
+	Log        logConfig        `mapstructure:"log" toml:"log" yaml:"log" json:"log"`
+	Middleware middlewareConfig `mapstructure:"middleware" toml:"middleware" yaml:"middleware" json:"middleware"`
+	Processor  processorConfig  `mapstructure:"processor" toml:"processor" yaml:"processor" json:"processor"`
+	GRPC       grpcConfig       `mapstructure:"grpc" toml:"grpc" yaml:"grpc" json:"grpc"`
+	API        apiConfig        `mapstructure:"api" toml:"api" yaml:"api" json:"api"`
 }
 
 var Cfg *tomlConfig

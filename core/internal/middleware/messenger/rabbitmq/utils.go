@@ -20,11 +20,11 @@ func InitRabbitMQ() {
 	}
 	var err error
 	connURL := fmt.Sprintf("amqp://%s:%s@%s:%d/%s",
-		config.Cfg.Messenger.RabbitMQ.User,
-		config.Cfg.Messenger.RabbitMQ.Password,
-		config.Cfg.Messenger.RabbitMQ.Host,
-		config.Cfg.Messenger.RabbitMQ.Port,
-		config.Cfg.Messenger.RabbitMQ.Vhost,
+		config.Cfg.Middleware.MQ.RabbitMQ.User,
+		config.Cfg.Middleware.MQ.RabbitMQ.Password,
+		config.Cfg.Middleware.MQ.RabbitMQ.Host,
+		config.Cfg.Middleware.MQ.RabbitMQ.Port,
+		config.Cfg.Middleware.MQ.RabbitMQ.Vhost,
 	)
 	rabbitmqConn, err = amqp.Dial(connURL)
 	if err != nil {
@@ -37,7 +37,7 @@ func InitRabbitMQ() {
 		return
 	}
 	err = rabbitmqChannel.ExchangeDeclare(
-		config.Cfg.Messenger.RabbitMQ.SubExchange,
+		config.Cfg.Middleware.MQ.RabbitMQ.SubExchange,
 		"fanout",
 		true,
 		false,
@@ -50,7 +50,7 @@ func InitRabbitMQ() {
 		return
 	}
 	err = rabbitmqChannel.ExchangeDeclare(
-		config.Cfg.Messenger.RabbitMQ.PubExchange,
+		config.Cfg.Middleware.MQ.RabbitMQ.PubExchange,
 		"fanout",
 		true,
 		false,
@@ -63,7 +63,7 @@ func InitRabbitMQ() {
 		return
 	}
 	rabbitmqSubQueue, err = rabbitmqChannel.QueueDeclare(
-		config.Cfg.Messenger.RabbitMQ.SubQueue,
+		config.Cfg.Middleware.MQ.RabbitMQ.SubQueue,
 		true,
 		false,
 		false,
@@ -77,7 +77,7 @@ func InitRabbitMQ() {
 	err = rabbitmqChannel.QueueBind(
 		rabbitmqSubQueue.Name,
 		"",
-		config.Cfg.Messenger.RabbitMQ.SubExchange,
+		config.Cfg.Middleware.MQ.RabbitMQ.SubExchange,
 		false,
 		nil,
 	)

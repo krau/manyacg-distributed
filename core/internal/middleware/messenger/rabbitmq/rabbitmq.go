@@ -50,7 +50,7 @@ func (a *MessengerRabbitMQ) SendProcessedArtworks(artworks []*dtoModel.ArtworkRa
 			continue
 		}
 		err = rabbitmqChannel.PublishWithContext(ctx,
-			config.Cfg.Messenger.RabbitMQ.PubExchange,
+			config.Cfg.Middleware.MQ.RabbitMQ.PubExchange,
 			"",
 			false,
 			false,

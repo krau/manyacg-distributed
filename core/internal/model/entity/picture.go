@@ -3,6 +3,7 @@ package entity
 import (
 	apiModel "github.com/krau/manyacg/core/api/restful/model"
 	"github.com/krau/manyacg/core/pkg/common/consts"
+	"github.com/krau/manyacg/core/pkg/common/enum/savetype"
 	"gorm.io/gorm"
 )
 
@@ -15,7 +16,8 @@ type Picture struct {
 	Width      uint    `gorm:"default:null"`
 	Height     uint    `gorm:"default:null"`
 	FilePath   string  `gorm:"default:null"`
-	Downloaded bool    `gorm:"default:false"`
+	SaveType   savetype.SaveType
+	Downloaded bool `gorm:"default:false"`
 }
 
 func (p *Picture) ToRespData() *apiModel.RespPictureData {

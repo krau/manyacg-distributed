@@ -84,15 +84,6 @@ func AddArtwork(artwork *entityModel.Artwork) {
 	})
 }
 
-func AddArtworks(artworks []*entityModel.Artwork) {
-	for _, artwork := range artworks {
-		if artwork == nil {
-			continue
-		}
-		AddArtwork(artwork)
-	}
-}
-
 func DeleteArtwork(id uint) error {
 	return db.Delete(&entityModel.Artwork{}, id).Error
 }

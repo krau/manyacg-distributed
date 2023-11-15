@@ -3,6 +3,7 @@ package dto
 import (
 	entityModel "github.com/krau/manyacg/core/internal/model/entity"
 	"github.com/krau/manyacg/core/pkg/common/consts"
+	"github.com/krau/manyacg/core/pkg/common/enum/savetype"
 	"github.com/krau/manyacg/core/pkg/common/errors"
 )
 
@@ -15,6 +16,7 @@ type PictureRaw struct {
 	Binary     []byte
 	BlurScore  float64
 	FilePath   string
+	SaveType   savetype.SaveType
 	Downloaded bool
 }
 
@@ -32,6 +34,7 @@ func (picR *PictureRaw) ToPicture() (*entityModel.Picture, error) {
 		Hash:       picR.Hash,
 		BlurScore:  picR.BlurScore,
 		FilePath:   picR.FilePath,
+		SaveType:   picR.SaveType,
 		Downloaded: picR.Downloaded,
 	}
 	return pictureDB, nil

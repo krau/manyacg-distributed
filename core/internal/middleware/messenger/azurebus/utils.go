@@ -16,17 +16,17 @@ func InitAzureBus() {
 		return
 	}
 	var err error
-	azureClient, err = azservicebus.NewClientFromConnectionString(config.Cfg.Messenger.Azure.BusConnectionString, nil)
+	azureClient, err = azservicebus.NewClientFromConnectionString(config.Cfg.Middleware.MQ.Azure.BusConnectionString, nil)
 	if err != nil {
 		logger.L.Fatalf("Error getting azure client: %s", err.Error())
 		return
 	}
-	azureSender, err = azureClient.NewSender(config.Cfg.Messenger.Azure.PubTopic, nil)
+	azureSender, err = azureClient.NewSender(config.Cfg.Middleware.MQ.Azure.PubTopic, nil)
 	if err != nil {
 		logger.L.Fatalf("Error getting azure sender: %s", err.Error())
 		return
 	}
-	azureSubscriber, err = azureClient.NewReceiverForSubscription(config.Cfg.Messenger.Azure.SubTopic, config.Cfg.Messenger.Azure.Subscription, nil)
+	azureSubscriber, err = azureClient.NewReceiverForSubscription(config.Cfg.Middleware.MQ.Azure.SubTopic, config.Cfg.Middleware.MQ.Azure.Subscription, nil)
 	if err != nil {
 		logger.L.Fatalf("Error getting azure receiver: %s", err.Error())
 		return

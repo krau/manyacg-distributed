@@ -36,14 +36,15 @@ func StartApiServer() {
 	}))
 
 	redisStore := persist.NewRedisStore(redis.NewClient(&redis.Options{
-		Network: "tcp",
-		Addr:    "127.0.0.1:6379",
+		Addr:     config.Cfg.Middleware.Redis.Addr,
+		Password: config.Cfg.Middleware.Redis.Password,
+		DB:       config.Cfg.Middleware.Redis.DB,
 	}))
 
 	redisCacheMiddleware := cache.NewCacheByRequestURI(
 		redisStore,
 		30*time.Second,
-		cache.WithPrefixKey("manyacg-"),
+		cache.WithPrefixKey("manyacg-api_"),
 		cache.WithoutHeader(false),
 	)
 	v1 := h.Group("/v1")

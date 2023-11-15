@@ -20,7 +20,7 @@ func getPictureData(pictureDB *entityModel.Picture) ([]byte, error) {
 	case "local":
 		return getLocalPictureData(pictureDB)
 	case "webdav":
-		return getWebdavPictureData(pictureDB)
+		return getWebdavPictureDataWithCache(pictureDB)
 	default:
 		logger.L.Errorf("Unknown save type: %s", config.Cfg.Processor.Save.Type)
 		return nil, errors.ErrUnknownSaveType
@@ -32,7 +32,7 @@ func getLocalPictureData(pictureDB *entityModel.Picture) ([]byte, error) {
 	return os.ReadFile(filePath)
 }
 
-func getWebdavPictureData(pictureDB *entityModel.Picture) ([]byte, error) {
+func getWebdavPictureDataWithCache(pictureDB *entityModel.Picture) ([]byte, error) {
 	ctx := context.TODO()
 	cache, err := common.RedisClient.Get(ctx, pictureDB.RedisDataKey()).Bytes()
 	if err == nil {

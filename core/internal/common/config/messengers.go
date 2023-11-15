@@ -1,6 +1,6 @@
 package config
 
-type messengerConfig struct {
+type mqConfig struct {
 	Type     string         `mapstructure:"type" toml:"type" yaml:"type" json:"type"`
 	Azure    azureConfig    `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
 	RabbitMQ rabbitMQConfig `mapstructure:"rabbitmq" toml:"rabbitmq" yaml:"rabbitmq" json:"rabbitmq"`

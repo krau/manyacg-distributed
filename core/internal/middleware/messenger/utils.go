@@ -7,7 +7,7 @@ import (
 )
 
 func NewMessenger() Messenger {
-	switch config.Cfg.Messenger.Type {
+	switch config.Cfg.Middleware.MQ.Type {
 	case "azure":
 		azurebus.InitAzureBus()
 		return new(azurebus.MessengerAzureBus)

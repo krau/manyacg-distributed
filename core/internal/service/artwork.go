@@ -37,7 +37,12 @@ func AddArtworks(artworks []*dtoModel.ArtworkRaw) []*dtoModel.ArtworkRaw {
 		}
 	}
 
-	dao.AddArtworks(artworkdtoModel)
+	for _, artwork := range artworkdtoModel {
+		if artwork == nil {
+			continue
+		}
+		dao.AddArtwork(artwork)
+	}
 
 	newArtworks := make([]*dtoModel.ArtworkRaw, 0)
 
