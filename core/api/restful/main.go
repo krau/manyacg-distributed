@@ -35,11 +35,12 @@ func StartApiServer() {
 		AllowCredentials: true,
 	}))
 
-	redisStore := persist.NewRedisStore(redis.NewClient(&redis.Options{
-		Addr:     config.Cfg.Middleware.Redis.Addr,
-		Password: config.Cfg.Middleware.Redis.Password,
-		DB:       config.Cfg.Middleware.Redis.DB,
-	}))
+	opt, err := redis.ParseURL(config.Cfg.Middleware.Redis.URL)
+	if err != nil {
+		logger.L.Fatalf("Error parsing redis url: %v", err)
+		return
+	}
+	redisStore := persist.NewRedisStore(redis.NewClient(opt))
 
 	redisCacheMiddleware := cache.NewCacheByRequestURI(
 		redisStore,

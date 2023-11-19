@@ -1,16 +1,23 @@
 package redis
 
 import (
+	"os"
+
 	"github.com/krau/manyacg/core/internal/common/config"
+	"github.com/krau/manyacg/core/internal/common/logger"
 	"github.com/redis/go-redis/v9"
 )
 
+var ConnOpt *redis.Options
 var Client *redis.Client
 
 func init() {
-	Client = redis.NewClient(&redis.Options{
-		Addr:     config.Cfg.Middleware.Redis.Addr,
-		Password: config.Cfg.Middleware.Redis.Password,
-		DB:       config.Cfg.Middleware.Redis.DB,
-	})
+	opt, err := redis.ParseURL(config.Cfg.Middleware.Redis.URL)
+	if err != nil {
+		logger.L.Fatalf("Error parsing redis url: %v", err)
+		os.Exit(1)
+	}
+	ConnOpt = opt
+	Client = redis.NewClient(opt)
+	logger.L.Infof("Redis client initialized")
 }
