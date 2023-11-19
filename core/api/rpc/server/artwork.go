@@ -11,7 +11,7 @@ import (
 )
 
 func (s *ArtworkServer) GetArtworkInfo(ctx context.Context, req *proto.GetArtworkRequest) (*proto.GetArtworkResponse, error) {
-	logger.L.Infof("RPC GetArtwork ID: %d", req.ArtworkID)
+	logger.L.Debugf("RPC GetArtwork ID: %d", req.ArtworkID)
 	artwork, err := service.GetProcessedArtwork(uint(req.ArtworkID))
 	if err != nil {
 		logger.L.Errorf("RPC GetArtwork ID: %d, err: %s", req.ArtworkID, err)
@@ -22,7 +22,7 @@ func (s *ArtworkServer) GetArtworkInfo(ctx context.Context, req *proto.GetArtwor
 
 // GetPictureData 是一个服务端流式RPC
 func (s *ArtworkServer) GetPictureData(req *proto.GetPictureDataRequest, stream proto.ArtworkService_GetPictureDataServer) error {
-	logger.L.Infof("RPC GetPictureData ID: %d", req.PictureID)
+	logger.L.Debugf("RPC GetPictureData ID: %d", req.PictureID)
 
 	pictureData, err := service.GetPictureDataByID(uint(req.PictureID), 0, 0)
 	if err != nil {
@@ -47,7 +47,7 @@ func (s *ArtworkServer) GetPictureData(req *proto.GetPictureDataRequest, stream 
 
 // 用于存储端保存图片失败时，重新发送消息
 func (s *ArtworkServer) SendMessageProcessedArtwork(ctx context.Context, in *proto.SendMessageProcessedArtworkRequest) (*proto.SendMessageProcessedArtworkResponse, error) {
-	logger.L.Infof("RPC SendMessageProcessedArtwork ID: %d", in.ArtworkID)
+	logger.L.Debugf("RPC SendMessageProcessedArtwork ID: %d", in.ArtworkID)
 	artworkDB, err := service.GetArtwork(uint(in.ArtworkID))
 	if err != nil {
 		logger.L.Errorf("RPC SendMessageProcessedArtwork ID: %d, err: %s", in.ArtworkID, err)

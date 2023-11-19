@@ -61,7 +61,7 @@ func AddArtwork(artwork *entityModel.Artwork) {
 				logger.L.Errorf("Failed to update artwork: %s", err)
 				return err
 			}
-			logger.L.Debugf("Artwork created: %s", artwork.Title)
+			logger.L.Infof("Artwork created: %s", artwork.Title)
 		} else if err != nil {
 			logger.L.Errorf("Failed to get artwork by source url: %s", err)
 			return err
