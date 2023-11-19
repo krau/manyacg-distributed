@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/common/utils"
+	"github.com/krau/manyacg/core/internal/handler/common"
 	"github.com/krau/manyacg/core/internal/service"
 )
 
@@ -17,10 +17,7 @@ import (
 func GetRandomArtwork(ctx context.Context, c *app.RequestContext) {
 	artwork, err := service.GetRandomArtwork()
 	if err != nil {
-		c.JSON(500, utils.H{
-			"error": err.Error(),
-		})
-		return
+		common.Error(c, 500, err)
 	}
 	c.JSON(200, artwork.ToResp())
 }
