@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/krau/manyacg/core/api/rpc/proto"
-	"github.com/krau/manyacg/storage/common"
 	"github.com/krau/manyacg/storage/logger"
 	tu "github.com/mymmrac/telego/telegoutil"
 )
@@ -28,7 +27,6 @@ func (s *StorageTelegram) SaveArtworks(artworks []*proto.ProcessedArtworkInfo) {
 			err2 := trySendMediaGroup(err, artwork)
 			if err2 != nil {
 				logger.L.Errorf("Error sending media group: %v", err2)
-				go common.ResendMessageProcessedArtwork(artwork.ArtworkID)
 				continue
 			}
 		}

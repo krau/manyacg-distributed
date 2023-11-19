@@ -13,6 +13,7 @@ func (s *SubscriberRabbitMQ) SubscribeProcessedArtworks(count int, artworksCh ch
 	if rabbitmqDeliveries == nil {
 		return
 	}
+	logger.L.Infof("Recieving messages")
 	artworks := make([]*coreModel.ProcessedArtwork, 0)
 	for delivery := range rabbitmqDeliveries {
 		artwork := &coreModel.ProcessedArtwork{}

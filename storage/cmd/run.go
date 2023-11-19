@@ -23,7 +23,7 @@ func Run() {
 		return
 	}
 
-	go subscriber.SubscribeProcessedArtworks(30, artworksCh)
+	go subscriber.SubscribeProcessedArtworks(1, artworksCh)
 
 	storages.InitStorages()
 
@@ -45,7 +45,10 @@ func Run() {
 			logger.L.Infof("Saving artworks to %s", name)
 			go storage.SaveArtworks(artworkInfos)
 		}
-		logger.L.Infof("Sleep %d minutes...", config.Cfg.App.Sleep)
-		time.Sleep(time.Duration(config.Cfg.App.Sleep) * time.Minute)
+		if config.Cfg.App.Sleep == 0 {
+			continue
+		}
+		logger.L.Infof("Sleep %d second...", config.Cfg.App.Sleep)
+		time.Sleep(time.Duration(config.Cfg.App.Sleep) * time.Second)
 	}
 }
