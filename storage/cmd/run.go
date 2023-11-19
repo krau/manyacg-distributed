@@ -23,7 +23,7 @@ func Run() {
 		return
 	}
 
-	go subscriber.SubscribeProcessedArtworks(1, artworksCh)
+	go subscriber.SubscribeProcessedArtworks(artworksCh)
 
 	storages.InitStorages()
 

@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 
 	coreModel "github.com/krau/manyacg/core/pkg/model"
+	"github.com/krau/manyacg/storage/config"
 	"github.com/krau/manyacg/storage/logger"
 )
 
 type SubscriberRabbitMQ struct{}
 
-func (s *SubscriberRabbitMQ) SubscribeProcessedArtworks(count int, artworksCh chan []*coreModel.ProcessedArtwork) {
+func (s *SubscriberRabbitMQ) SubscribeProcessedArtworks(artworksCh chan []*coreModel.ProcessedArtwork) {
 	if rabbitmqDeliveries == nil {
 		return
 	}
@@ -23,7 +24,7 @@ func (s *SubscriberRabbitMQ) SubscribeProcessedArtworks(count int, artworksCh ch
 			continue
 		}
 		artworks = append(artworks, artwork)
-		if len(artworks) >= count {
+		if len(artworks) >= int(config.Cfg.Subscriber.RabbitMQ.Count) {
 			artworksCh <- artworks
 			artworks = make([]*coreModel.ProcessedArtwork, 0)
 		}

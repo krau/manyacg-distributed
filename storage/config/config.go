@@ -39,21 +39,21 @@ type storageLocalConfig struct {
 type storageTelegramConfig struct {
 	Enable   bool   `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
 	Token    string `mapstructure:"token" toml:"token" yaml:"token" json:"token"`
-	ChatId   int64  `mapstructure:"chat_id" toml:"chat_id" yaml:"chat_id" json:"chat_id"`
+	ChatId   int64    `mapstructure:"chat_id" toml:"chat_id" yaml:"chat_id" json:"chat_id"`
 	Username string `mapstructure:"username" toml:"username" yaml:"username" json:"username"`
 }
 
 type storageLskyProConfig struct {
-	Enable bool `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
-	URL string `mapstructure:"url" toml:"url" yaml:"url" json:"url"`
-	Token string `mapstructure:"token" toml:"token" yaml:"token" json:"token"`
-	Email string `mapstructure:"email" toml:"email" yaml:"email" json:"email"`
+	Enable   bool   `mapstructure:"enable" toml:"enable" yaml:"enable" json:"enable"`
+	URL      string `mapstructure:"url" toml:"url" yaml:"url" json:"url"`
+	Token    string `mapstructure:"token" toml:"token" yaml:"token" json:"token"`
+	Email    string `mapstructure:"email" toml:"email" yaml:"email" json:"email"`
 	Password string `mapstructure:"password" toml:"password" yaml:"password" json:"password"`
 }
 
 type subscriberConfig struct {
-	Type  string       `mapstructure:"type" toml:"type" yaml:"type" json:"type"`
-	Azure azureConfig `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
+	Type     string         `mapstructure:"type" toml:"type" yaml:"type" json:"type"`
+	Azure    azureConfig    `mapstructure:"azure" toml:"azure" yaml:"azure" json:"azure"`
 	RabbitMQ rabbitMQConfig `mapstructure:"rabbitmq" toml:"rabbitmq" yaml:"rabbitmq" json:"rabbitmq"`
 }
 
@@ -61,16 +61,18 @@ type azureConfig struct {
 	BusConnectionString string `mapstructure:"bus_connection_string" toml:"bus_connection_string" yaml:"bus_connection_string" json:"bus_connection_string"`
 	SubTopic            string `mapstructure:"sub_topic" toml:"sub_topic" yaml:"sub_topic" json:"sub_topic"`
 	Subscription        string `mapstructure:"subscription" toml:"subscription" yaml:"subscription" json:"subscription"`
+	Count               uint   `mapstructure:"count" toml:"count" yaml:"count" json:"count"`
 }
 
 type rabbitMQConfig struct {
-	Host string `mapstructure:"host" toml:"host" yaml:"host" json:"host"`
-	Port int `mapstructure:"port" toml:"port" yaml:"port" json:"port"`
-	User string `mapstructure:"user" toml:"user" yaml:"user" json:"user"`
-	Password string `mapstructure:"password" toml:"password" yaml:"password" json:"password"`
-	Vhost string `mapstructure:"vhost" toml:"vhost" yaml:"vhost" json:"vhost"`
+	Host        string `mapstructure:"host" toml:"host" yaml:"host" json:"host"`
+	Port        int    `mapstructure:"port" toml:"port" yaml:"port" json:"port"`
+	User        string `mapstructure:"user" toml:"user" yaml:"user" json:"user"`
+	Password    string `mapstructure:"password" toml:"password" yaml:"password" json:"password"`
+	Vhost       string `mapstructure:"vhost" toml:"vhost" yaml:"vhost" json:"vhost"`
 	SubExchange string `mapstructure:"sub_exchange" toml:"sub_exchange" yaml:"sub_exchange" json:"sub_exchange"`
 	SubQueue    string `mapstructure:"sub_queue" toml:"sub_queue" yaml:"sub_queue" json:"sub_queue"`
+	Count       uint   `mapstructure:"count" toml:"count" yaml:"count" json:"count"`
 }
 
 var Cfg *tomlConfig

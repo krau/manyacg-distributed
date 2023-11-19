@@ -11,14 +11,14 @@ import (
 
 type SubscriberAzureBus struct{}
 
-func (s *SubscriberAzureBus) SubscribeProcessedArtworks(count int, artworksCh chan []*coreModel.ProcessedArtwork) {
+func (s *SubscriberAzureBus) SubscribeProcessedArtworks(artworksCh chan []*coreModel.ProcessedArtwork) {
 	if azSubscriber == nil {
 		logger.L.Fatalf("Azure client is not initialized")
 		return
 	}
 	for {
 		logger.L.Infof("Receiving messages")
-		messages, err := azSubscriber.ReceiveMessages(context.Background(), count, nil)
+		messages, err := azSubscriber.ReceiveMessages(context.Background(), int(config.Cfg.Subscriber.Azure.Count), nil)
 		if err != nil {
 			logger.L.Errorf("Error receiving messages: %s", err.Error())
 			continue
