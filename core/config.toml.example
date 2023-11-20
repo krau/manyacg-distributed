@@ -3,9 +3,9 @@ debug = false
 cache_dir = "./cache/"
 
 [database]
-host = "localhost"
+host = "127.0.0.1"
 port = 3306
-user = "manyacg"
+user = ""
 password = ""
 database = "manyacg"
 
@@ -26,9 +26,9 @@ subscription = "core"
 pub_topic = "manyacg-core"
 
 [middleware.messenger.rabbitmq]
-host = "192.168.1.175"
+host = ""
 port = 5672
-user = "admin"
+user = ""
 password = ""
 vhost = "manyacg"
 sub_exchange = "manyacg-collector"
@@ -37,9 +37,7 @@ pub_exchange = "manyacg-core"
 
 
 [middleware.redis]
-addr = "localhost:6379"
-password = ""
-db = 0
+url = ""
 cache_ttl = 30
 
 
@@ -60,7 +58,7 @@ url = ""
 username = ""
 password = ""
 path = "./"
-cache_ttl = 30
+cache_ttl = 3600
 
 
 [grpc]
@@ -71,4 +69,5 @@ ca = "./keys/ca.crt"
 
 [api]
 enable = true
+enable_redis_cache = false
 address = "0.0.0.0:39120"

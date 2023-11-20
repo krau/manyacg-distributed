@@ -1,8 +1,6 @@
 package redis
 
 import (
-	"os"
-
 	"github.com/krau/manyacg/core/internal/common/config"
 	"github.com/krau/manyacg/core/internal/common/logger"
 	"github.com/redis/go-redis/v9"
@@ -15,7 +13,7 @@ func init() {
 	opt, err := redis.ParseURL(config.Cfg.Middleware.Redis.URL)
 	if err != nil {
 		logger.L.Fatalf("Error parsing redis url: %v", err)
-		os.Exit(1)
+		return
 	}
 	ConnOpt = opt
 	Client = redis.NewClient(opt)

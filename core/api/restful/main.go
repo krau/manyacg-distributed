@@ -3,6 +3,7 @@ package restful
 import (
 	"time"
 
+	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/go-redis/redis/v8"
 	"github.com/hertz-contrib/cache/persist"
@@ -35,19 +36,22 @@ func StartApiServer() {
 		AllowCredentials: true,
 	}))
 
-	opt, err := redis.ParseURL(config.Cfg.Middleware.Redis.URL)
-	if err != nil {
-		logger.L.Fatalf("Error parsing redis url: %v", err)
-		return
+	var redisCacheMiddleware app.HandlerFunc
+	if config.Cfg.API.EnableRedisCache {
+		logger.L.Debugf("Redis cache enabled")
+		opt, err := redis.ParseURL(config.Cfg.Middleware.Redis.URL)
+		if err != nil {
+			logger.L.Fatalf("Error parsing redis url: %v", err)
+			return
+		}
+		redisStore := persist.NewRedisStore(redis.NewClient(opt))
+		redisCacheMiddleware = cache.NewCacheByRequestURI(
+			redisStore,
+			time.Duration(config.Cfg.Middleware.Redis.CacheTTL)*time.Second,
+			cache.WithPrefixKey("manyacg-api_"),
+		)
 	}
-	redisStore := persist.NewRedisStore(redis.NewClient(opt))
 
-	redisCacheMiddleware := cache.NewCacheByRequestURI(
-		redisStore,
-		time.Duration(config.Cfg.Middleware.Redis.CacheTTL)*time.Second,
-		cache.WithPrefixKey("manyacg-api_"),
-		cache.WithoutHeader(false),
-	)
 	v1 := h.Group("/v1")
 	{
 		v1.GET("/docs/*any", swagger.WrapHandler(swaggerFiles.Handler))
@@ -55,7 +59,11 @@ func StartApiServer() {
 	v1Picture := v1.Group("/picture")
 	{
 		v1Picture.GET("/random", handler.GetRandomPicture)
-		v1Picture.GET("/:id", handler.GetPicture, redisCacheMiddleware)
+		if redisCacheMiddleware != nil {
+			v1Picture.GET("/:id", handler.GetPicture, redisCacheMiddleware)
+		} else {
+			v1Picture.GET("/:id", handler.GetPicture)
+		}
 	}
 	v1Artwork := v1.Group("/artwork")
 	{
