@@ -1,10 +1,13 @@
 package restful
 
 import (
+	"context"
 	"time"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/server"
+
+	"github.com/cloudwego/hertz/pkg/protocol/consts"
 	"github.com/go-redis/redis/v8"
 	"github.com/hertz-contrib/cache/persist"
 	"github.com/hertz-contrib/cors"
@@ -49,6 +52,11 @@ func StartApiServer() {
 			redisStore,
 			time.Duration(config.Cfg.Middleware.Redis.CacheTTL)*time.Second,
 			cache.WithPrefixKey("manyacg-api_"),
+			cache.WithoutHeader(false),
+			cache.WithOnHitCache(func(c context.Context, ctx *app.RequestContext) {
+				ctx.SetContentType(consts.MIMEApplicationJSON)
+				logger.L.Debugf("Cache hit for %s", ctx.URI())
+			}),
 		)
 	}
 
@@ -60,7 +68,7 @@ func StartApiServer() {
 	{
 		v1Picture.GET("/random", handler.GetRandomPicture)
 		if redisCacheMiddleware != nil {
-			v1Picture.GET("/:id", handler.GetPicture, redisCacheMiddleware)
+			v1Picture.GET("/:id", redisCacheMiddleware, handler.GetPicture)
 		} else {
 			v1Picture.GET("/:id", handler.GetPicture)
 		}

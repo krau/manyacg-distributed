@@ -69,7 +69,6 @@ func GetPicture(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 	c.JSON(200, picture.ToResp())
-
 }
 
 func getPictureData(ctx context.Context, c *app.RequestContext, id int) {
