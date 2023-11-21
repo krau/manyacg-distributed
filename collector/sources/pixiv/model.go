@@ -2,6 +2,7 @@ package pixiv
 
 import (
 	"encoding/xml"
+	"regexp"
 	"strings"
 
 	"github.com/krau/manyacg/core/pkg/common/enum/source"
@@ -35,11 +36,11 @@ type PixivAjaxResp struct {
 }
 
 type PixivAjaxRespBody struct {
-	IllustId   string                     `json:"illustId"`
-	IllustType int                        `json:"illustType"`
-	Tags       PixivAjaxRespBodyTags      `json:"tags"`
-	UserId     string                     `json:"userId"`
-	ExtraData  PixivAjaxRespBodyExtraData `json:"extraData"`
+	IllustId    string                `json:"illustId"`
+	IllustType  int                   `json:"illustType"`
+	Tags        PixivAjaxRespBodyTags `json:"tags"`
+	UserId      string                `json:"userId"`
+	Description string                `json:"description"`
 }
 
 type PixivAjaxRespBodyTags struct {
@@ -57,16 +58,9 @@ type PixivAjaxRespBodyTagTranslation struct {
 	En string `json:"en"`
 }
 
-type PixivAjaxRespBodyExtraData struct {
-	Meta PixivAjaxRespBodyExtraDataMeta `json:"meta"`
-}
-
-type PixivAjaxRespBodyExtraDataMeta struct {
-	Description string `json:"description"`
-}
-
 var (
 	tagsSet = map[string]bool{"R-18": true, "R-18G": true, "R18": true, "R18G": true}
+	htmlRe  = regexp.MustCompile("<[^>]+>")
 )
 
 func (item *Item) ToArtworkRaw(artworkInfo *PixivAjaxResp) *coreModel.ArtworkRaw {
@@ -107,7 +101,7 @@ func (item *Item) ToArtworkRaw(artworkInfo *PixivAjaxResp) *coreModel.ArtworkRaw
 	artwork := coreModel.ArtworkRaw{
 		Title:       item.Title,
 		Author:      item.Author,
-		Description: artworkInfo.Body.ExtraData.Meta.Description,
+		Description: htmlRe.ReplaceAllString(artworkInfo.Body.Description, ""),
 		Source:      source.SourcePixiv,
 		SourceURL:   item.Link,
 		Tags:        tags,
