@@ -36,6 +36,9 @@ func getWebdavPictureData(pictureDB *entityModel.Picture) ([]byte, error) {
 	if err == nil {
 		return b, nil
 	}
+	if common.WebdavClient == nil {
+		return nil, errors.ErrWebdavClientNotInitialized
+	}
 	data, err := common.WebdavClient.Read(config.Cfg.Processor.Save.Webdav.Path + pictureDB.FilePath)
 	if err != nil {
 		return nil, err

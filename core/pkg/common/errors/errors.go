@@ -15,4 +15,5 @@ var (
 	ErrPictureSaveFailed               = errors.New("picture save failed")
 	ErrUnknownSaveType                 = errors.New("unknown save type")
 	ErrRedisKeyNotFound                = redis.Nil
+	ErrWebdavClientNotInitialized      = errors.New("webdav client not initialized")
 )

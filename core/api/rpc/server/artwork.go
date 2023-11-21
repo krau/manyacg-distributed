@@ -12,7 +12,7 @@ import (
 
 func (s *ArtworkServer) GetArtworkInfo(ctx context.Context, req *proto.GetArtworkRequest) (*proto.GetArtworkResponse, error) {
 	logger.L.Debugf("RPC GetArtwork ID: %d", req.ArtworkID)
-	artwork, err := service.GetProcessedArtwork(uint(req.ArtworkID))
+	artwork, err := service.GetProcessedArtworkByID(uint(req.ArtworkID))
 	if err != nil {
 		logger.L.Errorf("RPC GetArtwork ID: %d, err: %s", req.ArtworkID, err)
 		return &proto.GetArtworkResponse{Artwork: nil}, err
@@ -48,7 +48,7 @@ func (s *ArtworkServer) GetPictureData(req *proto.GetPictureDataRequest, stream 
 // 用于存储端保存图片失败时，重新发送消息
 func (s *ArtworkServer) SendMessageProcessedArtwork(ctx context.Context, in *proto.SendMessageProcessedArtworkRequest) (*proto.SendMessageProcessedArtworkResponse, error) {
 	logger.L.Debugf("RPC SendMessageProcessedArtwork ID: %d", in.ArtworkID)
-	artworkDB, err := service.GetArtwork(uint(in.ArtworkID))
+	artworkDB, err := service.GetArtworkByID(uint(in.ArtworkID))
 	if err != nil {
 		logger.L.Errorf("RPC SendMessageProcessedArtwork ID: %d, err: %s", in.ArtworkID, err)
 		return &proto.SendMessageProcessedArtworkResponse{Success: false}, err

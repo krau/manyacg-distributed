@@ -66,16 +66,19 @@ func AddArtworks(artworks []*dtoModel.ArtworkRaw) []*dtoModel.ArtworkRaw {
 	return newArtworks
 }
 
-func GetArtwork(id uint) (*entityModel.Artwork, error) {
+func GetArtworkByID(id uint) (*entityModel.Artwork, error) {
 	artwork, err := dao.GetArtworkByID(id)
 	if err != nil {
 		return nil, err
 	}
+	if artwork == nil {
+		return nil, errors.ErrArtworkNotFound
+	}
 	return artwork, nil
 }
 
-func GetProcessedArtwork(id uint) (*proto.ProcessedArtworkInfo, error) {
-	artwork, err := GetArtwork(id)
+func GetProcessedArtworkByID(id uint) (*proto.ProcessedArtworkInfo, error) {
+	artwork, err := GetArtworkByID(id)
 	if err != nil {
 		return nil, err
 	}

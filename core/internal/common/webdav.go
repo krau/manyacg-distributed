@@ -11,8 +11,12 @@ import (
 var WebdavClient *gowebdav.Client
 
 func init() {
-	if config.Cfg.Processor.Save.Type == "webdav" {
-		WebdavClient = gowebdav.NewClient(config.Cfg.Processor.Save.Webdav.URL, config.Cfg.Processor.Save.Webdav.Username, config.Cfg.Processor.Save.Webdav.Password)
+	webdavConfig := config.Cfg.Processor.Save.Webdav
+	url := webdavConfig.URL
+	username := webdavConfig.Username
+	password := webdavConfig.Password
+	if config.Cfg.Processor.Save.Type == "webdav" || (url != "" && username != "" && password != "") {
+		WebdavClient = gowebdav.NewClient(url, username, password)
 		err := WebdavClient.Connect()
 		if err != nil {
 			logger.L.Fatalf("Failed to connect to webdav: %s", err)
