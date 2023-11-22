@@ -31,6 +31,7 @@ func (a *Artwork) ToRespData() *apiModel.RespArtworkData {
 	}
 
 	return &apiModel.RespArtworkData{
+		ID:          a.ID,
 		CreatedAt:   a.CreatedAt.Format("2006-01-02 15:04:05"),
 		UpdatedAt:   a.UpdatedAt.Format("2006-01-02 15:04:05"),
 		Title:       a.Title,
